@@ -8,16 +8,19 @@ function validateSupabaseConfig() {
   const requiredVars = {
     SUPABASE_URL: env.SUPABASE_URL,
     SUPABASE_ANON_KEY: env.SUPABASE_ANON_KEY,
-    SUPABASE_SERVICE_ROLE_KEY: env.SUPABASE_SERVICE_ROLE_KEY,
   };
 
   const missingVars = Object.entries(requiredVars)
-    .filter(([key, value]) => !value || value.includes('placeholder'))
+    .filter(([key, value]) => !value)
     .map(([key]) => key);
 
   if (missingVars.length > 0) {
-    logger.warn(`Missing Supabase configuration: ${missingVars.join(', ')}. Database operations will be disabled.`);
+    logger.error(`Missing required Supabase configuration: ${missingVars.join(', ')}`);
     return false;
+  }
+
+  if (!env.SUPABASE_SERVICE_ROLE_KEY) {
+    logger.warn('SUPABASE_SERVICE_ROLE_KEY not configured. Admin operations will be disabled.');
   }
 
   return true;
