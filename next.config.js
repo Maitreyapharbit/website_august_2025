@@ -1,17 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    appDir: true,
+  },
   images: {
     domains: ['images.pexels.com', 'www.pexels.com'],
-    unoptimized: false,
-  },
-  experimental: {
-    optimizeCss: true,
-  },
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
-  },
-  env: {
-    CUSTOM_KEY: 'pharbit-blockchain-platform',
   },
 }
 

@@ -1,26 +1,12 @@
 'use client';
 
 import React from 'react';
-import { useInView } from '@/hooks/useInView';
-import NetworkAnimation from '@/components/animations/NetworkAnimation';
 
 const Mission: React.FC = () => {
-  const [ref, isInView] = useInView({ threshold: 0.3 });
-
   return (
     <section id="mission" className="relative py-20 lg:py-32 overflow-hidden">
-      {/* Background Animation */}
-      <div className="absolute inset-0 opacity-30">
-        <NetworkAnimation variant="subtle" />
-      </div>
-
       <div className="relative z-10 container mx-auto px-4">
-        <div 
-          ref={ref}
-          className={`transition-all duration-1000 ${
-            isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
-        >
+        <div className="transition-all duration-1000 opacity-100 translate-y-0">
           {/* Section Title */}
           <div className="text-center mb-16">
             <h2 className="section-title text-4xl md:text-5xl font-bold text-primary-blue mb-6">

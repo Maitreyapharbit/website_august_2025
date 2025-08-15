@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 
 const Footer: React.FC = () => {
   return (
@@ -23,30 +22,30 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-primary-blue font-semibold text-lg">Quick Links</h3>
             <div className="flex flex-col space-y-2">
-              <Link 
+              <a 
                 href="#mission" 
                 className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
               >
                 Our Mission
-              </Link>
-              <Link 
+              </a>
+              <a 
                 href="#timeline" 
                 className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
               >
                 Road to Launch
-              </Link>
-              <Link 
+              </a>
+              <a 
                 href="#blogs" 
                 className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
               >
                 Latest Insights
-              </Link>
-              <Link 
+              </a>
+              <a 
                 href="#contact" 
                 className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
               >
                 Contact Us
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -58,7 +57,7 @@ const Footer: React.FC = () => {
                 <span className="text-secondary-cyan">Email:</span> info@pharbit.com
               </p>
               <div className="flex items-center space-x-4">
-                <Link 
+                <a 
                   href="https://twitter.com/Pharbit" 
                   target="_blank"
                   rel="noopener noreferrer"
@@ -67,7 +66,7 @@ const Footer: React.FC = () => {
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                   </svg>
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -80,18 +79,18 @@ const Footer: React.FC = () => {
               © 2025 Pharbit | Launching January–August 2026
             </p>
             <div className="flex items-center space-x-6">
-              <Link 
+              <a 
                 href="/terms" 
                 className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
               >
                 Terms of Use
-              </Link>
-              <Link 
+              </a>
+              <a 
                 href="/privacy" 
                 className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
               >
                 Privacy Policy
-              </Link>
+              </a>
             </div>
           </div>
         </div>

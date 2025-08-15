@@ -25,7 +25,6 @@ const config: Config = {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'fade-in': 'fadeIn 0.8s ease-out',
         'slide-up': 'slideUp 0.8s ease-out',
-        'network-pulse': 'networkPulse 2s ease-in-out infinite',
       },
       keyframes: {
         float: {
@@ -40,14 +39,6 @@ const config: Config = {
           '0%': { opacity: '0', transform: 'translateY(30px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        networkPulse: {
-          '0%, 100%': { opacity: '0.4' },
-          '50%': { opacity: '1' },
-        },
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'network-pattern': 'radial-gradient(circle at 25% 25%, #005656 0%, transparent 50%), radial-gradient(circle at 75% 75%, #005656 0%, transparent 50%)',
       },
     },
   },

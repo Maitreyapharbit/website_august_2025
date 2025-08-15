@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import NetworkAnimation from '@/components/animations/NetworkAnimation';
-import Button from '@/components/ui/Button';
 
 const Hero: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,11 +18,6 @@ const Hero: React.FC = () => {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Animation */}
-      <div className="absolute inset-0 z-0">
-        <NetworkAnimation />
-      </div>
-
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -44,14 +37,12 @@ const Hero: React.FC = () => {
 
           {/* CTA Button */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button
+            <button
               onClick={scrollToMission}
-              variant="primary"
-              size="large"
-              className="animate-pulse-slow"
+              className="btn-primary px-8 py-4 rounded-lg font-semibold text-lg animate-pulse-slow"
             >
               Learn More
-            </Button>
+            </button>
             
             <div className="flex items-center space-x-2 text-secondary-cyan">
               <div className="w-2 h-2 bg-secondary-cyan rounded-full animate-pulse"></div>
