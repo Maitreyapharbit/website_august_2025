@@ -5,6 +5,8 @@ import { logger } from './config/logger';
 import { env } from './config/env';
 import { initializeSocket } from './realtime/socket';
 import { initializeRedis, closeRedis } from './config/redis';
+import { initializeSupabase } from './config/supabase';
+import { testDatabaseConnection } from './config/prisma';
 
 const port = env.PORT;
 const server = http.createServer(app);
@@ -23,6 +25,15 @@ async function startServer() {
 	try {
 		// Initialize Redis connection
 		await initializeRedis();
+		
+		// Test database connection
+		const dbConnected = await testDatabaseConnection();
+		if (!dbConnected) {
+			throw new Error('Database connection failed');
+		}
+		
+		// Initialize Supabase
+		await initializeSupabase();
 		
 		// Start the HTTP server
 		server.listen(port, () => {

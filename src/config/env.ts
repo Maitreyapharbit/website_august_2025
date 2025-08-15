@@ -30,6 +30,11 @@ export const env = {
 
 	DATABASE_URL: process.env.DATABASE_URL || '',
 
+	// Supabase configuration
+	SUPABASE_URL: process.env.SUPABASE_URL || '',
+	SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || '',
+	SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+
 	REDIS_URL: process.env.REDIS_URL || 'redis://localhost:6379',
 	SESSION_SECRET: process.env.SESSION_SECRET || 'change_me',
 
