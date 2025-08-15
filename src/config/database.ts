@@ -40,8 +40,22 @@ function validateEnvironment() {
 
 // Validate required Supabase environment variables
 function validateSupabaseConfig() {
-  if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY || env.SUPABASE_URL === 'your_supabase_url_here' || env.SUPABASE_ANON_KEY === 'your_supabase_anon_key_here') {
-    logger.warn('Missing or placeholder Supabase configuration');
+  if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
+    logger.error('Missing required Supabase configuration');
+    return false;
+  }
+
+  // Validate URL format
+  try {
+    new URL(env.SUPABASE_URL);
+  } catch (error) {
+    logger.error('Invalid SUPABASE_URL format');
+    return false;
+  }
+
+  // Validate JWT token format (basic check)
+  if (!env.SUPABASE_ANON_KEY.startsWith('eyJ')) {
+    logger.error('Invalid SUPABASE_ANON_KEY format');
     return false;
   }
 
@@ -69,28 +83,12 @@ export const supabase = isSupabaseConfigured
       }
     )
   : (() => {
-      logger.warn('Supabase not configured. Creating mock client for development.');
-      // Create a mock client that returns empty results
-      return {
-        from: () => ({
-          select: () => ({
-            eq: () => ({ single: () => ({ data: null, error: null }) }),
-            insert: () => ({ select: () => ({ single: () => ({ data: null, error: null }) }) }),
-            update: () => ({ eq: () => ({ select: () => ({ single: () => ({ data: null, error: null }) }) }) }),
-            delete: () => ({ eq: () => ({ data: null, error: null }) }),
-            limit: () => ({ data: [], error: null }),
-            order: () => ({ data: [], error: null }),
-            gte: () => ({ lte: () => ({ order: () => ({ data: [], error: null }) }) }),
-            in: () => ({ gte: () => ({ lte: () => ({ order: () => ({ data: [], error: null }) }) }) }),
-            data: [],
-            error: null
-          })
-        })
-      } as any;
+      logger.error('Supabase not configured. Cannot create client.');
+      throw new Error('Supabase configuration is required');
     })();
 
 // Create admin client for operations requiring elevated permissions
-export const supabaseAdmin = isSupabaseConfigured
+export const supabaseAdmin = isSupabaseConfigured && env.SUPABASE_SERVICE_ROLE_KEY
   ? createClient<Database>(
       env.SUPABASE_URL!,
       env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -105,24 +103,8 @@ export const supabaseAdmin = isSupabaseConfigured
       }
     )
   : (() => {
-      logger.warn('Supabase admin not configured. Creating mock client for development.');
-      // Create a mock admin client that returns empty results
-      return {
-        from: () => ({
-          select: () => ({
-            eq: () => ({ single: () => ({ data: null, error: null }) }),
-            insert: () => ({ select: () => ({ single: () => ({ data: null, error: null }) }) }),
-            update: () => ({ eq: () => ({ select: () => ({ single: () => ({ data: null, error: null }) }) }) }),
-            delete: () => ({ eq: () => ({ data: null, error: null }) }),
-            limit: () => ({ data: [], error: null }),
-            order: () => ({ data: [], error: null }),
-            gte: () => ({ lte: () => ({ order: () => ({ data: [], error: null }) }) }),
-            in: () => ({ gte: () => ({ lte: () => ({ order: () => ({ data: [], error: null }) }) }) }),
-            data: [],
-            error: null
-          })
-        })
-      } as any;
+      logger.warn('Supabase admin not configured. Admin operations will be disabled.');
+      return null;
     })();
 
 // Health check function for Supabase
@@ -133,10 +115,19 @@ export async function testDatabaseConnection(): Promise<boolean> {
   }
 
   try {
+    // Try to connect to Supabase by making a simple query
+    // We'll use a simple select that should work even if tables don't exist yet
     const { data, error } = await supabase
-      .from('users')
-      .select('count')
+      .from('_dummy_table_for_health_check')
+      .select('*')
       .limit(1);
+    
+    // If we get a "relation does not exist" error, that means the connection works
+    // but the table doesn't exist (which is expected in a new database)
+    if (error && error.message.includes('relation') && error.message.includes('does not exist')) {
+      logger.info('Database connection successful (table does not exist yet)');
+      return true;
+    }
     
     if (error) {
       logger.error('Supabase health check failed', { error: error.message });
