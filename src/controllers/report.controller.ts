@@ -37,7 +37,7 @@ export class ReportController {
 			
 			if (sensorsError) throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to fetch sensors');
 			
-			const sensorIds = sensors.map((s) => s.id);
+			const sensorIds = sensors.map((s: any) => s.id);
 			
 			const { data, error } = await supabase
 				.from('sensor_readings')
@@ -84,7 +84,7 @@ export class ReportController {
 				
 				if (sensorsError) throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to fetch sensors');
 				
-				const sensorIds = sensors.map((s) => s.id);
+				const sensorIds = sensors.map((s: any) => s.id);
 				
 				const { data, error } = await supabase
 					.from('sensor_readings')

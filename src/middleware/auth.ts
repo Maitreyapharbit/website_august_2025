@@ -3,12 +3,6 @@ import { verifyAccessToken, JwtPayload } from '../utils/jwt';
 import { ApiError } from './error';
 import { StatusCodes } from 'http-status-codes';
 
-declare module 'express-serve-static-core' {
-	interface Request {
-		user?: JwtPayload;
-	}
-}
-
 export function authenticate(req: Request, _res: Response, next: NextFunction) {
 	const authHeader = req.headers.authorization || '';
 	const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;

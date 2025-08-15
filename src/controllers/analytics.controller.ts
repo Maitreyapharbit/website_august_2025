@@ -36,7 +36,7 @@ export class AnalyticsController {
 			if (error) throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to fetch shipment analytics');
 			
 			// Group by status manually
-			const byStatus = shipments.reduce((acc: any[], shipment) => {
+			const byStatus = shipments.reduce((acc: any[], shipment: any) => {
 				const existing = acc.find(item => item.status === shipment.status);
 				if (existing) {
 					existing._count._all++;
@@ -62,7 +62,7 @@ export class AnalyticsController {
 			
 			if (sensorsError) throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to fetch sensors');
 			
-			const sensorIds = sensors.map((s) => s.id);
+			const sensorIds = sensors.map((s: any) => s.id);
 			
 			const { data: readings, error: readingsError } = await supabase
 				.from('sensor_readings')
@@ -73,7 +73,7 @@ export class AnalyticsController {
 			if (readingsError) throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to fetch sensor readings');
 			
 			// Simple aggregation
-			const avg = readings.reduce((acc, r) => acc + r.temperature, 0) / Math.max(1, readings.length);
+			const avg = readings.reduce((acc: number, r: any) => acc + r.temperature, 0) / Math.max(1, readings.length);
 			return ok(res, { averageTemperature: avg, samples: readings.length });
 		} catch (err) { next(err); }
 	}
@@ -90,7 +90,7 @@ export class AnalyticsController {
 			if (error) throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to fetch alerts');
 			
 			// Group by type manually
-			const byType = alerts.reduce((acc: any[], alert) => {
+			const byType = alerts.reduce((acc: any[], alert: any) => {
 				const existing = acc.find(item => item.type === alert.type);
 				if (existing) {
 					existing._count._all++;

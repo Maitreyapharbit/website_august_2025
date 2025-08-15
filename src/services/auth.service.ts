@@ -46,7 +46,7 @@ export class AuthService {
 			throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to create user');
 		}
 		
-		const tokens = this.generateTokens(user.id, user.role, user.companyId || undefined);
+		const tokens = this.generateTokens(user.id, user.role, user.company_id || undefined);
 		return { user, tokens };
 	}
 
