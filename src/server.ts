@@ -5,8 +5,7 @@ import { logger } from './config/logger';
 import { env } from './config/env';
 import { initializeSocket } from './realtime/socket';
 import { initializeRedis, closeRedis } from './config/redis';
-import { initializeSupabase } from './config/supabase';
-import { testDatabaseConnection } from './config/prisma';
+import { initializeDatabase, testDatabaseConnection } from './config/database';
 
 const port = env.PORT;
 const server = http.createServer(app);
@@ -33,7 +32,7 @@ async function startServer() {
 		}
 		
 		// Initialize Supabase
-		await initializeSupabase();
+		await initializeDatabase();
 		
 		// Start the HTTP server
 		server.listen(port, () => {

@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { checkRedisHealth } from '../config/redis';
-import { testDatabaseConnection } from '../config/prisma';
-import { checkSupabaseHealth } from '../config/supabase';
+import { testDatabaseConnection } from '../config/database';
 
 const router = Router();
 
@@ -13,10 +12,7 @@ router.get('/', async (_req, res) => {
 		// Check database health
 		const dbHealthy = await testDatabaseConnection();
 		
-		// Check Supabase health
-		const supabaseHealthy = await checkSupabaseHealth();
-		
-		const overallStatus = redisHealthy && dbHealthy && supabaseHealthy ? 'healthy' : 'unhealthy';
+		const overallStatus = redisHealthy && dbHealthy ? 'healthy' : 'unhealthy';
 		const statusCode = overallStatus === 'healthy' ? 200 : 503;
 		
 		res.status(statusCode).json({
@@ -25,8 +21,7 @@ router.get('/', async (_req, res) => {
 			timestamp: new Date().toISOString(),
 			services: {
 				redis: redisHealthy ? 'healthy' : 'unhealthy',
-				database: dbHealthy ? 'healthy' : 'unhealthy',
-				supabase: supabaseHealthy ? 'healthy' : 'unhealthy'
+				database: dbHealthy ? 'healthy' : 'unhealthy'
 			}
 		});
 	} catch (error) {
