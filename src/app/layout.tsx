@@ -1,0 +1,43 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Pharbit - Transforming Germany's Pharmaceutical Industry with Blockchain",
+  description: "Secure, transparent, future-ready blockchain solutions for the pharmaceutical industry. Launching January-August 2026.",
+  keywords: "blockchain, pharmaceutical, Germany, smart contracts, IoT, supply chain, transparency",
+  authors: [{ name: "Pharbit" }],
+  openGraph: {
+    title: "Pharbit - Blockchain Pharmaceutical Solutions",
+    description: "Transforming Germany's pharmaceutical industry with secure blockchain technology",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pharbit - Blockchain Pharmaceutical Solutions",
+    description: "Transforming Germany's pharmaceutical industry with secure blockchain technology",
+    creator: "@Pharbit",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  viewport: "width=device-width, initial-scale=1",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        {children}
+      </body>
+    </html>
+  );
+}
