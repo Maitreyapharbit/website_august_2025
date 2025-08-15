@@ -10,13 +10,14 @@ public/
 │   ├── pharbit-logo.png          # Main logo (PNG format recommended)
 │   ├── pharbit-logo.svg          # Vector version (optional)
 │   └── pharbit-logo-white.png    # White version for dark backgrounds
-├── favicon.ico                   # 16x16 favicon
-├── favicon-16x16.png            # 16x16 PNG favicon
-├── favicon-32x32.png            # 32x32 PNG favicon
-├── apple-touch-icon.png         # 180x180 for iOS
-├── android-chrome-192x192.png   # 192x192 for Android
-├── android-chrome-512x512.png   # 512x512 for Android
-└── site.webmanifest            # PWA manifest
+├── favicon/
+│   ├── favicon.ico               # 16x16, 32x32, 48x48 ICO file
+│   ├── favicon-16x16.png         # 16x16 PNG favicon
+│   ├── favicon-32x32.png         # 32x32 PNG favicon
+│   ├── apple-touch-icon.png      # 180x180 for iOS
+│   ├── android-chrome-192x192.png # 192x192 for Android
+│   └── android-chrome-512x512.png # 512x512 for Android
+└── site.webmanifest             # PWA manifest
 ```
 
 ## 🎯 Logo File Requirements
@@ -28,13 +29,13 @@ public/
 - **Colors**: Your brand colors (works with the existing color scheme)
 
 ### Favicon Files
-Create these sizes from your main logo:
-- `favicon.ico` (16x16, 32x32, 48x48)
-- `favicon-16x16.png` (16x16)
-- `favicon-32x32.png` (32x32)
-- `apple-touch-icon.png` (180x180)
-- `android-chrome-192x192.png` (192x192)
-- `android-chrome-512x512.png` (512x512)
+Create these sizes from your main logo and place them in `public/favicon/`:
+- `favicon/favicon.ico` (16x16, 32x32, 48x48)
+- `favicon/favicon-16x16.png` (16x16)
+- `favicon/favicon-32x32.png` (32x32)
+- `favicon/apple-touch-icon.png` (180x180)
+- `favicon/android-chrome-192x192.png` (192x192)
+- `favicon/android-chrome-512x512.png` (512x512)
 
 ## 🚀 How to Add Your Logo
 
@@ -42,7 +43,7 @@ Create these sizes from your main logo:
 2. **Create favicon versions** using online tools like:
    - [Favicon.io](https://favicon.io/)
    - [RealFaviconGenerator](https://realfavicongenerator.net/)
-3. **Place all favicon files** in the `public/` directory
+3. **Place all favicon files** in the `public/favicon/` directory
 
 ## 🎨 Components Created
 

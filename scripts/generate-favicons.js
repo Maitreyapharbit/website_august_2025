@@ -36,7 +36,7 @@ const sizes = [
 
 async function generateFavicons() {
   const logoPath = path.join(__dirname, '../public/images/pharbit-logo.png');
-  const publicDir = path.join(__dirname, '../public');
+  const faviconDir = path.join(__dirname, '../public/favicon');
 
   // Check if logo exists
   if (!fs.existsSync(logoPath)) {
@@ -49,7 +49,7 @@ async function generateFavicons() {
 
   try {
     for (const { name, size } of sizes) {
-      const outputPath = path.join(publicDir, name);
+      const outputPath = path.join(faviconDir, name);
       
       await sharp(logoPath)
         .resize(size, size, {
@@ -63,7 +63,7 @@ async function generateFavicons() {
     }
 
     console.log('🎉 All favicon files generated successfully!');
-    console.log('📁 Files saved to public/ directory');
+    console.log('📁 Files saved to public/favicon/ directory');
     
   } catch (error) {
     console.error('❌ Error generating favicons:', error.message);
