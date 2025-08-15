@@ -1,4 +1,5 @@
 import React from 'react';
+import Logo from '@/components/ui/Logo';
 
 const Footer: React.FC = () => {
   return (
@@ -7,12 +8,11 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-lg flex items-center justify-center">
-                <span className="text-primary-white font-bold">P</span>
-              </div>
-              <span className="text-primary-white font-bold text-lg">Pharbit</span>
-            </div>
+            <Logo 
+              size="small" 
+              showText={true} 
+              href="/"
+            />
             <p className="text-primary-white text-sm leading-relaxed">
               Transforming Germany's pharmaceutical industry with secure, transparent blockchain technology.
             </p>
