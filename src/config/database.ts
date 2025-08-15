@@ -115,19 +115,9 @@ export async function testDatabaseConnection(): Promise<boolean> {
   }
 
   try {
-    // Try to connect to Supabase by making a simple query
-    // We'll use a simple select that should work even if tables don't exist yet
-    const { data, error } = await supabase
-      .from('_dummy_table_for_health_check')
-      .select('*')
-      .limit(1);
-    
-    // If we get a "relation does not exist" error, that means the connection works
-    // but the table doesn't exist (which is expected in a new database)
-    if (error && error.message.includes('relation') && error.message.includes('does not exist')) {
-      logger.info('Database connection successful (table does not exist yet)');
-      return true;
-    }
+    // Use a lightweight auth operation to test the connection
+    // This doesn't require any specific tables to exist
+    const { data, error } = await supabase.auth.getSession();
     
     if (error) {
       logger.error('Supabase health check failed', { error: error.message });
