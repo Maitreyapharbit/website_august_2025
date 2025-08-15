@@ -7,7 +7,7 @@ import session from 'express-session';
 import { RedisStore } from 'connect-redis';
 import { errors as celebrateErrors } from 'celebrate';
 import swaggerUi from 'swagger-ui-express';
-import { createClient } from 'redis';
+import { redisClient } from './config/redis';
 import { env } from './config/env';
 import { logger, stream as morganStream } from './config/logger';
 import { limiter } from './config/rateLimiter';
@@ -30,16 +30,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(sanitizeRequest);
 app.use(limiter);
 
-// Sessions via Redis (node-redis)
-const redisClient = createClient({ url: env.REDIS_URL });
-redisClient.connect().catch((err) => logger.error('Redis connect error', { err }));
-const store = new RedisStore({ client: redisClient as any });
+// Sessions via Redis (using centralized Redis client)
+const store = new RedisStore({ 
+	client: redisClient,
+	prefix: 'pharbit:sess:'
+});
+
 app.use(session({
 	store,
 	secret: env.SESSION_SECRET,
 	resave: false,
 	saveUninitialized: false,
-	cookie: { secure: false, httpOnly: true, sameSite: 'lax', maxAge: 1000 * 60 * 60 * 24 },
+	cookie: { 
+		secure: env.NODE_ENV === 'production', 
+		httpOnly: true, 
+		sameSite: 'lax', 
+		maxAge: 1000 * 60 * 60 * 24 
+	},
 }));
 
 // Static for uploads
