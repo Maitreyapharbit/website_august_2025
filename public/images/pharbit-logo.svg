@@ -1,0 +1,36 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#018ee8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#01ffff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#logoGradient)" opacity="0.1"/>
+  
+  <!-- Main logo circle -->
+  <circle cx="256" cy="256" r="120" fill="url(#logoGradient)" filter="url(#glow)"/>
+  
+  <!-- Letter P -->
+  <path d="M 200 160 L 200 352 L 280 352 Q 320 352 320 312 L 320 280 Q 320 240 280 240 L 240 240 L 240 200 L 280 200 Q 300 200 300 180 L 300 160 Z" fill="white"/>
+  
+  <!-- Blockchain connection dots -->
+  <circle cx="120" cy="120" r="8" fill="#01ffff" opacity="0.6"/>
+  <circle cx="392" cy="120" r="8" fill="#018ee8" opacity="0.6"/>
+  <circle cx="120" cy="392" r="8" fill="#018ee8" opacity="0.6"/>
+  <circle cx="392" cy="392" r="8" fill="#01ffff" opacity="0.6"/>
+  
+  <!-- Connection lines -->
+  <line x1="128" y1="128" x2="384" y2="128" stroke="#01ffff" stroke-width="2" opacity="0.3"/>
+  <line x1="128" y1="384" x2="384" y2="384" stroke="#018ee8" stroke-width="2" opacity="0.3"/>
+  <line x1="128" y1="128" x2="128" y2="384" stroke="#01ffff" stroke-width="2" opacity="0.3"/>
+  <line x1="384" y1="128" x2="384" y2="384" stroke="#018ee8" stroke-width="2" opacity="0.3"/>
+</svg>

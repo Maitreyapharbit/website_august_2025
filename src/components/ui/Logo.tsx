@@ -38,7 +38,7 @@ const Logo: React.FC<LogoProps> = ({
       {/* Logo Image */}
       <div className="relative">
         <Image
-          src="/images/logo-placeholder.svg"
+          src="/images/pharbit-logo.svg"
           alt="Pharbit Logo"
           width={width}
           height={height}
@@ -46,6 +46,7 @@ const Logo: React.FC<LogoProps> = ({
             isHovered ? 'scale-110 drop-shadow-lg' : 'scale-100'
           }`}
           priority
+          unoptimized
         />
         {/* Hover overlay effect */}
         <div 
