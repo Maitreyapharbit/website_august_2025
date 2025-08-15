@@ -9,16 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          blue: '#018ee8',
-          darkBlue: '#0e345d',
-          white: '#ffffff',
-        },
-        secondary: {
-          cyan: '#01ffff',
-          teal: '#005656',
-          black: '#000000',
-        }
+        'primary-blue': '#018ee8',
+        'primary-darkBlue': '#0e345d',
+        'primary-white': '#ffffff',
+        'secondary-cyan': '#01ffff',
+        'secondary-teal': '#005656',
+        'secondary-black': '#000000',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',

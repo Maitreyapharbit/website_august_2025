@@ -4,7 +4,7 @@
 
 :root {
   --primary-blue: #018ee8;
-  --primary-dark-blue: #0e345d;
+  --primary-darkBlue: #0e345d;
   --primary-white: #ffffff;
   --secondary-cyan: #01ffff;
   --secondary-teal: #005656;
@@ -23,7 +23,7 @@ html {
 
 body {
   color: var(--primary-white);
-  background: var(--primary-dark-blue);
+  background: var(--primary-darkBlue);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -37,7 +37,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--primary-dark-blue);
+  background: var(--primary-darkBlue);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -150,7 +150,7 @@ body {
 
 .timeline-dot {
   background: var(--secondary-teal);
-  border: 3px solid var(--primary-dark-blue);
+  border: 3px solid var(--primary-darkBlue);
   box-shadow: 0 0 0 3px var(--secondary-teal);
 }
 
@@ -161,7 +161,7 @@ body {
 
 .border-gradient {
   border: 2px solid transparent;
-  background: linear-gradient(var(--primary-dark-blue), var(--primary-dark-blue)) padding-box,
+  background: linear-gradient(var(--primary-darkBlue), var(--primary-darkBlue)) padding-box,
               linear-gradient(135deg, var(--primary-blue), var(--secondary-cyan)) border-box;
 }
 
