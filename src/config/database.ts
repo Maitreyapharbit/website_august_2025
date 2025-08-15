@@ -3,38 +3,69 @@ import { env } from './env';
 import { logger } from './logger';
 import { Database } from '../types/database.types';
 
-// Create Supabase client with proper typing
-export const supabase = createClient<Database>(
-  env.SUPABASE_URL,
-  env.SUPABASE_ANON_KEY,
-  {
-    auth: {
-      persistSession: false, // We handle auth via JWT
-      autoRefreshToken: false,
-    },
-    db: {
-      schema: 'public',
-    },
+// Validate required Supabase environment variables
+function validateSupabaseConfig() {
+  const requiredVars = {
+    SUPABASE_URL: env.SUPABASE_URL,
+    SUPABASE_ANON_KEY: env.SUPABASE_ANON_KEY,
+    SUPABASE_SERVICE_ROLE_KEY: env.SUPABASE_SERVICE_ROLE_KEY,
+  };
+
+  const missingVars = Object.entries(requiredVars)
+    .filter(([key, value]) => !value || value.includes('placeholder'))
+    .map(([key]) => key);
+
+  if (missingVars.length > 0) {
+    logger.warn(`Missing Supabase configuration: ${missingVars.join(', ')}. Database operations will be disabled.`);
+    return false;
   }
-);
+
+  return true;
+}
+
+const isSupabaseConfigured = validateSupabaseConfig();
+
+// Create Supabase client with proper typing
+export const supabase = isSupabaseConfigured 
+  ? createClient<Database>(
+      env.SUPABASE_URL,
+      env.SUPABASE_ANON_KEY,
+      {
+        auth: {
+          persistSession: false, // We handle auth via JWT
+          autoRefreshToken: false,
+        },
+        db: {
+          schema: 'public',
+        },
+      }
+    )
+  : null;
 
 // Create admin client for operations requiring elevated permissions
-export const supabaseAdmin = createClient<Database>(
-  env.SUPABASE_URL,
-  env.SUPABASE_SERVICE_ROLE_KEY,
-  {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-    db: {
-      schema: 'public',
-    },
-  }
-);
+export const supabaseAdmin = isSupabaseConfigured
+  ? createClient<Database>(
+      env.SUPABASE_URL,
+      env.SUPABASE_SERVICE_ROLE_KEY,
+      {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+        },
+        db: {
+          schema: 'public',
+        },
+      }
+    )
+  : null;
 
 // Health check function for Supabase
 export async function testDatabaseConnection(): Promise<boolean> {
+  if (!supabase) {
+    logger.warn('Supabase client not configured. Skipping database connection test.');
+    return false;
+  }
+
   try {
     const { data, error } = await supabase
       .from('users')
@@ -56,6 +87,11 @@ export async function testDatabaseConnection(): Promise<boolean> {
 
 // Initialize Supabase connection
 export async function initializeDatabase() {
+  if (!isSupabaseConfigured) {
+    logger.warn('Supabase not configured. Database operations will be disabled.');
+    return null;
+  }
+
   try {
     const isHealthy = await testDatabaseConnection();
     if (isHealthy) {

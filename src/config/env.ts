@@ -31,9 +31,9 @@ export const env = {
 	DATABASE_URL: process.env.DATABASE_URL || '',
 
 	// Supabase configuration
-	SUPABASE_URL: process.env.SUPABASE_URL || '',
-	SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || '',
-	SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+	SUPABASE_URL: process.env.SUPABASE_URL || 'https://placeholder.supabase.co',
+	SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || 'placeholder-anon-key',
+	SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-service-role-key',
 
 	REDIS_URL: process.env.REDIS_URL || 'redis://localhost:6379',
 	SESSION_SECRET: process.env.SESSION_SECRET || 'change_me',
