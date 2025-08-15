@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import ResponsiveLogo from '../ui/ResponsiveLogo';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,12 +35,13 @@ const Header: React.FC = () => {
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-lg flex items-center justify-center">
-              <span className="text-primary-white font-bold text-xl">P</span>
-            </div>
-            <span className="text-primary-white font-bold text-xl">Pharbit</span>
-          </div>
+          <ResponsiveLogo 
+            href="/" 
+            className="flex-shrink-0"
+            mobileSize="sm"
+            desktopSize="md"
+            showTextOnMobile={false}
+          />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
