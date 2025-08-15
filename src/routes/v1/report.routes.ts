@@ -15,7 +15,7 @@ router.post('/compliance/upload', authenticate, upload.single('file'), async (re
 	try {
 		// Persist record
 		const filePath = (req.file as any)?.path || '';
-		// In a real app, validate and save into prisma.complianceReport
+		// In a real app, validate and save into database
 		return res.json({ success: true, path: filePath });
 	} catch (err) { next(err); }
 });

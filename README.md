@@ -4,8 +4,7 @@ Backend API for Pharbit, a blockchain-based pharmaceutical supply chain tracking
 
 ## Tech
 - Node.js, Express
-- PostgreSQL, Prisma
-- Redis (cache, sessions)
+- PostgreSQL, Supabase
 - JWT auth with refresh
 - Socket.io (realtime alerts)
 - Joi/Celebrate validation
@@ -16,7 +15,7 @@ Backend API for Pharbit, a blockchain-based pharmaceutical supply chain tracking
 ## Setup
 1. Copy `.env.example` to `.env` and adjust values.
 2. Install deps: `npm install`
-3. Prisma: `npx prisma migrate dev --name init`
+3. Configure Supabase database and update environment variables
 4. Start dev: `npm run dev`
 5. Swagger UI: `/api-docs`
 6. Health: `/health`

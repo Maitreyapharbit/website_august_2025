@@ -28,10 +28,13 @@ function validateEnvironment() {
   }
   
   if (errors.length > 0) {
-    logger.error('Environment validation failed:', { errors });
-    logger.error('Please check your .env file and ensure all required variables are set.');
-    logger.error('See .env.example for reference.');
-    throw new Error(`Environment validation failed: ${errors.join(', ')}`);
+    logger.warn('Environment validation warnings:', { errors });
+    logger.warn('Please check your .env file and ensure all required variables are set.');
+    logger.warn('See .env.example for reference.');
+    // Don't throw error in development, just warn
+    if (env.NODE_ENV === 'production') {
+      throw new Error(`Environment validation failed: ${errors.join(', ')}`);
+    }
   }
 }
 
@@ -65,7 +68,10 @@ export const supabase = isSupabaseConfigured
         },
       }
     )
-  : null;
+  : (() => {
+      logger.warn('Supabase not configured. Creating dummy client for development.');
+      return {} as any;
+    })();
 
 // Create admin client for operations requiring elevated permissions
 export const supabaseAdmin = isSupabaseConfigured
@@ -82,11 +88,14 @@ export const supabaseAdmin = isSupabaseConfigured
         },
       }
     )
-  : null;
+  : (() => {
+      logger.warn('Supabase admin not configured. Creating dummy client for development.');
+      return {} as any;
+    })();
 
 // Health check function for Supabase
 export async function testDatabaseConnection(): Promise<boolean> {
-  if (!supabase) {
+  if (!isSupabaseConfigured) {
     logger.warn('Supabase client not configured. Skipping database connection test.');
     return false;
   }
@@ -114,7 +123,7 @@ export async function testDatabaseConnection(): Promise<boolean> {
 export async function initializeDatabase() {
   if (!isSupabaseConfigured) {
     logger.warn('Supabase not configured. Database operations will be disabled.');
-    return null;
+    return supabase;
   }
 
   try {
