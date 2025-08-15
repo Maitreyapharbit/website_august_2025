@@ -40,8 +40,8 @@ function validateEnvironment() {
 
 // Validate required Supabase environment variables
 function validateSupabaseConfig() {
-  if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
-    logger.error('Missing required Supabase configuration');
+  if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY || env.SUPABASE_URL === 'your_supabase_url_here' || env.SUPABASE_ANON_KEY === 'your_supabase_anon_key_here') {
+    logger.warn('Missing or placeholder Supabase configuration');
     return false;
   }
 
@@ -56,8 +56,8 @@ const isSupabaseConfigured = validateSupabaseConfig();
 // Create Supabase client with proper typing
 export const supabase = isSupabaseConfigured 
   ? createClient<Database>(
-      env.SUPABASE_URL,
-      env.SUPABASE_ANON_KEY,
+      env.SUPABASE_URL!,
+      env.SUPABASE_ANON_KEY!,
       {
         auth: {
           persistSession: false, // We handle auth via JWT
@@ -69,15 +69,31 @@ export const supabase = isSupabaseConfigured
       }
     )
   : (() => {
-      logger.warn('Supabase not configured. Creating dummy client for development.');
-      return {} as any;
+      logger.warn('Supabase not configured. Creating mock client for development.');
+      // Create a mock client that returns empty results
+      return {
+        from: () => ({
+          select: () => ({
+            eq: () => ({ single: () => ({ data: null, error: null }) }),
+            insert: () => ({ select: () => ({ single: () => ({ data: null, error: null }) }) }),
+            update: () => ({ eq: () => ({ select: () => ({ single: () => ({ data: null, error: null }) }) }) }),
+            delete: () => ({ eq: () => ({ data: null, error: null }) }),
+            limit: () => ({ data: [], error: null }),
+            order: () => ({ data: [], error: null }),
+            gte: () => ({ lte: () => ({ order: () => ({ data: [], error: null }) }) }),
+            in: () => ({ gte: () => ({ lte: () => ({ order: () => ({ data: [], error: null }) }) }) }),
+            data: [],
+            error: null
+          })
+        })
+      } as any;
     })();
 
 // Create admin client for operations requiring elevated permissions
 export const supabaseAdmin = isSupabaseConfigured
   ? createClient<Database>(
-      env.SUPABASE_URL,
-      env.SUPABASE_SERVICE_ROLE_KEY,
+      env.SUPABASE_URL!,
+      env.SUPABASE_SERVICE_ROLE_KEY!,
       {
         auth: {
           persistSession: false,
@@ -89,8 +105,24 @@ export const supabaseAdmin = isSupabaseConfigured
       }
     )
   : (() => {
-      logger.warn('Supabase admin not configured. Creating dummy client for development.');
-      return {} as any;
+      logger.warn('Supabase admin not configured. Creating mock client for development.');
+      // Create a mock admin client that returns empty results
+      return {
+        from: () => ({
+          select: () => ({
+            eq: () => ({ single: () => ({ data: null, error: null }) }),
+            insert: () => ({ select: () => ({ single: () => ({ data: null, error: null }) }) }),
+            update: () => ({ eq: () => ({ select: () => ({ single: () => ({ data: null, error: null }) }) }) }),
+            delete: () => ({ eq: () => ({ data: null, error: null }) }),
+            limit: () => ({ data: [], error: null }),
+            order: () => ({ data: [], error: null }),
+            gte: () => ({ lte: () => ({ order: () => ({ data: [], error: null }) }) }),
+            in: () => ({ gte: () => ({ lte: () => ({ order: () => ({ data: [], error: null }) }) }) }),
+            data: [],
+            error: null
+          })
+        })
+      } as any;
     })();
 
 // Health check function for Supabase

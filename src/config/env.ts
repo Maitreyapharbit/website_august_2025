@@ -29,9 +29,9 @@ export const env = {
 	BASE_URL: process.env.BASE_URL || 'http://localhost:4000',
 
 	// Supabase configuration
-	SUPABASE_URL: process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '',
-	SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || '',
-	SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+	SUPABASE_URL: process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || undefined,
+	SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || undefined,
+	SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || undefined,
 
 	SESSION_SECRET: process.env.SESSION_SECRET || 'change_me',
 
