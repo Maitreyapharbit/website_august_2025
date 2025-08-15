@@ -3,28 +3,50 @@ import { env } from './env';
 import { logger } from './logger';
 import { Database } from '../types/database.types';
 
+// Validate required environment variables
+function validateEnvironment() {
+  const errors: string[] = [];
+  
+  if (!env.SUPABASE_URL) {
+    errors.push('SUPABASE_URL is required');
+  }
+  
+  if (!env.SUPABASE_ANON_KEY) {
+    errors.push('SUPABASE_ANON_KEY is required');
+  }
+  
+  if (!env.SESSION_SECRET || env.SESSION_SECRET === 'change_me') {
+    errors.push('SESSION_SECRET must be set to a secure value');
+  }
+  
+  if (!env.JWT_ACCESS_SECRET || env.JWT_ACCESS_SECRET === 'change_me_access') {
+    errors.push('JWT_ACCESS_SECRET must be set to a secure value');
+  }
+  
+  if (!env.JWT_REFRESH_SECRET || env.JWT_REFRESH_SECRET === 'change_me_refresh') {
+    errors.push('JWT_REFRESH_SECRET must be set to a secure value');
+  }
+  
+  if (errors.length > 0) {
+    logger.error('Environment validation failed:', { errors });
+    logger.error('Please check your .env file and ensure all required variables are set.');
+    logger.error('See .env.example for reference.');
+    throw new Error(`Environment validation failed: ${errors.join(', ')}`);
+  }
+}
+
 // Validate required Supabase environment variables
 function validateSupabaseConfig() {
-  const requiredVars = {
-    SUPABASE_URL: env.SUPABASE_URL,
-    SUPABASE_ANON_KEY: env.SUPABASE_ANON_KEY,
-  };
-
-  const missingVars = Object.entries(requiredVars)
-    .filter(([key, value]) => !value)
-    .map(([key]) => key);
-
-  if (missingVars.length > 0) {
-    logger.error(`Missing required Supabase configuration: ${missingVars.join(', ')}`);
+  if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
+    logger.error('Missing required Supabase configuration');
     return false;
-  }
-
-  if (!env.SUPABASE_SERVICE_ROLE_KEY) {
-    logger.warn('SUPABASE_SERVICE_ROLE_KEY not configured. Admin operations will be disabled.');
   }
 
   return true;
 }
+
+// Validate environment on module load
+validateEnvironment();
 
 const isSupabaseConfigured = validateSupabaseConfig();
 

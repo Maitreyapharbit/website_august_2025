@@ -4,7 +4,6 @@ import app from './app';
 import { logger } from './config/logger';
 import { env } from './config/env';
 import { initializeSocket } from './realtime/socket';
-import { initializeRedis, closeRedis } from './config/redis';
 import { initializeDatabase, testDatabaseConnection } from './config/database';
 
 const port = env.PORT;
@@ -19,12 +18,9 @@ const io = new SocketIOServer(server, {
 
 initializeSocket(io);
 
-// Initialize Redis before starting the server
+// Initialize services before starting the server
 async function startServer() {
 	try {
-		// Initialize Redis connection
-		await initializeRedis();
-		
 		// Test database connection
 		const dbConnected = await testDatabaseConnection();
 		if (!dbConnected) {
@@ -37,6 +33,9 @@ async function startServer() {
 		// Start the HTTP server
 		server.listen(port, () => {
 			logger.info(`Pharbit API listening on port ${port}`);
+			logger.info('Server started successfully');
+			logger.info(`Health check available at: ${env.BASE_URL}/health`);
+			logger.info(`API documentation available at: ${env.BASE_URL}/api-docs`);
 		});
 	} catch (error) {
 		logger.error('Failed to start server', { error });
@@ -48,7 +47,6 @@ async function startServer() {
 process.on('SIGTERM', async () => {
 	logger.info('SIGTERM received, shutting down gracefully');
 	server.close(async () => {
-		await closeRedis();
 		process.exit(0);
 	});
 });
@@ -56,7 +54,6 @@ process.on('SIGTERM', async () => {
 process.on('SIGINT', async () => {
 	logger.info('SIGINT received, shutting down gracefully');
 	server.close(async () => {
-		await closeRedis();
 		process.exit(0);
 	});
 });

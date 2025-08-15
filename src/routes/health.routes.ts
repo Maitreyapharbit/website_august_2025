@@ -1,18 +1,19 @@
 import { Router } from 'express';
-import { checkRedisHealth } from '../config/redis';
 import { testDatabaseConnection } from '../config/database';
+import { CacheService } from '../services/cache.service';
 
 const router = Router();
 
 router.get('/', async (_req, res) => {
 	try {
-		// Check Redis health
-		const redisHealthy = await checkRedisHealth();
+		// Check cache health
+		const cacheStats = CacheService.getStats();
+		const cacheHealthy = true; // In-memory cache is always healthy if the process is running
 		
 		// Check database health
 		const dbHealthy = await testDatabaseConnection();
 		
-		const overallStatus = redisHealthy && dbHealthy ? 'healthy' : 'unhealthy';
+		const overallStatus = cacheHealthy && dbHealthy ? 'healthy' : 'unhealthy';
 		const statusCode = overallStatus === 'healthy' ? 200 : 503;
 		
 		res.status(statusCode).json({
@@ -20,9 +21,10 @@ router.get('/', async (_req, res) => {
 			uptime: process.uptime(),
 			timestamp: new Date().toISOString(),
 			services: {
-				redis: redisHealthy ? 'healthy' : 'unhealthy',
+				cache: cacheHealthy ? 'healthy' : 'unhealthy',
 				database: dbHealthy ? 'healthy' : 'unhealthy'
-			}
+			},
+			cache: cacheStats
 		});
 	} catch (error) {
 		res.status(503).json({

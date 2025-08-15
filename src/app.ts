@@ -4,10 +4,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import compression from 'compression';
 import session from 'express-session';
-import { RedisStore } from 'connect-redis';
 import { errors as celebrateErrors } from 'celebrate';
 import swaggerUi from 'swagger-ui-express';
-import { redisClient } from './config/redis';
 import { env } from './config/env';
 import { logger, stream as morganStream } from './config/logger';
 import { limiter } from './config/rateLimiter';
@@ -30,14 +28,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(sanitizeRequest);
 app.use(limiter);
 
-// Sessions via Redis (using centralized Redis client)
-const store = new RedisStore({ 
-	client: redisClient,
-	prefix: 'pharbit:sess:'
-});
-
+// Sessions with memory store (for development)
 app.use(session({
-	store,
 	secret: env.SESSION_SECRET,
 	resave: false,
 	saveUninitialized: false,
