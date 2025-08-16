@@ -70,7 +70,7 @@ const NetworkAnimation: React.FC<NetworkAnimationProps> = ({ variant = 'default'
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
         ctx.fillStyle = variant === 'subtle' 
-          ? `rgba(0, 86, 86, ${node.opacity * 0.6})` 
+          ? `rgba(1, 142, 232, ${node.opacity * 0.8})` 
           : `rgba(1, 255, 255, ${node.opacity})`;
         ctx.fill();
 
@@ -88,7 +88,7 @@ const NetworkAnimation: React.FC<NetworkAnimationProps> = ({ variant = 'default'
               ctx.moveTo(node.x, node.y);
               ctx.lineTo(otherNode.x, otherNode.y);
               ctx.strokeStyle = variant === 'subtle'
-                ? `rgba(0, 86, 86, ${opacity * 0.4})`
+                ? `rgba(1, 142, 232, ${opacity * 0.6})`
                 : `rgba(0, 86, 86, ${opacity})`;
               ctx.lineWidth = 1;
               ctx.stroke();
