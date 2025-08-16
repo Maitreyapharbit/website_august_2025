@@ -4,9 +4,10 @@ import React, { useEffect, useRef } from 'react';
 
 interface NetworkAnimationProps {
   variant?: 'default' | 'subtle';
+  className?: string;
 }
 
-const NetworkAnimation: React.FC<NetworkAnimationProps> = ({ variant = 'default' }) => {
+const NetworkAnimation: React.FC<NetworkAnimationProps> = ({ variant = 'default', className = '' }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -36,15 +37,15 @@ const NetworkAnimation: React.FC<NetworkAnimationProps> = ({ variant = 'default'
     }> = [];
 
     // Create nodes
-    const nodeCount = variant === 'subtle' ? 20 : 30;
+    const nodeCount = variant === 'subtle' ? 25 : 40;
     for (let i = 0; i < nodeCount; i++) {
       nodes.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        radius: Math.random() * 3 + 1,
-        opacity: Math.random() * 0.4 + 0.2,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        radius: Math.random() * 4 + 1,
+        opacity: Math.random() * 0.6 + 0.3,
       });
     }
 
@@ -69,9 +70,17 @@ const NetworkAnimation: React.FC<NetworkAnimationProps> = ({ variant = 'default'
         // Draw node
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.fillStyle = variant === 'subtle' 
-          ? `rgba(1, 142, 232, ${node.opacity * 0.8})` 
-          : `rgba(1, 255, 255, ${node.opacity})`;
+        
+        // Create gradient for nodes
+        const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius);
+        if (variant === 'subtle') {
+          gradient.addColorStop(0, `rgba(1, 142, 232, ${node.opacity})`);
+          gradient.addColorStop(1, `rgba(1, 142, 232, 0)`);
+        } else {
+          gradient.addColorStop(0, `rgba(1, 255, 255, ${node.opacity})`);
+          gradient.addColorStop(1, `rgba(1, 255, 255, 0)`);
+        }
+        ctx.fillStyle = gradient;
         ctx.fill();
 
         // Draw connections
@@ -80,16 +89,16 @@ const NetworkAnimation: React.FC<NetworkAnimationProps> = ({ variant = 'default'
             const dx = node.x - otherNode.x;
             const dy = node.y - otherNode.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            const maxDistance = variant === 'subtle' ? 120 : 150;
+            const maxDistance = variant === 'subtle' ? 140 : 180;
 
             if (distance < maxDistance) {
-              const opacity = (1 - distance / maxDistance) * 0.3;
+              const opacity = (1 - distance / maxDistance) * 0.4;
               ctx.beginPath();
               ctx.moveTo(node.x, node.y);
               ctx.lineTo(otherNode.x, otherNode.y);
               ctx.strokeStyle = variant === 'subtle'
-                ? `rgba(1, 142, 232, ${opacity * 0.6})`
-                : `rgba(0, 86, 86, ${opacity})`;
+                ? `rgba(1, 142, 232, ${opacity * 0.8})`
+                : `rgba(0, 86, 86, ${opacity * 1.2})`;
               ctx.lineWidth = 1;
               ctx.stroke();
             }
@@ -110,7 +119,7 @@ const NetworkAnimation: React.FC<NetworkAnimationProps> = ({ variant = 'default'
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
+      className={`absolute inset-0 w-full h-full ${className}`}
       style={{ zIndex: -1 }}
     />
   );

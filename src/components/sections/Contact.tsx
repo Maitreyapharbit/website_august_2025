@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { useInView } from '@/hooks/useInView';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import ScrollReveal from '@/components/animations/ScrollReveal';
+import MagneticButton from '@/components/ui/MagneticButton';
 
 interface ContactFormData {
   name: string;
@@ -134,29 +136,31 @@ const Contact: React.FC = () => {
           }`}
         >
           {/* Section Title */}
-          <div className="text-center mb-16">
-            <h2 className="section-title text-4xl md:text-5xl font-bold text-primary-blue mb-6">
-              Get In Touch
-            </h2>
-            <p className="text-xl text-primary-white max-w-3xl mx-auto">
-              Ready to transform your pharmaceutical business with blockchain technology? 
-              Let's discuss how Pharbit can help you.
-            </p>
-            <div className="w-24 h-1 bg-gradient-to-r from-primary-blue to-secondary-cyan mx-auto mt-6"></div>
-          </div>
+          <ScrollReveal animation="fadeInUp" className="text-center mb-16">
+            <div className="text-center mb-16">
+              <h2 className="section-title text-4xl md:text-5xl font-bold text-primary-blue mb-6 text-shimmer">
+                Get In Touch
+              </h2>
+              <p className="text-xl text-primary-white max-w-3xl mx-auto">
+                Ready to transform your pharmaceutical business with blockchain technology? 
+                Let's discuss how Pharbit can help you.
+              </p>
+              <div className="w-24 h-1 bg-gradient-to-r from-primary-blue to-secondary-cyan mx-auto mt-6 animate-glow"></div>
+            </div>
+          </ScrollReveal>
 
           {/* Contact Content */}
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Contact Information */}
-              <div className={`space-y-8 ${isInView ? 'animate-slide-up' : ''}`}>
-                <div className="glass-effect p-8 rounded-xl">
+              <ScrollReveal animation="slideInLeft" className="space-y-8">
+                <div className="glass-effect p-8 rounded-xl card-hover float-slow">
                   <h3 className="text-2xl font-bold text-primary-blue mb-6">
                     Contact Information
                   </h3>
                   <div className="space-y-6">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-lg flex items-center justify-center">
+                    <div className="flex items-center space-x-4 magnetic">
+                      <div className="w-12 h-12 bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-lg flex items-center justify-center animate-glow">
                         <svg className="w-6 h-6 text-primary-white" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                         </svg>
@@ -167,8 +171,8 @@ const Contact: React.FC = () => {
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-lg flex items-center justify-center">
+                    <div className="flex items-center space-x-4 magnetic">
+                      <div className="w-12 h-12 bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-lg flex items-center justify-center animate-glow">
                         <svg className="w-6 h-6 text-primary-white" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                         </svg>
@@ -179,8 +183,8 @@ const Contact: React.FC = () => {
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-lg flex items-center justify-center">
+                    <div className="flex items-center space-x-4 magnetic">
+                      <div className="w-12 h-12 bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-lg flex items-center justify-center animate-glow">
                         <svg className="w-6 h-6 text-primary-white" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
                         </svg>
@@ -192,11 +196,11 @@ const Contact: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
 
               {/* Contact Form */}
-              <div className={`${isInView ? 'animate-slide-up' : ''}`} style={{ animationDelay: '200ms' }}>
-                <div className="glass-effect p-8 rounded-xl">
+              <ScrollReveal animation="slideInRight" delay={200}>
+                <div className="glass-effect p-8 rounded-xl card-hover float-medium">
                   <h3 className="text-2xl font-bold text-primary-blue mb-6">
                     Send us a Message
                   </h3>
@@ -277,7 +281,31 @@ const Contact: React.FC = () => {
                       )}
                     </div>
                     
-                    <Button
+                    <MagneticButton
+                      className="w-full btn-primary py-4 rounded-lg font-semibold text-lg"
+                      onClick={handleSubmit}
+                    >
+                      {isSubmitting ? (
+                        <div className="flex items-center justify-center space-x-2">
+                          <div className="animate-spin w-4 h-4 border-2 border-primary-white border-t-transparent rounded-full"></div>
+                          <span>Sending Message...</span>
+                        </div>
+                      ) : (
+                        'Send Message'
+                      )}
+                    </MagneticButton>
+                  </form>
+                </div>
+              </ScrollReveal>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Contact;
                       type="submit"
                       size="large"
                       disabled={isSubmitting}

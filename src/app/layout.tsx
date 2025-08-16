@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import { generateFaviconMetadata } from "@/components/ui/Favicon";
 import NetworkAnimation from "@/components/animations/NetworkAnimation";
+import CustomCursor from "@/components/ui/CustomCursor";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -56,6 +57,9 @@ export default function RootLayout({
             <Header />
             {children}
           </div>
+          
+          {/* Custom Cursor */}
+          <CustomCursor />
         </div>
       </body>
     </html>
