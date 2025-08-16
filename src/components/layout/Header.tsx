@@ -18,8 +18,8 @@ const Header: React.FC = () => {
   const navItems = [
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Portfolio', href: '#portfolio' },
+    { name: 'Features', href: '#features' },
+    { name: 'Pricing', href: '#pricing' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -33,10 +33,10 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">M</span>
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-xl">P</span>
             </div>
-            <span className="text-white font-bold text-xl">Modern</span>
+            <span className="text-white font-bold text-xl">Pharbit</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -54,8 +54,8 @@ const Header: React.FC = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
-              Get Started
+            <button className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
+              Request Demo
             </button>
           </div>
 
@@ -104,8 +104,8 @@ const Header: React.FC = () => {
                 </a>
               ))}
               <div className="px-4 pt-4">
-                <button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
-                  Get Started
+                <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                  Request Demo
                 </button>
               </div>
             </nav>

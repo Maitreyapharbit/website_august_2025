@@ -65,23 +65,31 @@ const Hero: React.FC = () => {
 
       <div className="container text-center relative z-10">
         <div className="max-w-4xl mx-auto">
-          <h1 className="hero-title text-hero gradient-text mb-8">
-            Crafting Digital
-            <br />
-            Experiences
+          <h1 className="hero-title text-hero gradient-text mb-6">
+            Securing Pharmaceutical Supply Chains with Blockchain Technology
           </h1>
           
-          <p className="hero-subtitle text-xl text-white opacity-90 mb-12 max-w-2xl mx-auto">
-            We're a premium digital agency specializing in modern web development, 
-            stunning UI/UX design, and innovative digital solutions that drive results.
+          <p className="hero-subtitle text-2xl text-white opacity-90 mb-4 font-semibold">
+            Prevent Counterfeits. Ensure Safety. Maintain Compliance.
+          </p>
+          
+          <div className="mb-8">
+            <span className="text-lg text-cyan-400 font-bold tracking-wider">
+              "Traceable Pharma Trust"
+            </span>
+          </div>
+          
+          <p className="text-lg text-white opacity-80 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Pharbit revolutionizes pharmaceutical supply chain management through blockchain technology and IoT monitoring, 
+            ensuring every medicine reaches patients safely while meeting regulatory compliance standards.
           </p>
           
           <div className="hero-buttons flex flex-col sm:flex-row gap-6 justify-center mb-16">
             <button className="btn-primary text-lg px-8 py-4">
-              View Our Work
+              Request Live Demo
             </button>
             <button className="btn-secondary text-lg px-8 py-4">
-              Get In Touch
+              Download Whitepaper
             </button>
           </div>
           

@@ -15,7 +15,7 @@ const Mission: React.FC = () => {
           <ScrollReveal animation="fadeInUp" className="text-center mb-16">
             <div className="text-center mb-16">
               <h2 className="section-title text-4xl md:text-5xl font-bold text-primary-blue mb-6 text-shimmer">
-                Our Mission
+                Mission & Vision
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-primary-blue to-secondary-cyan mx-auto animate-glow"></div>
             </div>
@@ -26,34 +26,54 @@ const Mission: React.FC = () => {
             {/* Text Content */}
             <div className="space-y-6 float-slow">
               <ScrollReveal animation="slideInLeft" delay={200}>
+                <div className="modern-card p-6">
+                  <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Our Mission</h3>
+                  <p className="text-lg text-primary-white leading-relaxed">
+                    To eliminate counterfeit drugs from the global pharmaceutical supply chain and ensure 
+                    every patient receives authentic, properly stored medications through innovative blockchain technology.
+                  </p>
+                </div>
+              </ScrollReveal>
+              
+              <ScrollReveal animation="slideInLeft" delay={400}>
+                <div className="modern-card p-6">
+                  <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Our Vision</h3>
+                  <p className="text-lg text-primary-white leading-relaxed">
+                    A world where every pharmaceutical product is traceable, verifiable, and safe - 
+                    transforming healthcare through transparency and trust.
+                  </p>
+                </div>
+              </ScrollReveal>
+              
+              <ScrollReveal animation="slideInLeft" delay={200}>
                 <p className="text-lg md:text-xl text-primary-white leading-relaxed">
-                  Pharbit is committed to transforming Germany's pharma industry with 
+                  Pharbit is committed to transforming the global pharmaceutical industry with 
                   <span className="text-secondary-cyan font-semibold"> transparent, secure blockchain technology</span> 
-                  over the next year.
+                  and IoT monitoring solutions.
                 </p>
               </ScrollReveal>
               
               <ScrollReveal animation="slideInLeft" delay={400}>
                 <p className="text-lg md:text-xl text-primary-white leading-relaxed">
                   Using <span className="text-primary-blue font-semibold">smart contracts and IoT</span>, 
-                  we support small businesses and plan for future growth.
+                  we provide pharmaceutical companies with unbreakable supply chain security.
                 </p>
               </ScrollReveal>
               
               <ScrollReveal animation="slideInLeft" delay={600}>
                 <p className="text-lg md:text-xl text-primary-white leading-relaxed">
-                  Our goal is a <span className="text-secondary-cyan font-semibold">robust blockchain by August 2026</span>, 
-                  with crypto as a future step.
+                  Our goal is to <span className="text-secondary-cyan font-semibold">eliminate counterfeit drugs</span> 
+                  and ensure patient safety worldwide.
                 </p>
               </ScrollReveal>
 
               {/* Key Features */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
                 {[
-                  { icon: '🔒', title: 'Secure', desc: 'Blockchain security' },
-                  { icon: '🔍', title: 'Transparent', desc: 'Full traceability' },
-                  { icon: '🚀', title: 'Future-Ready', desc: 'Scalable solutions' },
-                  { icon: '🤝', title: 'Supportive', desc: 'Small business focus' },
+                  { icon: '🔒', title: 'Secure', desc: 'Blockchain protection' },
+                  { icon: '🔍', title: 'Traceable', desc: 'Complete visibility' },
+                  { icon: '🌡️', title: 'Monitored', desc: 'IoT temperature control' },
+                  { icon: '✅', title: 'Compliant', desc: 'Regulatory standards' },
                 ].map((feature, index) => (
                   <ScrollReveal 
                     key={index}
@@ -82,21 +102,21 @@ const Mission: React.FC = () => {
                     </div>
                   
                     <h3 className="text-2xl font-bold text-primary-blue">
-                      Blockchain Innovation
+                      Pharmaceutical Security
                     </h3>
                   
                     <p className="text-primary-white">
-                      Revolutionizing pharmaceutical supply chains with cutting-edge technology
+                      Protecting patients through blockchain-verified authentic medications
                     </p>
                   
                     <div className="flex justify-center space-x-4 text-sm">
                       <div className="text-center magnetic">
                         <div className="text-secondary-cyan font-bold text-xl animate-pulse">2025</div>
-                        <div className="text-primary-white">Development</div>
+                        <div className="text-primary-white">Beta Launch</div>
                       </div>
                       <div className="text-center magnetic">
                         <div className="text-secondary-cyan font-bold text-xl animate-pulse" style={{ animationDelay: '0.5s' }}>2026</div>
-                        <div className="text-primary-white">Launch</div>
+                        <div className="text-primary-white">Full Launch</div>
                       </div>
                     </div>
                   </div>

@@ -38,10 +38,10 @@ const Contact: React.FC = () => {
       <div className="container">
         <div className="text-center mb-16">
           <h2 className="text-xl gradient-text mb-6" data-aos="fade-up">
-            Let's Work Together
+            Contact Pharbit
           </h2>
           <p className="text-lg text-white opacity-90 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
-            Ready to bring your vision to life? Get in touch and let's discuss how we can help you achieve your goals.
+            Ready to secure your pharmaceutical supply chain? Contact us to schedule a demo and learn how Pharbit can protect your patients and your business.
           </p>
         </div>
 
@@ -59,7 +59,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold">Email</h4>
-                  <p className="text-purple-400">hello@modernportfolio.com</p>
+                  <p className="text-purple-400">info@pharbit.com</p>
                 </div>
               </div>
             
@@ -71,7 +71,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold">Phone</h4>
-                  <p className="text-purple-400">+1 (555) 123-4567</p>
+                  <p className="text-purple-400">+49 (0) 30 1234567</p>
                 </div>
               </div>
 
@@ -84,7 +84,19 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold">Location</h4>
-                  <p className="text-purple-400">San Francisco, CA</p>
+                  <p className="text-purple-400">Blockchain Str. 123, 10115 Berlin, Germany</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold">Website</h4>
+                  <p className="text-purple-400">www.pharbit.com</p>
                 </div>
               </div>
             </div>
@@ -158,13 +170,13 @@ const Contact: React.FC = () => {
                     <span>Sending...</span>
                   </>
                 ) : (
-                  <span>Send Message</span>
+                  <span>Schedule Consultation</span>
                 )}
               </button>
 
               {submitStatus === 'success' && (
                 <div className="mt-4 p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 text-center">
-                  Message sent successfully! We'll get back to you soon.
+                  Thank you for your interest! We'll contact you within 24 hours to schedule your consultation.
                 </div>
               )}
             </form>
