@@ -46,6 +46,11 @@ const Logo: React.FC<LogoProps> = ({
             isHovered ? 'scale-110 drop-shadow-lg' : 'scale-100'
           }`}
           priority
+          onError={(e) => {
+            console.warn('Logo failed to load from /images/pharbit-logo.png');
+            // Fallback to a placeholder or hide the image
+            e.currentTarget.style.display = 'none';
+          }}
         />
         {/* Hover overlay effect */}
         <div 

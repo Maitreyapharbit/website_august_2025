@@ -50,7 +50,7 @@ export default function RootLayout({
           <NetworkAnimation variant="subtle" className="fixed inset-0 w-full h-full z-[-2]" />
           
           {/* Professional Overlay */}
-          <div className="fixed inset-0 w-full h-full z-[-1] bg-gradient-to-br from-primary-darkBlue/70 via-primary-darkBlue/75 to-secondary-black/80"></div>
+          <div className="fixed inset-0 w-full h-full z-[-1] bg-gradient-to-br from-primary-darkBlue/40 via-primary-blue/30 to-secondary-teal/50"></div>
           
           {/* Content */}
           <div className="relative z-10">

@@ -23,7 +23,7 @@ html {
 
 body {
   color: var(--primary-white);
-  background: var(--primary-dark-blue);
+  background: linear-gradient(135deg, var(--primary-dark-blue), var(--secondary-teal));
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
