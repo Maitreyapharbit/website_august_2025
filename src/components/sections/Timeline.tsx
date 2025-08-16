@@ -7,7 +7,7 @@ const Timeline: React.FC = () => {
   const [ref, isInView] = useInView({ threshold: 0.1 });
 
   return (
-    <section id="timeline" className="relative py-20 lg:py-32 bg-gradient-to-b from-primary-darkBlue to-secondary-black">
+    <section id="timeline" className="relative py-20 lg:py-32 bg-gradient-to-b from-secondary-black to-primary-darkBlue">
       <div className="container mx-auto px-4">
         <div 
           ref={ref}
