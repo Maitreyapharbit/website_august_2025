@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
+import Button from '../ui/Button';
+import Input from '../ui/Input';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
