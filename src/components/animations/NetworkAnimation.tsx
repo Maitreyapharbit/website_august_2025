@@ -36,15 +36,15 @@ const NetworkAnimation: React.FC<NetworkAnimationProps> = ({ variant = 'default'
     }> = [];
 
     // Create nodes
-    const nodeCount = variant === 'subtle' ? 15 : 25;
+    const nodeCount = variant === 'subtle' ? 20 : 30;
     for (let i = 0; i < nodeCount; i++) {
       nodes.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
         radius: Math.random() * 3 + 1,
-        opacity: Math.random() * 0.5 + 0.3,
+        opacity: Math.random() * 0.4 + 0.2,
       });
     }
 

@@ -29,6 +29,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* Custom scrollbar */
@@ -59,8 +60,9 @@ body {
 
 .glass-effect {
   backdrop-filter: blur(10px);
-  background: rgba(14, 52, 93, 0.8);
+  background: rgba(14, 52, 93, 0.85);
   border: 1px solid rgba(0, 86, 86, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary {
@@ -78,10 +80,11 @@ body {
 }
 
 .form-input {
-  background: rgba(14, 52, 93, 0.6);
+  background: rgba(14, 52, 93, 0.7);
   border: 1px solid rgba(0, 86, 86, 0.5);
   color: var(--primary-white);
   transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
 }
 
 .form-input:focus {

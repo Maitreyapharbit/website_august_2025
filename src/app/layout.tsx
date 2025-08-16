@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import { generateFaviconMetadata } from "@/components/ui/Favicon";
+import NetworkAnimation from "@/components/animations/NetworkAnimation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,8 +44,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header />
-        {children}
+        <div className="relative min-h-screen">
+          {/* Global Network Background */}
+          <NetworkAnimation variant="subtle" className="fixed inset-0 w-full h-full z-[-2]" />
+          
+          {/* Professional Overlay */}
+          <div className="fixed inset-0 w-full h-full z-[-1] bg-gradient-to-br from-primary-darkBlue/85 via-primary-darkBlue/90 to-secondary-black/95"></div>
+          
+          {/* Content */}
+          <div className="relative z-10">
+            <Header />
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );
