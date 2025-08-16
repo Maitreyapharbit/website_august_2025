@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../ui/Button';
+import Button from '../ui/Button';
 
 export const Hero: React.FC = () => {
   return (
@@ -17,12 +17,12 @@ export const Hero: React.FC = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="px-8 py-4">
+            <Button size="large" className="px-8 py-4">
               Get Started
             </Button>
             <Button 
               variant="outline" 
-              size="lg" 
+              size="large" 
               className="px-8 py-4"
             >
               Learn More
