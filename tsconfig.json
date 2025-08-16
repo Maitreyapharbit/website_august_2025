@@ -30,7 +30,6 @@
     "src/middleware/**/*",
     "src/routes/**/*",
     "src/services/**/*",
-    "src/types/**/*",
     "src/utils/**/*",
     "src/validation/**/*",
     "src/realtime/**/*",
