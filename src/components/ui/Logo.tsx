@@ -38,7 +38,7 @@ const Logo: React.FC<LogoProps> = ({
       {/* Logo Image */}
       <div className="relative">
         <Image
-          src="/images/logo-placeholder.svg"
+          src="/images/pharbit-logo.png"
           alt="Pharbit Logo"
           width={width}
           height={height}
