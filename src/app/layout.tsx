@@ -46,11 +46,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className="relative min-h-screen">
-          {/* Global Network Background */}
-          <NetworkAnimation variant="subtle" className="fixed inset-0 w-full h-full z-[-2]" />
-          
-          {/* Professional Overlay */}
-          <div className="fixed inset-0 w-full h-full z-[-1] bg-gradient-to-br from-secondary-black/60 via-primary-darkBlue/40 to-secondary-black/80"></div>
+          {/* Modern Network Background */}
+          <NetworkAnimation variant="subtle" className="fixed inset-0 w-full h-full z-[-1] opacity-40" />
           
           {/* Content */}
           <div className="relative z-10">

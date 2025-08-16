@@ -112,7 +112,7 @@ const Blogs: React.FC = () => {
                     animation="fadeInUp"
                     delay={index * 150}
                   >
-                    <div className="glass-effect p-6 rounded-xl card-hover magnetic float-slow">
+                    <div className="modern-card p-6 card-hover magnetic float-slow">
                       {/* Category Badge */}
                       <div className="flex items-center justify-between mb-4">
                         <span className="px-3 py-1 bg-gradient-to-r from-primary-blue to-secondary-cyan text-primary-white text-xs font-semibold rounded-full animate-glow">
@@ -136,7 +136,7 @@ const Blogs: React.FC = () => {
                         {blog.tags.slice(0, 3).map((tag, tagIndex) => (
                           <span 
                             key={tagIndex}
-                            className="px-2 py-1 bg-secondary-teal text-secondary-cyan text-xs rounded magnetic"
+                            className="px-2 py-1 bg-black border border-secondary-cyan text-secondary-cyan text-xs rounded magnetic"
                           >
                             #{tag}
                           </span>
@@ -170,7 +170,7 @@ const Blogs: React.FC = () => {
 
             {!loading && !error && blogs.length === 0 && (
               <ScrollReveal animation="scaleIn">
-                <div className="glass-effect p-8 rounded-xl text-center">
+                <div className="modern-card p-8 text-center">
                   <h3 className="text-2xl font-bold text-primary-blue mb-4">
                     Coming Soon
                   </h3>

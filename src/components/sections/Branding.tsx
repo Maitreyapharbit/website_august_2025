@@ -27,7 +27,7 @@ const Branding: React.FC = () => {
           <div className="max-w-4xl mx-auto">
             {/* Logo Section */}
             <div className="text-center mb-16">
-              <div className="inline-block glass-effect p-12 rounded-3xl mb-8">
+              <div className="inline-block modern-card p-12 mb-8">
                 <div className="w-32 h-32 mx-auto bg-gradient-to-br from-primary-blue via-secondary-cyan to-secondary-teal rounded-2xl flex items-center justify-center network-node">
                   <div className="text-center">
                     <div className="text-4xl font-bold text-primary-white mb-2">P</div>
@@ -45,7 +45,7 @@ const Branding: React.FC = () => {
             </div>
 
             {/* Brand Story */}
-            <div className="text-center glass-effect p-12 rounded-2xl">
+            <div className="text-center modern-card p-12">
               <h3 className="text-2xl md:text-3xl font-bold text-primary-blue mb-6">
                 The Future of Pharmaceutical Blockchain
               </h3>
@@ -57,15 +57,15 @@ const Branding: React.FC = () => {
               
               {/* Stats Preview */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                <div className="text-center">
+                <div className="text-center modern-card p-6">
                   <div className="text-3xl md:text-4xl font-bold text-secondary-cyan mb-2">10M</div>
                   <div className="text-primary-white">PHB Coins Goal</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center modern-card p-6">
                   <div className="text-3xl md:text-4xl font-bold text-secondary-cyan mb-2">2026</div>
                   <div className="text-primary-white">Full Launch</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center modern-card p-6">
                   <div className="text-3xl md:text-4xl font-bold text-secondary-cyan mb-2">∞</div>
                   <div className="text-primary-white">Possibilities</div>
                 </div>

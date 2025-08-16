@@ -8,7 +8,7 @@ const Mission: React.FC = () => {
   const [ref, isInView] = useInView({ threshold: 0.1 });
 
   return (
-    <section id="mission" className="relative py-20 lg:py-32 overflow-hidden network-enhanced">
+    <section id="mission" className="relative py-20 lg:py-32 overflow-hidden modern-section">
       <div className="relative z-10 container mx-auto px-4">
         <div ref={ref}>
           {/* Section Title */}
@@ -60,7 +60,7 @@ const Mission: React.FC = () => {
                     animation="scaleIn" 
                     delay={800 + index * 100}
                   >
-                    <div className="glass-effect p-4 rounded-lg card-hover magnetic">
+                    <div className="modern-card p-4 card-hover magnetic">
                       <div className="text-2xl mb-2 animate-bounce-in">{feature.icon}</div>
                       <h3 className="text-secondary-cyan font-semibold">{feature.title}</h3>
                       <p className="text-primary-white text-sm">{feature.desc}</p>
@@ -73,7 +73,7 @@ const Mission: React.FC = () => {
             {/* Visual Element */}
             <ScrollReveal animation="slideInRight" delay={300}>
               <div className="relative float-medium">
-                <div className="glass-effect p-8 rounded-2xl border-gradient card-hover">
+                <div className="modern-card p-8 border-gradient card-hover">
                   <div className="text-center space-y-6">
                     <div className="w-32 h-32 mx-auto bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-full flex items-center justify-center network-node animate-glow magnetic">
                       <svg className="w-16 h-16 text-primary-white" fill="currentColor" viewBox="0 0 24 24">
