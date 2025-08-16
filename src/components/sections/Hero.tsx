@@ -1,52 +1,97 @@
-import React from 'react';
-import Button from '../ui/Button';
+'use client';
 
-export const Hero: React.FC = () => {
+import React, { useEffect } from 'react';
+
+const Hero: React.FC = () => {
+  useEffect(() => {
+    // GSAP Hero Animations
+    if (typeof window !== 'undefined' && window.gsap) {
+      const tl = window.gsap.timeline();
+      
+      tl.from('.hero-title', {
+        y: 100,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power3.out'
+      })
+      .from('.hero-subtitle', {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: 'power3.out'
+      }, '-=0.8')
+      .from('.hero-buttons', {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out'
+      }, '-=0.6')
+      .from('.hero-scroll', {
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power3.out'
+      }, '-=0.4');
+
+      // Parallax effect
+      window.gsap.registerPlugin(window.ScrollTrigger);
+      
+      window.gsap.to('.parallax-bg', {
+        yPercent: -50,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero-section',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    }
+  }, []);
+
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center relative modern-section">
-      <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="hero-title text-5xl md:text-7xl lg:text-8xl font-bold text-primary-white mb-8 leading-tight">
-            Transforming
-            <span className="block text-gradient bg-gradient-to-r from-primary-blue via-secondary-cyan to-primary-blue bg-clip-text text-transparent animate-shimmer">
-              Pharmaceutical
-            </span>
-            <span className="block text-primary-white">Blockchain</span>
+    <section id="home" className="hero-section h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="parallax-bg absolute inset-0 opacity-20">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-green-500 to-teal-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+      </div>
+
+      {/* Floating Shapes */}
+      <div className="floating-shape absolute top-1/4 left-1/4 w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg opacity-30"></div>
+      <div className="floating-shape absolute top-3/4 right-1/4 w-12 h-12 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full opacity-30" style={{ animationDelay: '-3s' }}></div>
+      <div className="floating-shape absolute top-1/2 right-1/3 w-8 h-8 bg-gradient-to-br from-green-400 to-teal-400 rounded-lg opacity-30" style={{ animationDelay: '-1s' }}></div>
+
+      <div className="container text-center relative z-10">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="hero-title text-hero gradient-text mb-8">
+            Crafting Digital
+            <br />
+            Experiences
           </h1>
           
-          <p className="text-xl md:text-2xl text-primary-white mb-12 max-w-4xl mx-auto leading-relaxed opacity-90">
-            Secure, transparent, and future-ready blockchain solutions for Germany's pharmaceutical industry. 
-            <span className="text-secondary-cyan font-semibold">Launching January–August 2026.</span>
+          <p className="hero-subtitle text-xl text-white opacity-90 mb-12 max-w-2xl mx-auto">
+            We're a premium digital agency specializing in modern web development, 
+            stunning UI/UX design, and innovative digital solutions that drive results.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <Button size="large" className="px-12 py-4 text-lg font-semibold modern-card">
-              Explore Our Vision
-            </Button>
-            <Button 
-              variant="outline" 
-              size="large" 
-              className="px-12 py-4 text-lg font-semibold border-2 border-secondary-cyan text-secondary-cyan hover:bg-secondary-cyan hover:text-secondary-black transition-all duration-300"
-            >
-              View Timeline
-            </Button>
+          <div className="hero-buttons flex flex-col sm:flex-row gap-6 justify-center mb-16">
+            <button className="btn-primary text-lg px-8 py-4">
+              View Our Work
+            </button>
+            <button className="btn-secondary text-lg px-8 py-4">
+              Get In Touch
+            </button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="modern-card p-6 text-center">
-              <div className="text-3xl mb-4">🔒</div>
-              <h3 className="text-xl font-bold text-primary-white mb-2">Secure</h3>
-              <p className="text-primary-white opacity-80">Blockchain-powered security for pharmaceutical supply chains</p>
-            </div>
-            <div className="modern-card p-6 text-center">
-              <div className="text-3xl mb-4">🔍</div>
-              <h3 className="text-xl font-bold text-primary-white mb-2">Transparent</h3>
-              <p className="text-primary-white opacity-80">Complete traceability from production to delivery</p>
-            </div>
-            <div className="modern-card p-6 text-center">
-              <div className="text-3xl mb-4">🚀</div>
-              <h3 className="text-xl font-bold text-primary-white mb-2">Future-Ready</h3>
-              <p className="text-primary-white opacity-80">Smart contracts and IoT integration for tomorrow's needs</p>
+          {/* Scroll Indicator */}
+          <div className="hero-scroll absolute bottom-8 left-1/2 transform -translate-x-1/2">
+            <div className="flex flex-col items-center text-white opacity-70">
+              <span className="text-sm mb-2">Scroll to explore</span>
+              <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+                <div className="w-1 h-3 bg-white rounded-full mt-2 animate-bounce"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -54,3 +99,5 @@ export const Hero: React.FC = () => {
     </section>
   );
 };
+
+export default Hero;

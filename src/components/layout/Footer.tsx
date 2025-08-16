@@ -2,95 +2,76 @@ import React from 'react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-primary-darkBlue border-t border-secondary-teal shadow-2xl">
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Company Info */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-lg flex items-center justify-center">
-                <span className="text-primary-white font-bold">P</span>
+    <footer className="section-sm bg-gradient-to-r from-gray-900 to-black">
+      <div className="container">
+        <div className="grid grid-3 gap-12 mb-12">
+          {/* Brand */}
+          <div data-aos="fade-up">
+            <div className="flex items-center space-x-2 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xl">M</span>
               </div>
-              <span className="text-primary-white font-bold text-lg">Pharbit</span>
+              <span className="text-white font-bold text-xl">Modern</span>
             </div>
-            <p className="text-primary-white text-sm leading-relaxed">
-              Transforming Germany's pharmaceutical industry with secure, transparent blockchain technology.
+            <p className="text-white opacity-70 mb-6">
+              Creating exceptional digital experiences that drive results and inspire users.
             </p>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-primary-blue font-semibold text-lg">Quick Links</h3>
-            <div className="flex flex-col space-y-2">
-              <a 
-                href="#mission" 
-                className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
-              >
-                Our Mission
-              </a>
-              <a 
-                href="#timeline" 
-                className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
-              >
-                Road to Launch
-              </a>
-              <a 
-                href="#blogs" 
-                className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
-              >
-                Latest Insights
-              </a>
-              <a 
-                href="#contact" 
-                className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
-              >
-                Contact Us
-              </a>
+            <div className="flex space-x-4">
+              {['twitter', 'linkedin', 'github', 'dribbble'].map((social) => (
+                <a 
+                  key={social}
+                  href="#" 
+                  className="w-10 h-10 glass-dark rounded-lg flex items-center justify-center text-white hover:text-purple-400 transition-colors duration-300"
+                >
+                  <span className="text-sm font-bold">{social[0].toUpperCase()}</span>
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Contact & Social */}
-          <div className="space-y-4">
-            <h3 className="text-primary-blue font-semibold text-lg">Connect</h3>
-            <div className="space-y-2">
-              <p className="text-primary-white text-sm">
-                <span className="text-secondary-cyan">Email:</span> info@pharbit.com
-              </p>
-              <div className="flex items-center space-x-4">
+          {/* Services */}
+          <div data-aos="fade-up" data-aos-delay="200">
+            <h3 className="text-white font-bold text-lg mb-6">Services</h3>
+            <div className="space-y-3">
+              {['Web Development', 'Mobile Apps', 'UI/UX Design', 'Digital Strategy'].map((service) => (
                 <a 
-                  href="https://twitter.com/Pharbit" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300"
+                  key={service}
+                  href="#" 
+                  className="block text-white opacity-70 hover:opacity-100 hover:text-purple-400 transition-all duration-300"
                 >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                  </svg>
+                  {service}
                 </a>
-              </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Contact */}
+          <div data-aos="fade-up" data-aos-delay="400">
+            <h3 className="text-white font-bold text-lg mb-6">Contact</h3>
+            <div className="space-y-3">
+              <p className="text-white opacity-70">hello@modernportfolio.com</p>
+              <p className="text-white opacity-70">+1 (555) 123-4567</p>
+              <p className="text-white opacity-70">San Francisco, CA</p>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-8 pt-8 border-t border-secondary-teal">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-primary-white text-sm text-center md:text-left">
-              © 2025 Pharbit | Launching January–August 2026
+        {/* Bottom */}
+        <div className="pt-8 border-t border-white/10" data-aos="fade-up">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-white opacity-70 text-sm mb-4 md:mb-0">
+              © 2025 Modern Portfolio. All rights reserved.
             </p>
-            <div className="flex items-center space-x-6">
-              <a 
-                href="/terms" 
-                className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
-              >
-                Terms of Use
-              </a>
-              <a 
-                href="/privacy" 
-                className="text-secondary-cyan hover:text-primary-blue transition-colors duration-300 text-sm"
-              >
-                Privacy Policy
-              </a>
+            <div className="flex space-x-6">
+              {['Privacy Policy', 'Terms of Service'].map((link) => (
+                <a 
+                  key={link}
+                  href="#" 
+                  className="text-white opacity-70 hover:opacity-100 hover:text-purple-400 transition-all duration-300 text-sm"
+                >
+                  {link}
+                </a>
+              ))}
             </div>
           </div>
         </div>
