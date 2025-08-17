@@ -64,32 +64,32 @@ const Hero: React.FC = () => {
       <div className="floating-shape absolute top-1/2 right-1/3 w-8 h-8 bg-gradient-to-br from-green-400 to-teal-400 rounded-lg opacity-30" style={{ animationDelay: '-1s' }}></div>
 
       <div className="container text-center relative z-10">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto text-center">
           <h1 className="hero-title text-hero gradient-text mb-6">
             Securing Pharmaceutical Supply Chains with Blockchain Technology
           </h1>
           
-          <p className="hero-subtitle text-2xl text-white opacity-90 mb-4 font-semibold">
+          <p className="hero-subtitle text-xl text-white opacity-90 mb-4 font-semibold">
             Compliance, Transparency, Innovation
           </p>
           
-          <div className="mb-8">
-            <span className="text-lg text-cyan-400 font-bold tracking-wider">
+          <div className="mb-6">
+            <span className="text-base text-cyan-400 font-bold tracking-wider">
               "Traceable Pharma Trust"
             </span>
           </div>
           
-          <p className="text-lg text-white opacity-80 mb-12 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base text-white opacity-80 mb-10 max-w-3xl mx-auto leading-relaxed">
             Pharbit combines blockchain technology with IoT sensors to create an unbreakable chain of custody for medicines 
             from manufacturing to patient delivery worldwide, addressing the critical global challenge of counterfeit drugs 
             and ensuring pharmaceutical supply chain transparency and patient safety.
           </p>
           
-          <div className="hero-buttons flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <button className="btn-primary text-lg px-8 py-4">
+          <div className="hero-buttons flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <button className="btn-primary text-base px-6 py-3">
               Request Live Demo
             </button>
-            <button className="btn-secondary text-lg px-8 py-4">
+            <button className="btn-secondary text-base px-6 py-3">
               Download Whitepaper
             </button>
           </div>
