@@ -64,7 +64,7 @@ const About: React.FC = () => {
                   <span className="text-2xl">💊</span>
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-3">
-                  Pharmaceutical Innovation
+                  Our Innovations in Pharma Industry
                 </h3>
                 <p className="text-white/80 text-sm leading-relaxed">
                   Revolutionizing global healthcare through cutting-edge blockchain technology, 
