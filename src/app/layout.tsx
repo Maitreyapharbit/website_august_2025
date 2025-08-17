@@ -11,19 +11,19 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Pharbit - Blockchain Pharmaceutical Supply Chain Security",
-  description: "Pioneering pharmaceutical technology company combining blockchain and IoT sensors to create unbreakable chains of custody for medicines worldwide.",
-  keywords: "blockchain, pharmaceutical, supply chain, IoT, counterfeit drugs, patient safety, compliance",
+  description: "Global pharmaceutical technology company combining blockchain and IoT sensors to create unbreakable chains of custody for medicines worldwide, ensuring transparency and patient safety.",
+  keywords: "blockchain, pharmaceutical, supply chain, IoT, counterfeit drugs, patient safety, compliance, global healthcare, smart contracts, temperature monitoring, drug authenticity, medical supply chain",
   authors: [{ name: "Pharbit" }],
   openGraph: {
     title: "Pharbit - Blockchain Pharmaceutical Supply Chain Security",
-    description: "Pioneering pharmaceutical technology company combining blockchain and IoT sensors",
+    description: "Global pharmaceutical technology company combining blockchain and IoT sensors to secure medicine supply chains worldwide",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
     title: "Pharbit - Blockchain Pharmaceutical Supply Chain Security",
-    description: "Pioneering pharmaceutical technology company combining blockchain and IoT sensors",
+    description: "Global pharmaceutical technology company combining blockchain and IoT sensors to secure medicine supply chains worldwide",
     creator: "@Pharbit",
   },
   robots: {

@@ -62,8 +62,9 @@ const TargetCustomers: React.FC = () => {
           <ScrollReveal animation="fadeInUp">
             <h2 className="text-xl gradient-text mb-6">Target Customers</h2>
             <p className="text-lg text-white opacity-90 max-w-3xl mx-auto">
-              Pharbit serves pharmaceutical companies worldwide across the supply chain, from manufacturers 
-              to distributors, helping them secure their operations and protect patients globally.
+              Pharbit serves pharmaceutical companies worldwide across the entire supply chain, from manufacturers 
+              to distributors, helping them secure their operations and protect patients globally through advanced 
+              blockchain technology and IoT monitoring solutions.
             </p>
           </ScrollReveal>
         </div>

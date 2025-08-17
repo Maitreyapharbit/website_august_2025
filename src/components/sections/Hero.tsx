@@ -81,7 +81,8 @@ const Hero: React.FC = () => {
           
           <p className="text-lg text-white opacity-80 mb-12 max-w-3xl mx-auto leading-relaxed">
             Pharbit combines blockchain technology with IoT sensors to create an unbreakable chain of custody for medicines 
-            from manufacturing to patient delivery, addressing the critical global challenge of counterfeit drugs.
+            from manufacturing to patient delivery worldwide, addressing the critical global challenge of counterfeit drugs 
+            and ensuring pharmaceutical supply chain transparency and patient safety.
           </p>
           
           <div className="hero-buttons flex flex-col sm:flex-row gap-6 justify-center mb-16">

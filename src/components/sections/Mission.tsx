@@ -38,24 +38,9 @@ const Mission: React.FC = () => {
                 <div className="modern-card p-6">
                   <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Our Mission</h3>
                   <p className="text-lg text-primary-white leading-relaxed">
-                    Pharbit is committed to transforming the global pharmaceutical industry with 
-                    transparent, secure blockchain technology and IoT monitoring solutions.
+                    Pharbit is committed to transforming the global pharmaceutical industry with transparent, secure blockchain technology and IoT monitoring solutions. Using smart contracts and IoT, we provide pharmaceutical companies with unbreakable supply chain security. Our goal is to eliminate counterfeit drugs and ensure patient safety worldwide.
                   </p>
                 </div>
-              </ScrollReveal>
-              
-              <ScrollReveal animation="slideInLeft" delay={200}>
-                <p className="text-lg md:text-xl text-primary-white leading-relaxed">
-                  Using <span className="text-primary-blue font-semibold">smart contracts and IoT</span>, 
-                  we provide pharmaceutical companies with unbreakable supply chain security.
-                </p>
-              </ScrollReveal>
-              
-              <ScrollReveal animation="slideInLeft" delay={400}>
-                <p className="text-lg md:text-xl text-primary-white leading-relaxed">
-                  Our goal is to <span className="text-secondary-cyan font-semibold">eliminate counterfeit drugs</span> 
-                  and ensure patient safety worldwide.
-                </p>
               </ScrollReveal>
 
               {/* Key Features */}

@@ -51,12 +51,10 @@ const companyStats = {
     smartContracts: 'Solidity-based Smart Contracts',
     iot: 'Temperature & Humidity Monitoring Sensors',
     security: 'End-to-End Encryption & Multi-Signature Wallets',
-    compliance: 'German GDP & EU Pharmaceutical Regulations',
     compliance: 'Global GDP & International Pharmaceutical Regulations',
     integration: 'RESTful APIs & Real-time WebSocket Connections'
   },
-  vision: 'To establish the most secure, transparent, and efficient pharmaceutical supply chain ecosystem in Germany through innovative blockchain technology, ensuring every medication\'s journey from manufacturer to patient is fully traceable and verified.',
-  vision: 'To establish the most secure, transparent, and efficient pharmaceutical supply chain ecosystem globally through innovative blockchain technology, ensuring every medication\'s journey from manufacturer to patient is fully traceable and verified.',
+  vision: 'A world where every pharmaceutical product is traceable, verifiable, and safe transforming healthcare through transparency and trust.',
   mission: 'Pharbit is dedicated to revolutionizing pharmaceutical supply chain management by leveraging blockchain technology, IoT sensors, and smart contracts to eliminate counterfeit drugs, ensure cold chain compliance, and provide real-time transparency for all stakeholders in the global pharmaceutical industry.'
 };
 

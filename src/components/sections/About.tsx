@@ -17,7 +17,7 @@ const About: React.FC = () => {
               Pharbit is a pioneering pharmaceutical technology company that combines blockchain technology 
               with IoT sensors to create an unbreakable chain of custody for medicines from manufacturing 
               to patient delivery. Founded to address the critical global challenge of counterfeit drugs, 
-              we provide pharmaceutical companies with cutting-edge solutions for supply chain 
+              we provide pharmaceutical companies worldwide with cutting-edge solutions for supply chain 
               transparency, regulatory compliance, and patient safety.
             </p>
             

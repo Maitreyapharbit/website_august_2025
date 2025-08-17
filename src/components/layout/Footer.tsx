@@ -52,6 +52,7 @@ const Footer: React.FC = () => {
               <p className="text-white opacity-70">info@pharbit.com</p>
               <p className="text-white opacity-70">+4917697711873</p>
               <p className="text-white opacity-70">An Europakanal 6, 91056 Erlangen, Germany</p>
+              <p className="text-white opacity-70">pharbit.netlify.app</p>
             </div>
           </div>
         </div>

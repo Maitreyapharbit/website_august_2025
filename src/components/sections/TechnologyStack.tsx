@@ -49,7 +49,8 @@ const TechnologyStack: React.FC = () => {
             <h2 className="text-xl gradient-text mb-6">Technology Stack</h2>
             <p className="text-lg text-white opacity-90 max-w-3xl mx-auto">
               Built on cutting-edge blockchain and IoT technologies, Pharbit delivers enterprise-grade 
-              security and reliability for global pharmaceutical supply chain management.
+              security and reliability for global pharmaceutical supply chain management, ensuring scalable 
+              solutions that meet international compliance standards and regulatory requirements.
             </p>
           </ScrollReveal>
         </div>
