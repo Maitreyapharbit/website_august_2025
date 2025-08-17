@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
               <span className="text-white font-bold text-xl">Pharbit</span>
             </div>
             <p className="text-white opacity-70 mb-6">
-              Securing pharmaceutical supply chains with blockchain technology to protect patients and ensure medication authenticity.
+              Pioneering pharmaceutical technology company combining blockchain and IoT sensors to create unbreakable chains of custody for medicines worldwide.
             </p>
             <div className="flex space-x-4">
               {['twitter', 'linkedin'].map((social) => (
@@ -50,8 +50,8 @@ const Footer: React.FC = () => {
             <h3 className="text-white font-bold text-lg mb-6">Contact</h3>
             <div className="space-y-3">
               <p className="text-white opacity-70">info@pharbit.com</p>
-              <p className="text-white opacity-70">+49 (0) 30 1234567</p>
-              <p className="text-white opacity-70">Blockchain Str. 123, 10115 Berlin, Germany</p>
+              <p className="text-white opacity-70">+4917697711873</p>
+              <p className="text-white opacity-70">An Europakanal 6, 91056 Erlangen, Germany</p>
             </div>
           </div>
         </div>

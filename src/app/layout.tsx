@@ -10,21 +10,21 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Modern Portfolio - Premium Web Development & Design Agency",
-  description: "Award-winning digital agency specializing in modern web development, UI/UX design, and innovative digital solutions.",
-  keywords: "web development, design agency, UI/UX, modern portfolio, digital solutions",
-  authors: [{ name: "Modern Portfolio" }],
+  title: "Pharbit - Blockchain Pharmaceutical Supply Chain Security",
+  description: "Pioneering pharmaceutical technology company combining blockchain and IoT sensors to create unbreakable chains of custody for medicines worldwide.",
+  keywords: "blockchain, pharmaceutical, supply chain, IoT, counterfeit drugs, patient safety, compliance",
+  authors: [{ name: "Pharbit" }],
   openGraph: {
-    title: "Modern Portfolio - Premium Digital Agency",
-    description: "Award-winning digital agency specializing in modern web development and design",
+    title: "Pharbit - Blockchain Pharmaceutical Supply Chain Security",
+    description: "Pioneering pharmaceutical technology company combining blockchain and IoT sensors",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Modern Portfolio - Premium Digital Agency",
-    description: "Award-winning digital agency specializing in modern web development and design",
-    creator: "@ModernPortfolio",
+    title: "Pharbit - Blockchain Pharmaceutical Supply Chain Security",
+    description: "Pioneering pharmaceutical technology company combining blockchain and IoT sensors",
+    creator: "@Pharbit",
   },
   robots: {
     index: true,

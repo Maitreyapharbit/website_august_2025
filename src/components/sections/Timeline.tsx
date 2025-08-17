@@ -21,7 +21,7 @@ const Timeline: React.FC = () => {
               Pharbit Timeline
             </h2>
             <p className="text-xl text-primary-white max-w-3xl mx-auto">
-              Our journey to secure pharmaceutical supply chains worldwide
+              Our journey to secure global pharmaceutical supply chains
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-primary-blue to-secondary-cyan mx-auto mt-6"></div>
           </div>
@@ -46,8 +46,8 @@ const Timeline: React.FC = () => {
               </div>
               <div className="space-y-4 modern-card p-6 text-center">
                 <div className="text-4xl font-bold text-secondary-cyan">Q3 2026</div>
-                <h4 className="text-lg font-semibold text-primary-white">EU Expansion</h4>
-                <p className="text-primary-white text-sm">Expansion across European pharmaceutical markets</p>
+                <h4 className="text-lg font-semibold text-primary-white">Global Expansion</h4>
+                <p className="text-primary-white text-sm">Expansion across international pharmaceutical markets</p>
               </div>
             </div>
           </div>

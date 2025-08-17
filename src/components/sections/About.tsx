@@ -9,21 +9,24 @@ const About: React.FC = () => {
         <div className="grid grid-2 items-center gap-16">
           {/* Text Content */}
           <div data-aos="fade-right">
-            <h2 className="text-xl gradient-text mb-8">About Pharbit</h2>
+            <div className="text-center mb-8">
+              <h2 className="text-xl gradient-text mb-4">About Pharbit</h2>
+              <p className="text-lg text-cyan-400 font-semibold">Compliance, Transparency, Innovation</p>
+            </div>
             <p className="text-lg text-white opacity-90 mb-8 leading-relaxed">
               Pharbit is a pioneering pharmaceutical technology company that combines blockchain technology 
               with IoT sensors to create an unbreakable chain of custody for medicines from manufacturing 
               to patient delivery. Founded to address the critical global challenge of counterfeit drugs, 
-              we provide German pharmaceutical companies with cutting-edge solutions for supply chain 
+              we provide pharmaceutical companies with cutting-edge solutions for supply chain 
               transparency, regulatory compliance, and patient safety.
             </p>
             
             <div className="grid grid-2 gap-6">
-              <div className="glass-dark p-6 rounded-xl">
+              <div className="glass-dark p-6 rounded-xl hover:scale-105 transition-all duration-300 shadow-lg">
                 <h3 className="text-2xl font-bold text-white mb-2">1M+</h3>
                 <p className="text-purple-400">Deaths Prevented Annually</p>
               </div>
-              <div className="glass-dark p-6 rounded-xl">
+              <div className="glass-dark p-6 rounded-xl hover:scale-105 transition-all duration-300 shadow-lg">
                 <h3 className="text-2xl font-bold text-white mb-2">€200B+</h3>
                 <p className="text-purple-400">Losses from Counterfeits</p>
               </div>

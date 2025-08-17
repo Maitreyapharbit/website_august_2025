@@ -70,7 +70,7 @@ const Hero: React.FC = () => {
           </h1>
           
           <p className="hero-subtitle text-2xl text-white opacity-90 mb-4 font-semibold">
-            Prevent Counterfeits. Ensure Safety. Maintain Compliance.
+            Compliance, Transparency, Innovation
           </p>
           
           <div className="mb-8">
@@ -80,8 +80,8 @@ const Hero: React.FC = () => {
           </div>
           
           <p className="text-lg text-white opacity-80 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Pharbit revolutionizes pharmaceutical supply chain management through blockchain technology and IoT monitoring, 
-            ensuring every medicine reaches patients safely while meeting regulatory compliance standards.
+            Pharbit combines blockchain technology with IoT sensors to create an unbreakable chain of custody for medicines 
+            from manufacturing to patient delivery, addressing the critical global challenge of counterfeit drugs.
           </p>
           
           <div className="hero-buttons flex flex-col sm:flex-row gap-6 justify-center mb-16">

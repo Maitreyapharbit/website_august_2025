@@ -27,40 +27,31 @@ const Mission: React.FC = () => {
             <div className="space-y-6 float-slow">
               <ScrollReveal animation="slideInLeft" delay={200}>
                 <div className="modern-card p-6">
-                  <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Our Mission</h3>
+                  <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Our Vision</h3>
                   <p className="text-lg text-primary-white leading-relaxed">
-                    To eliminate counterfeit drugs from the global pharmaceutical supply chain and ensure 
-                    every patient receives authentic, properly stored medications through innovative blockchain technology.
+                    A world where every pharmaceutical product is traceable, verifiable, and safe transforming healthcare through transparency and trust.
                   </p>
                 </div>
               </ScrollReveal>
               
               <ScrollReveal animation="slideInLeft" delay={400}>
                 <div className="modern-card p-6">
-                  <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Our Vision</h3>
+                  <h3 className="text-2xl font-bold text-secondary-cyan mb-4">Our Mission</h3>
                   <p className="text-lg text-primary-white leading-relaxed">
-                    A world where every pharmaceutical product is traceable, verifiable, and safe - 
-                    transforming healthcare through transparency and trust.
+                    Pharbit is committed to transforming the global pharmaceutical industry with 
+                    transparent, secure blockchain technology and IoT monitoring solutions.
                   </p>
                 </div>
               </ScrollReveal>
               
               <ScrollReveal animation="slideInLeft" delay={200}>
                 <p className="text-lg md:text-xl text-primary-white leading-relaxed">
-                  Pharbit is committed to transforming the global pharmaceutical industry with 
-                  <span className="text-secondary-cyan font-semibold"> transparent, secure blockchain technology</span> 
-                  and IoT monitoring solutions.
-                </p>
-              </ScrollReveal>
-              
-              <ScrollReveal animation="slideInLeft" delay={400}>
-                <p className="text-lg md:text-xl text-primary-white leading-relaxed">
                   Using <span className="text-primary-blue font-semibold">smart contracts and IoT</span>, 
                   we provide pharmaceutical companies with unbreakable supply chain security.
                 </p>
               </ScrollReveal>
               
-              <ScrollReveal animation="slideInLeft" delay={600}>
+              <ScrollReveal animation="slideInLeft" delay={400}>
                 <p className="text-lg md:text-xl text-primary-white leading-relaxed">
                   Our goal is to <span className="text-secondary-cyan font-semibold">eliminate counterfeit drugs</span> 
                   and ensure patient safety worldwide.
