@@ -38,7 +38,7 @@ const Logo: React.FC<LogoProps> = ({
       {/* Logo Image */}
       <div className="relative">
         <Image
-          src="/images/pharbit-logo.png"
+          src="/images/pharbit_(only_logo) copy copy.png"
           alt="Pharbit Logo"
           width={width}
           height={height}
@@ -47,7 +47,7 @@ const Logo: React.FC<LogoProps> = ({
           }`}
           priority
           onError={(e) => {
-            console.warn('Logo failed to load from /images/pharbit-logo.png');
+            console.warn('Logo failed to load from /images/pharbit_(only_logo) copy copy.png');
             // Fallback to a placeholder or hide the image
             e.currentTarget.style.display = 'none';
           }}

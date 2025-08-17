@@ -28,11 +28,12 @@ const Branding: React.FC = () => {
             {/* Logo Section */}
             <div className="text-center mb-16">
               <div className="inline-block modern-card p-12 mb-8">
-                <div className="w-32 h-32 mx-auto bg-gradient-to-br from-primary-blue via-secondary-cyan to-secondary-teal rounded-2xl flex items-center justify-center network-node">
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-primary-white mb-2">P</div>
-                    <div className="text-sm text-primary-white font-semibold tracking-wider">PHARBIT</div>
-                  </div>
+                <div className="w-32 h-32 mx-auto bg-gradient-to-br from-primary-blue via-secondary-cyan to-secondary-teal rounded-2xl flex items-center justify-center network-node p-4">
+                  <img 
+                    src="/images/pharbit_(only_logo) copy copy.png" 
+                    alt="Pharbit Logo" 
+                    className="w-full h-full object-contain"
+                  />
                 </div>
               </div>
               

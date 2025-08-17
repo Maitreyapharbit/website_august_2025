@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Logo from '@/components/ui/Logo';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,12 +33,7 @@ const Header: React.FC = () => {
       <div className="container">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">P</span>
-            </div>
-            <span className="text-white font-bold text-xl">Pharbit</span>
-          </div>
+          <Logo size="md" showText={true} href="#home" />
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">

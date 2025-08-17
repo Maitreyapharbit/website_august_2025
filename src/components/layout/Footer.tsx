@@ -1,4 +1,5 @@
 import React from 'react';
+import Logo from '@/components/ui/Logo';
 
 const Footer: React.FC = () => {
   return (
@@ -7,11 +8,8 @@ const Footer: React.FC = () => {
         <div className="grid grid-3 gap-12 mb-12">
           {/* Brand */}
           <div data-aos="fade-up">
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">P</span>
-              </div>
-              <span className="text-white font-bold text-xl">Pharbit</span>
+            <div className="mb-6">
+              <Logo size="md" showText={true} />
             </div>
             <p className="text-white opacity-70 mb-6">
               Pioneering pharmaceutical technology company combining blockchain and IoT sensors to create unbreakable chains of custody for medicines worldwide.

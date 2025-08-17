@@ -70,10 +70,12 @@ const Mission: React.FC = () => {
             <ScrollReveal animation="slideInRight" delay={300}>
               <div className="relative float-medium">
                 <div className="modern-card p-8 border-gradient card-hover">
-                  <div className="text-center space-y-6">
-                    <div className="w-32 h-32 mx-auto bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-full flex items-center justify-center network-node animate-glow magnetic">
-                      <svg className="w-16 h-16 text-primary-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                      <div className="w-32 h-32 mx-auto bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-full flex items-center justify-center network-node animate-glow magnetic p-4">
+                        <img 
+                          src="/images/pharbit_(only_logo) copy copy.png" 
+                          alt="Pharbit Logo" 
+                          className="w-full h-full object-contain"
+                        />
                       </svg>
                     </div>
                   
