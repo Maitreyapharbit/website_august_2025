@@ -10,8 +10,6 @@ import Benefits from '@/components/sections/Benefits';
 import Pricing from '@/components/sections/Pricing';
 import Timeline from '@/components/sections/Timeline';
 import Stats from '@/components/sections/Stats';
-import Testimonials from '@/components/sections/Testimonials';
-import FAQ from '@/components/sections/FAQ';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/layout/Footer';
 
@@ -30,8 +28,6 @@ export default function Home() {
       <Pricing />
       <Timeline />
       <Stats />
-      <Testimonials />
-      <FAQ />
       <Contact />
       <Footer />
     </>
