@@ -70,32 +70,30 @@ const Mission: React.FC = () => {
             <ScrollReveal animation="slideInRight" delay={300}>
               <div className="relative float-medium">
                 <div className="modern-card p-8 border-gradient card-hover">
-                      <div className="w-32 h-32 mx-auto bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-full flex items-center justify-center network-node animate-glow magnetic p-4">
-                        <img 
-                          src="/images/pharbit_(only_logo) copy copy.png" 
-                          alt="Pharbit Logo" 
-                          className="w-full h-full object-contain"
-                        />
-                      </svg>
+                  <div className="w-32 h-32 mx-auto bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-full flex items-center justify-center network-node animate-glow magnetic p-4">
+                    <img 
+                      src="/images/pharbit_(only_logo) copy copy.png" 
+                      alt="Pharbit Logo" 
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold text-primary-blue text-center mt-6">
+                    Pharmaceutical Security
+                  </h3>
+                  
+                  <p className="text-primary-white text-center mt-4">
+                    Protecting patients through blockchain-verified authentic medications
+                  </p>
+                  
+                  <div className="flex justify-center space-x-4 text-sm mt-6">
+                    <div className="text-center magnetic">
+                      <div className="text-secondary-cyan font-bold text-xl animate-pulse">2025</div>
+                      <div className="text-primary-white">Beta Launch</div>
                     </div>
-                  
-                    <h3 className="text-2xl font-bold text-primary-blue">
-                      Pharmaceutical Security
-                    </h3>
-                  
-                    <p className="text-primary-white">
-                      Protecting patients through blockchain-verified authentic medications
-                    </p>
-                  
-                    <div className="flex justify-center space-x-4 text-sm">
-                      <div className="text-center magnetic">
-                        <div className="text-secondary-cyan font-bold text-xl animate-pulse">2025</div>
-                        <div className="text-primary-white">Beta Launch</div>
-                      </div>
-                      <div className="text-center magnetic">
-                        <div className="text-secondary-cyan font-bold text-xl animate-pulse" style={{ animationDelay: '0.5s' }}>2026</div>
-                        <div className="text-primary-white">Full Launch</div>
-                      </div>
+                    <div className="text-center magnetic">
+                      <div className="text-secondary-cyan font-bold text-xl animate-pulse" style={{ animationDelay: '0.5s' }}>2026</div>
+                      <div className="text-primary-white">Full Launch</div>
                     </div>
                   </div>
                 </div>
