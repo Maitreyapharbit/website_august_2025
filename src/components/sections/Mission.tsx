@@ -79,7 +79,7 @@ const Mission: React.FC = () => {
                   </div>
                   
                   <h3 className="text-2xl font-bold text-primary-blue text-center mt-6">
-                    Pharmaceutical Security
+                    Our Innovations in Pharma Industries
                   </h3>
                   
                   <p className="text-primary-white text-center mt-4">
