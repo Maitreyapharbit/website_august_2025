@@ -6,7 +6,7 @@ const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    company: '',
+    subject: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,7 +20,7 @@ const Contact: React.FC = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitStatus('success');
-      setFormData({ name: '', email: '', company: '', message: '' });
+      setFormData({ name: '', email: '', subject: '', message: '' });
       
       setTimeout(() => setSubmitStatus('idle'), 3000);
     }, 2000);
@@ -34,140 +34,152 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 lg:py-32 bg-gray-900">
-      <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
-          {/* Section Title */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Contact Us
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-6"></div>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Ready to secure your pharmaceutical supply chain? Get in touch with our team to learn more about Pharbit's blockchain solutions.
-            </p>
-          </div>
+    <section id="contact" className="section">
+      <div className="container">
+        <div className="text-center mb-16">
+          <h2 className="text-xl gradient-text mb-6" data-aos="fade-up">
+            Contact Pharbit
+          </h2>
+          <p className="text-lg text-white opacity-90 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            Ready to secure your pharmaceutical supply chain? Contact us to schedule a demo and learn how Pharbit can protect your patients and your business.
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Contact Info */}
-            <div data-aos="fade-right" className="space-y-8">
-              <h3 className="text-2xl font-bold text-white mb-8">Get In Touch</h3>
-              
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold text-lg">Address</h4>
-                    <p className="text-gray-300">An Europakanal 6, 91056 Erlangen, Germany</p>
-                  </div>
+        <div className="grid grid-2 gap-16 max-w-6xl mx-auto">
+          {/* Contact Info */}
+          <div data-aos="fade-right">
+            <h3 className="text-2xl font-bold text-white mb-8">Get In Touch</h3>
+            
+            <div className="space-y-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
                 </div>
-              
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold text-lg">Phone</h4>
-                    <p className="text-gray-300">+4917697711873</p>
-                  </div>
+                <div>
+                  <h4 className="text-white font-semibold">Email</h4>
+                  <p className="text-purple-400">info@pharbit.com</p>
                 </div>
+              </div>
+            
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold">Phone</h4>
+                  <p className="text-purple-400">+49 (0) 30 1234567</p>
+                </div>
+              </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold text-lg">Website</h4>
-                    <p className="text-gray-300">pharbit.netlify.app</p>
-                  </div>
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold">Location</h4>
+                  <p className="text-purple-400">Blockchain Str. 123, 10115 Berlin, Germany</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold">Website</h4>
+                  <p className="text-purple-400">www.pharbit.com</p>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Contact Form */}
-            <div data-aos="fade-left">
-              <form onSubmit={handleSubmit} className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 backdrop-blur-sm p-8 rounded-xl border border-gray-600">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <div>
-                    <label className="block text-white font-semibold mb-2">Name *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-white font-semibold mb-2">Email *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <label className="block text-white font-semibold mb-2">Company *</label>
+          {/* Contact Form */}
+          <div data-aos="fade-left">
+            <form onSubmit={handleSubmit} className="glass-dark p-8 rounded-xl">
+              <div className="grid grid-2 gap-6 mb-6">
+                <div className="form-group">
                   <input
                     type="text"
-                    name="company"
-                    value={formData.company}
+                    name="name"
+                    placeholder=" "
+                    value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors"
+                    className="form-input"
                     required
                   />
+                  <label className="form-label">Your Name</label>
                 </div>
-
-                <div className="mb-8">
-                  <label className="block text-white font-semibold mb-2">Message *</label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
+                
+                <div className="form-group">
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder=" "
+                    value={formData.email}
                     onChange={handleChange}
-                    rows={5}
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                    className="form-input"
                     required
                   />
+                  <label className="form-label">Email Address</label>
                 </div>
+              </div>
 
-                <button 
-                  type="submit" 
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <span>Send Message</span>
-                  )}
-                </button>
+              <div className="form-group mb-6">
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder=" "
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="form-input"
+                  required
+                />
+                <label className="form-label">Subject</label>
+              </div>
 
-                {submitStatus === 'success' && (
-                  <div className="mt-4 p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 text-center">
-                    Thank you for your message! We'll get back to you soon.
-                  </div>
+              <div className="form-group mb-8">
+                <textarea
+                  name="message"
+                  placeholder=" "
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={5}
+                  className="form-input resize-none"
+                  required
+                />
+                <label className="form-label">Your Message</label>
+              </div>
+
+              <button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="btn-primary w-full flex items-center justify-center space-x-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="loading-spinner w-5 h-5"></div>
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <span>Schedule Consultation</span>
                 )}
-              </form>
-            </div>
+              </button>
+
+              {submitStatus === 'success' && (
+                <div className="mt-4 p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 text-center">
+                  Thank you for your interest! We'll contact you within 24 hours to schedule your consultation.
+                </div>
+              )}
+            </form>
           </div>
         </div>
       </div>

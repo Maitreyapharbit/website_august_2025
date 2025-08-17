@@ -10,21 +10,21 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Pharbit - Blockchain Pharmaceutical Supply Chain Security",
-  description: "Securing pharmaceutical supply chains with blockchain technology. Compliance, transparency, and innovation for patient safety worldwide.",
-  keywords: "blockchain, pharmaceutical, supply chain, IoT monitoring, patient safety, counterfeit drugs, compliance",
-  authors: [{ name: "Pharbit" }],
+  title: "Modern Portfolio - Premium Web Development & Design Agency",
+  description: "Award-winning digital agency specializing in modern web development, UI/UX design, and innovative digital solutions.",
+  keywords: "web development, design agency, UI/UX, modern portfolio, digital solutions",
+  authors: [{ name: "Modern Portfolio" }],
   openGraph: {
-    title: "Pharbit - Blockchain Pharmaceutical Supply Chain Security",
-    description: "Securing pharmaceutical supply chains with blockchain technology for patient safety worldwide",
+    title: "Modern Portfolio - Premium Digital Agency",
+    description: "Award-winning digital agency specializing in modern web development and design",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pharbit - Blockchain Pharmaceutical Supply Chain Security",
-    description: "Securing pharmaceutical supply chains with blockchain technology for patient safety worldwide",
-    creator: "@Pharbit",
+    title: "Modern Portfolio - Premium Digital Agency",
+    description: "Award-winning digital agency specializing in modern web development and design",
+    creator: "@ModernPortfolio",
   },
   robots: {
     index: true,

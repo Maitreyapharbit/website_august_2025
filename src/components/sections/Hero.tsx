@@ -50,38 +50,46 @@ const Hero: React.FC = () => {
   }, []);
 
   return (
-    <section id="home" className="hero-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-black">
+    <section id="home" className="hero-section h-screen flex items-center justify-center relative overflow-hidden">
       {/* Animated Background */}
       <div className="parallax-bg absolute inset-0 opacity-20">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-green-500 to-green-600 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-green-500 to-teal-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
       </div>
 
       {/* Floating Shapes */}
-      <div className="floating-shape absolute top-1/4 left-1/4 w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg opacity-30"></div>
-      <div className="floating-shape absolute top-3/4 right-1/4 w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full opacity-30" style={{ animationDelay: '-3s' }}></div>
-      <div className="floating-shape absolute top-1/2 right-1/3 w-8 h-8 bg-gradient-to-br from-green-400 to-green-500 rounded-lg opacity-30" style={{ animationDelay: '-1s' }}></div>
+      <div className="floating-shape absolute top-1/4 left-1/4 w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg opacity-30"></div>
+      <div className="floating-shape absolute top-3/4 right-1/4 w-12 h-12 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full opacity-30" style={{ animationDelay: '-3s' }}></div>
+      <div className="floating-shape absolute top-1/2 right-1/3 w-8 h-8 bg-gradient-to-br from-green-400 to-teal-400 rounded-lg opacity-30" style={{ animationDelay: '-1s' }}></div>
 
-      <div className="container text-center relative z-10 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="hero-title text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
-            Securing Pharmaceutical Supply Chains with{' '}
-            <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
-              Blockchain Technology
-            </span>
+      <div className="container text-center relative z-10">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="hero-title text-hero gradient-text mb-6">
+            Securing Pharmaceutical Supply Chains with Blockchain Technology
           </h1>
           
-          <p className="hero-subtitle text-xl md:text-2xl lg:text-3xl text-blue-300 mb-12 font-semibold">
-            Compliance, Transparency, Innovation
+          <p className="hero-subtitle text-2xl text-white opacity-90 mb-4 font-semibold">
+            Prevent Counterfeits. Ensure Safety. Maintain Compliance.
+          </p>
+          
+          <div className="mb-8">
+            <span className="text-lg text-cyan-400 font-bold tracking-wider">
+              "Traceable Pharma Trust"
+            </span>
+          </div>
+          
+          <p className="text-lg text-white opacity-80 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Pharbit revolutionizes pharmaceutical supply chain management through blockchain technology and IoT monitoring, 
+            ensuring every medicine reaches patients safely while meeting regulatory compliance standards.
           </p>
           
           <div className="hero-buttons flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white text-lg px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300">
-              Get Started
+            <button className="btn-primary text-lg px-8 py-4">
+              Request Live Demo
             </button>
-            <button className="border-2 border-blue-400 text-blue-400 text-lg px-8 py-4 rounded-lg font-semibold hover:bg-blue-400 hover:text-white transition-all duration-300">
-              Learn More
+            <button className="btn-secondary text-lg px-8 py-4">
+              Download Whitepaper
             </button>
           </div>
           
