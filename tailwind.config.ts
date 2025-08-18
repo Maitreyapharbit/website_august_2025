@@ -12,6 +12,7 @@ const config: Config = {
         primary: {
           blue: '#018ee8',
           darkBlue: '#0e345d',
+          slate: '#1e293b',
           white: '#ffffff',
           lightBlue: '#4facfe',
           neon: '#00f2fe',
@@ -32,7 +33,7 @@ const config: Config = {
       },
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
-        'mono': ['JetBrains Mono', 'monospace'],
+        'sans': ['Inter', 'system-ui', 'sans-serif'],
         'display': ['Inter', 'system-ui', 'sans-serif'],
       },
       animation: {

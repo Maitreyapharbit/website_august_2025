@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 /* Import GSAP and AOS from CDN */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -41,13 +42,18 @@ html {
 
 body {
   background: var(--dark-sleek-gradient);
-  color: #ffffff;
+  color: #1e293b;
   overflow-x: hidden;
   line-height: 1.6;
   font-feature-settings: 'liga' 1, 'kern' 1;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Light theme override */
+.light-theme {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
 /* Custom Scrollbar */
@@ -66,6 +72,13 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-gradient);
+}
+
+/* Section styling */
+.section {
+  padding: 6rem 0;
+  position: relative;
+  background: #ffffff;
 }
 
 /* Glassmorphism Effects */

@@ -1,6 +1,7 @@
 import Header from '@/components/layout/Header';
 import Hero from '@/components/sections/Hero';
 import About from '@/components/sections/About';
+import SupplyChainTimeline from '@/components/sections/SupplyChainTimeline';
 import Mission from '@/components/sections/Mission';
 import ProblemWeSolve from '@/components/sections/ProblemWeSolve';
 import KeyFeatures from '@/components/sections/KeyFeatures';
@@ -24,6 +25,7 @@ export default function Home() {
       <Header />
       <Hero />
       <About />
+      <SupplyChainTimeline />
       <Mission />
       <InteractiveInfographic />
       <ProblemWeSolve />
