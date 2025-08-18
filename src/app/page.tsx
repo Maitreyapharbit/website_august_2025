@@ -10,6 +10,11 @@ import Benefits from '@/components/sections/Benefits';
 import Pricing from '@/components/sections/Pricing';
 import Timeline from '@/components/sections/Timeline';
 import Stats from '@/components/sections/Stats';
+import InteractiveInfographic from '@/components/sections/InteractiveInfographic';
+import CaseStudiesCarousel from '@/components/sections/CaseStudiesCarousel';
+import Blogs from '@/components/sections/Blogs';
+import DrugJourneyTimeline from '@/components/sections/DrugJourneyTimeline';
+import DeveloperPortalPreview from '@/components/sections/DeveloperPortalPreview';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/layout/Footer';
 
@@ -20,14 +25,19 @@ export default function Home() {
       <Hero />
       <About />
       <Mission />
+      <InteractiveInfographic />
       <ProblemWeSolve />
       <KeyFeatures />
       <TechnologyStack />
       <TargetCustomers />
       <Benefits />
+      <CaseStudiesCarousel />
       <Pricing />
       <Timeline />
+      <DrugJourneyTimeline />
       <Stats />
+      <Blogs />
+      <DeveloperPortalPreview />
       <Contact />
       <Footer />
     </>
