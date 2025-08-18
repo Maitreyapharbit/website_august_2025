@@ -20,6 +20,7 @@ const Header: React.FC = () => {
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
     { name: 'Features', href: '#features' },
+    { name: 'Blog', href: '#insights' },
     { name: 'Pricing', href: '#pricing' },
     { name: 'Contact', href: '#contact' },
   ];
@@ -50,9 +51,17 @@ const Header: React.FC = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <button className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
-              Request Demo
-            </button>
+            <div className="flex items-center space-x-4">
+              <button className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
+                Request Demo
+              </button>
+              <a
+                href="/admin/login"
+                className="border-2 border-cyan-400 text-cyan-400 px-6 py-2 rounded-lg font-medium hover:bg-cyan-400 hover:text-black transition-all duration-300"
+              >
+                Admin Login
+              </a>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -100,9 +109,15 @@ const Header: React.FC = () => {
                 </a>
               ))}
               <div className="px-4 pt-4">
-                <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300 mb-3">
                   Request Demo
                 </button>
+                <a
+                  href="/admin/login"
+                  className="block w-full text-center border-2 border-cyan-400 text-cyan-400 px-6 py-2 rounded-lg font-medium hover:bg-cyan-400 hover:text-black transition-all duration-300"
+                >
+                  Admin Login
+                </a>
               </div>
             </nav>
           </div>

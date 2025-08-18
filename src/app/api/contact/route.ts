@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendMail } from '../../../utils/mailer';
 
 interface ContactFormData {
   name: string;
   email: string;
-  company: string;
+  subject: string;
   message: string;
 }
 
@@ -12,9 +13,9 @@ export async function POST(request: NextRequest) {
     const body: ContactFormData = await request.json();
     
     // Validate required fields
-    const { name, email, company, message } = body;
+    const { name, email, subject, message } = body;
     
-    if (!name || !email || !company || !message) {
+    if (!name || !email || !subject || !message) {
       return NextResponse.json(
         { success: false, error: 'All fields are required' },
         { status: 400 }
@@ -33,16 +34,30 @@ export async function POST(request: NextRequest) {
     // Simulate processing delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // In a real application, you would:
-    // 1. Save to database
-    // 2. Send email notification
-    // 3. Add to CRM system
-    // 4. Send auto-reply to user
+    // Send email to info@pharbit.com
+    const emailSubject = `New Contact Form Submission: ${subject}`;
+    const emailHtml = `
+      <h2>New Contact Form Submission</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Message:</strong></p>
+      <p>${message.replace(/\n/g, '<br>')}</p>
+      <hr>
+      <p><small>Submitted at: ${new Date().toISOString()}</small></p>
+    `;
+    
+    try {
+      await sendMail('info@pharbit.com', emailSubject, emailHtml);
+    } catch (emailError) {
+      console.error('Failed to send email:', emailError);
+      // Continue processing even if email fails
+    }
     
     console.log('Contact form submission:', {
       name,
       email,
-      company,
+      subject,
       message,
       timestamp: new Date().toISOString(),
     });
