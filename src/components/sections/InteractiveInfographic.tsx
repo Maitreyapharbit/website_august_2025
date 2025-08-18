@@ -133,7 +133,7 @@ const InteractiveInfographic: React.FC = () => {
           start: 'top 80%',
           end: 'bottom 20%',
           scrub: 1,
-          onUpdate: (self) => {
+          onUpdate: (self: any) => {
             setAnimationPhase(Math.floor(self.progress * 4));
           }
         }
