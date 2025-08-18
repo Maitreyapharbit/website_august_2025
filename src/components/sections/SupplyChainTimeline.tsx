@@ -118,17 +118,17 @@ const SupplyChainTimeline: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 modern-section">
       <div className="container mx-auto px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-20">
-          <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mb-6">
+          <h2 className="text-4xl lg:text-5xl font-black text-primary-white mb-6">
             Complete Supply Chain
-            <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-primary-blue to-secondary-cyan bg-clip-text text-transparent">
               Transparency
             </span>
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-primary-white opacity-80 max-w-3xl mx-auto leading-relaxed">
             Follow every pharmaceutical product through its complete journey with blockchain-verified checkpoints and real-time monitoring.
           </p>
         </div>
@@ -142,7 +142,7 @@ const SupplyChainTimeline: React.FC = () => {
               {stages.slice(0, -1).map((_, index) => (
                 <div
                   key={index}
-                  className="connection-line absolute top-16 h-1 bg-gradient-to-r from-slate-200 to-slate-300 origin-left"
+                  className="connection-line absolute top-16 h-1 bg-gradient-to-r from-secondary-cyan to-primary-blue origin-left opacity-60"
                   style={{
                     left: `${(100 / (stages.length - 1)) * index + (100 / (stages.length - 1)) * 0.1}%`,
                     width: `${100 / (stages.length - 1) * 0.8}%`
@@ -160,8 +160,8 @@ const SupplyChainTimeline: React.FC = () => {
                     
                     {/* Content */}
                     <div className="text-center">
-                      <h3 className="text-xl font-bold text-slate-900 mb-3">{stage.title}</h3>
-                      <p className="text-slate-600 text-sm leading-relaxed">{stage.description}</p>
+                      <h3 className="text-xl font-bold text-primary-white mb-3">{stage.title}</h3>
+                      <p className="text-primary-white opacity-80 text-sm leading-relaxed">{stage.description}</p>
                     </div>
                   </div>
                 </div>
@@ -177,8 +177,8 @@ const SupplyChainTimeline: React.FC = () => {
                   {stage.icon}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">{stage.title}</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">{stage.description}</p>
+                  <h3 className="text-lg font-bold text-primary-white mb-2">{stage.title}</h3>
+                  <p className="text-primary-white opacity-80 text-sm leading-relaxed">{stage.description}</p>
                 </div>
               </div>
             ))}
@@ -187,34 +187,34 @@ const SupplyChainTimeline: React.FC = () => {
 
         {/* Key Benefits */}
         <div className="mt-20 grid md:grid-cols-3 gap-8">
-          <div className="text-center p-6 bg-blue-50 rounded-2xl">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="text-center p-6 modern-card">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary-blue to-secondary-cyan rounded-xl flex items-center justify-center mx-auto mb-4 animate-neon-pulse">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h4 className="text-lg font-semibold text-slate-900 mb-2">100% Verified</h4>
-            <p className="text-slate-600 text-sm">Every product authenticated through blockchain verification</p>
+            <h4 className="text-lg font-semibold text-primary-white mb-2">100% Verified</h4>
+            <p className="text-primary-white opacity-80 text-sm">Every product authenticated through blockchain verification</p>
           </div>
           
-          <div className="text-center p-6 bg-green-50 rounded-2xl">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="text-center p-6 modern-card">
+            <div className="w-12 h-12 bg-gradient-to-br from-secondary-neonGreen to-secondary-teal rounded-xl flex items-center justify-center mx-auto mb-4 animate-neon-pulse" style={{ animationDelay: '0.5s' }}>
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <h4 className="text-lg font-semibold text-slate-900 mb-2">Real-time Tracking</h4>
-            <p className="text-slate-600 text-sm">Live monitoring with IoT sensors and GPS tracking</p>
+            <h4 className="text-lg font-semibold text-primary-white mb-2">Real-time Tracking</h4>
+            <p className="text-primary-white opacity-80 text-sm">Live monitoring with IoT sensors and GPS tracking</p>
           </div>
           
-          <div className="text-center p-6 bg-purple-50 rounded-2xl">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="text-center p-6 modern-card">
+            <div className="w-12 h-12 bg-gradient-to-br from-secondary-purple to-secondary-pink rounded-xl flex items-center justify-center mx-auto mb-4 animate-neon-pulse" style={{ animationDelay: '1s' }}>
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
-            <h4 className="text-lg font-semibold text-slate-900 mb-2">Tamper-proof</h4>
-            <p className="text-slate-600 text-sm">Immutable records prevent counterfeiting and fraud</p>
+            <h4 className="text-lg font-semibold text-primary-white mb-2">Tamper-proof</h4>
+            <p className="text-primary-white opacity-80 text-sm">Immutable records prevent counterfeiting and fraud</p>
           </div>
         </div>
       </div>
