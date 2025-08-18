@@ -10,7 +10,8 @@
     "type-check": "tsc --noEmit",
     "clean": "rm -rf .next node_modules/.cache",
     "dev:clean": "npm run clean && npm run dev",
-    "reset": "rm -rf .next node_modules/.cache node_modules package-lock.json && npm install"
+    "reset": "rm -rf .next node_modules/.cache node_modules package-lock.json && npm install",
+    "zip:backend": "node scripts/zip-backend.js"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
