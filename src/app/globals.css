@@ -14,6 +14,7 @@
   --futuristic-gradient: linear-gradient(135deg, #0a1628 0%, #0e345d 25%, #018ee8 50%, #00f2fe 75%, #01ffff 100%);
   --neon-gradient: linear-gradient(90deg, #01ffff 0%, #018ee8 50%, #39ff14 100%);
   --depth-gradient: linear-gradient(145deg, rgba(1, 142, 232, 0.1) 0%, rgba(1, 255, 255, 0.05) 100%);
+  --dark-sleek-gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #0e1419 50%, #0a1628 75%, #000000 100%);
   --glass-bg: rgba(1, 142, 232, 0.08);
   --glass-border: rgba(1, 255, 255, 0.15);
   --glass-enhanced: rgba(1, 142, 232, 0.12);
@@ -39,7 +40,7 @@ html {
 }
 
 body {
-  background: var(--futuristic-gradient);
+  background: var(--dark-sleek-gradient);
   color: #ffffff;
   overflow-x: hidden;
   line-height: 1.6;

@@ -91,27 +91,6 @@ const Hero: React.FC = () => {
       });
 
       // Floating elements animation
-      window.gsap.to('.floating-element', {
-        y: -30,
-        rotation: 360,
-        duration: 8,
-        ease: 'power2.inOut',
-        stagger: 1,
-        repeat: -1,
-        yoyo: true
-      });
-
-      // Interactive particles
-      window.gsap.to('.particle', {
-        y: -50,
-        x: 30,
-        rotation: 180,
-        duration: 6,
-        ease: 'sine.inOut',
-        stagger: 0.5,
-        repeat: -1,
-        yoyo: true
-      });
     }
   }, []);
 
@@ -122,22 +101,6 @@ const Hero: React.FC = () => {
         <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-primary-blue via-secondary-cyan to-primary-neon rounded-full blur-3xl animate-morph"></div>
         <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-secondary-purple to-secondary-pink rounded-full blur-3xl animate-morph" style={{ animationDelay: '3s' }}></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-secondary-neonGreen to-secondary-teal rounded-full blur-3xl animate-morph" style={{ animationDelay: '6s' }}></div>
-      </div>
-
-      {/* Floating Particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="particle absolute animate-particle-float"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 12}s`,
-              animationDuration: `${8 + Math.random() * 8}s`
-            }}
-          />
-        ))}
       </div>
 
       {/* Medicine Bottle Supply Chain Journey */}
@@ -239,12 +202,6 @@ const Hero: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Enhanced Floating Shapes */}
-      <div className="floating-element absolute top-1/4 left-1/4 w-20 h-20 bg-gradient-to-br from-primary-lightBlue to-secondary-cyan rounded-2xl opacity-15 animate-float-slow transform-gpu"></div>
-      <div className="floating-element absolute top-3/4 right-1/4 w-16 h-16 bg-gradient-to-br from-secondary-purple to-secondary-pink rounded-full opacity-15 animate-float-slow transform-gpu" style={{ animationDelay: '-4s' }}></div>
-      <div className="floating-element absolute top-1/2 right-1/3 w-12 h-12 bg-gradient-to-br from-secondary-neonGreen to-secondary-teal rounded-xl opacity-15 animate-float-slow transform-gpu" style={{ animationDelay: '-2s' }}></div>
-      <div className="floating-element absolute bottom-1/4 left-1/3 w-14 h-14 bg-gradient-to-br from-secondary-gold to-primary-neon rounded-lg opacity-15 animate-float-slow transform-gpu" style={{ animationDelay: '-6s' }}></div>
 
       <div className="container text-center relative z-10" ref={heroRef}>
         <div className="max-w-6xl mx-auto text-center">

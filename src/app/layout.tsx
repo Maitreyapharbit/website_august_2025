@@ -48,16 +48,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="scroll-progress"></div>
         <div className="custom-cursor"></div>
-        
-        <div className="floating-shape" style={{
-          top: '10%',
-          left: '10%',
-          width: '100px',
-          height: '100px',
-          background: 'linear-gradient(135deg, #667eea, #764ba2)',
-          borderRadius: '50%'
-        }}></div>
-        
         {children}
         
         <script dangerouslySetInnerHTML={{
