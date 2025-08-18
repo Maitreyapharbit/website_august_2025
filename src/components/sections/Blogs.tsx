@@ -52,14 +52,14 @@ const Blogs: React.FC = () => {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.gsap && blogs.length > 0) {
       // Initial animation for blog cards
-      window.gsap.fromTo('.blog-card', 
+      window.gsap.fromTo('.blog-card',
         { y: 50, opacity: 0, rotationY: -15 },
-        { 
-          y: 0, 
-          opacity: 1, 
+        {
+          y: 0,
+          opacity: 1,
           rotationY: 0,
-          duration: 0.8, 
-          stagger: 0.2, 
+          duration: 0.8,
+          stagger: 0.2,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: '.blogs-grid',
