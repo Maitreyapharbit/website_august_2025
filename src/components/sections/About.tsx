@@ -1,3 +1,4 @@
+
 'use client';
 import React from 'react';
 
@@ -10,7 +11,7 @@ const About: React.FC = () => {
           <div data-aos="fade-right">
             <div className="mb-8">
               <h2 className="text-4xl lg:text-5xl font-black text-primary-white mb-6">
-                About 
+                About{' '}
                 <span className="bg-gradient-to-r from-primary-blue to-secondary-cyan bg-clip-text text-transparent">
                   Pharbit
                 </span>
