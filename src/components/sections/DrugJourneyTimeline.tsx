@@ -16,7 +16,6 @@ const DrugJourneyTimeline: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const [activeStep, setActiveStep] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const timelineSteps: TimelineStep[] = [
@@ -112,17 +111,6 @@ const DrugJourneyTimeline: React.FC = () => {
     }
   ];
 
-  // Auto-play functionality
-  useEffect(() => {
-    if (!isAutoPlaying || isAnimating) return;
-
-    const interval = setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % timelineSteps.length);
-    }, 7000); // Change slide every 7 seconds
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, isAnimating, timelineSteps.length]);
-
   // Animation logic
   useEffect(() => {
     if (typeof window !== 'undefined' && window.gsap && timelineRef.current) {
@@ -172,13 +160,6 @@ const DrugJourneyTimeline: React.FC = () => {
         ease: 'back.out(1.7)'
       }, '-=0.3');
 
-      // Update progress line
-      const progressPercent = ((activeStep + 1) / timelineSteps.length) * 100;
-      window.gsap.to('.progress-line', {
-        width: `${progressPercent}%`,
-        duration: 0.8,
-        ease: 'power2.out'
-      });
     }
   }, [activeStep, timelineSteps.length]);
 
@@ -186,7 +167,6 @@ const DrugJourneyTimeline: React.FC = () => {
   const goToStep = (stepIndex: number) => {
     if (stepIndex >= 0 && stepIndex < timelineSteps.length && !isAnimating) {
       setActiveStep(stepIndex);
-      setIsAutoPlaying(false); // Pause auto-play when user interacts
     }
   };
 
@@ -204,10 +184,6 @@ const DrugJourneyTimeline: React.FC = () => {
     }
   };
 
-  const toggleAutoPlay = () => {
-    setIsAutoPlaying(!isAutoPlaying);
-  };
-
   const currentStep = timelineSteps[activeStep];
 
   return (
@@ -223,11 +199,6 @@ const DrugJourneyTimeline: React.FC = () => {
           </p>
           <div className="w-32 h-1 bg-gradient-to-r from-primary-blue to-secondary-cyan mx-auto mt-8 animate-glow"></div>
         </div>
-      </div>
-
-      {/* Progress Bar */}
-      <div className="absolute top-1/2 left-0 w-full h-1 bg-gray-800 transform -translate-y-1/2 z-10">
-        <div className="progress-line h-full bg-gradient-to-r from-primary-blue via-secondary-cyan to-secondary-neonGreen origin-left"></div>
       </div>
 
       {/* Timeline Container */}
@@ -354,22 +325,6 @@ const DrugJourneyTimeline: React.FC = () => {
               ))}
             </div>
 
-            {/* Play/Pause Button */}
-            <button
-              onClick={toggleAutoPlay}
-              className="glass-subtle p-4 rounded-2xl hover:neon-border-enhanced transition-all duration-300 group"
-            >
-              {isAutoPlaying ? (
-                <svg className="w-6 h-6 text-primary-white group-hover:text-secondary-cyan transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6" />
-                </svg>
-              ) : (
-                <svg className="w-6 h-6 text-primary-white group-hover:text-secondary-cyan transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.5a2.5 2.5 0 010 5H9m4.5-5H15a2.5 2.5 0 010 5h-1.5m-4-5v5m4-5v5" />
-                </svg>
-              )}
-            </button>
-
             {/* Next Button */}
             <button
               onClick={nextStep}
@@ -391,16 +346,6 @@ const DrugJourneyTimeline: React.FC = () => {
               Step {activeStep + 1} of {timelineSteps.length}
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Auto-play Status */}
-      <div className="fixed top-8 right-8 glass-subtle p-4 rounded-2xl z-50">
-        <div className="flex items-center space-x-3 text-primary-white">
-          <div className={`w-3 h-3 rounded-full ${isAutoPlaying ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></div>
-          <span className="text-sm font-medium">
-            {isAutoPlaying ? 'Auto-playing' : 'Paused'}
-          </span>
         </div>
       </div>
     </section>
