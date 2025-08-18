@@ -1109,6 +1109,35 @@ body {
   box-shadow: var(--neon-glow);
 }
 
+/* Timeline specific optimizations */
+.timeline-step {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.progress-line {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Prevent horizontal scroll on body during timeline */
+body.timeline-active {
+  overflow-x: hidden;
+}
+
+/* Enhanced performance for timeline animations */
+.timeline-step .glass-immersive {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.timeline-step .tag-item {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
 /* Section Spacing */
 .section {
   padding: 100px 0;

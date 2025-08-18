@@ -113,94 +113,145 @@ const DrugJourneyTimeline: React.FC = () => {
     if (typeof window !== 'undefined' && window.gsap) {
       window.gsap.registerPlugin(window.ScrollTrigger);
 
+      // Clear any existing ScrollTrigger instances
+      window.ScrollTrigger.getAll().forEach((trigger: any) => {
+        if (trigger.trigger === containerRef.current) {
+          trigger.kill();
+        }
+      });
+
+      // Set initial states
+      window.gsap.set('.timeline-step', { opacity: 0, y: 100, scale: 0.8 });
+      window.gsap.set('.progress-line', { scaleX: 0 });
+
       const timeline = window.gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top center',
-          end: 'bottom center',
+          start: 'top top',
+          end: '+=4000',
           scrub: 1,
           pin: true,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
+          refreshPriority: -1,
+          onUpdate: (self: any) => {
+            // Update progress line based on scroll progress
+            window.gsap.to('.progress-line', {
+              scaleX: self.progress,
+              duration: 0.1,
+              ease: 'none'
+            });
+          }
         }
       });
 
       // Horizontal scroll animation
       timeline.to(timelineRef.current, {
-        x: () => -(timelineRef.current!.scrollWidth - window.innerWidth),
+        x: () => {
+          const scrollWidth = timelineRef.current!.scrollWidth;
+          const windowWidth = window.innerWidth;
+          return Math.min(0, -(scrollWidth - windowWidth));
+        },
         ease: 'none',
         duration: 1
       });
 
       // Animate timeline steps
       timelineSteps.forEach((step, index) => {
+        const stepElement = `.timeline-step-${index}`;
+        
+        // Main step animation
         window.gsap.fromTo(`.timeline-step-${index}`, 
           { 
             opacity: 0, 
             y: 100, 
             scale: 0.8,
-            rotationY: -30
+            rotationY: -15
           },
           {
             opacity: 1,
             y: 0,
             scale: 1,
             rotationY: 0,
-            duration: 0.8,
+            duration: 1,
             ease: 'back.out(1.7)',
             scrollTrigger: {
-              trigger: `.timeline-step-${index}`,
-              start: 'left 80%',
-              end: 'left 20%',
+              trigger: stepElement,
+              start: 'left 90%',
+              end: 'left 10%',
               containerAnimation: timeline,
-              toggleActions: 'play none none reverse'
+              toggleActions: 'play none none reverse',
+              invalidateOnRefresh: true
             }
           }
         );
 
         // Animate step details
-        window.gsap.fromTo(`.step-details-${index} li`, 
+        const detailsSelector = `.step-details-${index} li`;
+        window.gsap.fromTo(detailsSelector, 
           { 
             opacity: 0, 
-            x: -30 
+            x: -50,
+            y: 20
           },
           {
             opacity: 1,
             x: 0,
-            duration: 0.5,
-            stagger: 0.1,
+            y: 0,
+            duration: 0.6,
+            stagger: 0.15,
             ease: 'power2.out',
             scrollTrigger: {
-              trigger: `.timeline-step-${index}`,
-              start: 'left 60%',
-              end: 'left 40%',
+              trigger: stepElement,
+              start: 'left 70%',
+              end: 'left 30%',
               containerAnimation: timeline,
-              toggleActions: 'play none none reverse'
+              toggleActions: 'play none none reverse',
+              invalidateOnRefresh: true
+            }
+          }
+        );
+
+        // Animate technology indicators
+        window.gsap.fromTo(`.timeline-step-${index} .tag-item`, 
+          { 
+            scale: 0, 
+            opacity: 0,
+            rotation: -180
+          },
+          {
+            scale: 1,
+            opacity: 1,
+            rotation: 0,
+            duration: 0.4,
+            stagger: 0.1,
+            ease: 'back.out(1.7)',
+            scrollTrigger: {
+              trigger: stepElement,
+              start: 'left 50%',
+              end: 'left 20%',
+              containerAnimation: timeline,
+              toggleActions: 'play none none reverse',
+              invalidateOnRefresh: true
             }
           }
         );
       });
 
-      // Progress line animation
-      window.gsap.fromTo('.progress-line',
-        { scaleX: 0 },
-        {
-          scaleX: 1,
-          duration: 1,
-          ease: 'power2.inOut',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top center',
-            end: 'bottom center',
-            scrub: 1,
-            containerAnimation: timeline
+      // Cleanup function
+      return () => {
+        timeline.kill();
+        window.ScrollTrigger.getAll().forEach((trigger: any) => {
+          if (trigger.trigger === containerRef.current) {
+            trigger.kill();
           }
-        }
-      );
+        });
+      };
     }
-  }, []);
+  }, [timelineSteps.length]);
 
   return (
-    <section ref={containerRef} className="section modern-section overflow-hidden">
+    <section ref={containerRef} className="section modern-section overflow-hidden relative">
       <div className="container mb-16">
         <div className="text-center">
           <h2 className="section-title text-4xl md:text-5xl font-bold mb-6">
@@ -214,9 +265,9 @@ const DrugJourneyTimeline: React.FC = () => {
         </div>
       </div>
 
-      <div ref={timelineRef} className="flex items-center min-h-screen" style={{ width: `${timelineSteps.length * 100}vw` }}>
+      <div ref={timelineRef} className="flex items-center min-h-screen will-change-transform" style={{ width: `${timelineSteps.length * 100}vw` }}>
         {/* Progress Line */}
-        <div className="absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-primary-blue via-secondary-cyan to-secondary-neonGreen transform -translate-y-1/2 progress-line origin-left"></div>
+        <div className="absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-primary-blue via-secondary-cyan to-secondary-neonGreen transform -translate-y-1/2 progress-line origin-left z-10"></div>
 
         {timelineSteps.map((step, index) => (
           <div
@@ -289,13 +340,13 @@ const DrugJourneyTimeline: React.FC = () => {
 
                     {/* Technology Indicators */}
                     <div className="mt-8 flex flex-wrap gap-3">
-                      <span className="px-4 py-2 bg-gradient-to-r from-primary-blue/20 to-secondary-cyan/20 text-secondary-cyan text-sm font-bold rounded-full border border-secondary-cyan/30">
+                      <span className="tag-item px-4 py-2 bg-gradient-to-r from-primary-blue/20 to-secondary-cyan/20 text-secondary-cyan text-sm font-bold rounded-full border border-secondary-cyan/30">
                         🔗 Blockchain
                       </span>
-                      <span className="px-4 py-2 bg-gradient-to-r from-secondary-neonGreen/20 to-secondary-teal/20 text-secondary-neonGreen text-sm font-bold rounded-full border border-secondary-neonGreen/30">
+                      <span className="tag-item px-4 py-2 bg-gradient-to-r from-secondary-neonGreen/20 to-secondary-teal/20 text-secondary-neonGreen text-sm font-bold rounded-full border border-secondary-neonGreen/30">
                         📡 IoT Sensors
                       </span>
-                      <span className="px-4 py-2 bg-gradient-to-r from-secondary-purple/20 to-secondary-pink/20 text-secondary-purple text-sm font-bold rounded-full border border-secondary-purple/30">
+                      <span className="tag-item px-4 py-2 bg-gradient-to-r from-secondary-purple/20 to-secondary-pink/20 text-secondary-purple text-sm font-bold rounded-full border border-secondary-purple/30">
                         📋 Smart Contracts
                       </span>
                     </div>
@@ -308,7 +359,7 @@ const DrugJourneyTimeline: React.FC = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="fixed bottom-8 right-8 glass-subtle p-4 rounded-2xl">
+      <div className="fixed bottom-8 right-8 glass-subtle p-4 rounded-2xl z-50">
         <div className="flex items-center space-x-3 text-primary-white">
           <span className="text-sm font-medium">Scroll to explore</span>
           <div className="flex space-x-1">
