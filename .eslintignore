@@ -1,0 +1,12 @@
+backend/**
+
+# Build artifacts
+.next/**
+dist/**
+node_modules/**
+backend/**
+
+# Build artifacts
+.next/**
+dist/**
+node_modules/**
