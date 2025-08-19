@@ -5,8 +5,14 @@ import React, { useEffect, useRef } from 'react';
 const Hero: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    // Ensure video plays on component mount
+    if (videoRef.current) {
+      videoRef.current.play().catch(console.error);
+    }
+
     if (typeof window !== 'undefined' && window.gsap) {
       const tl = window.gsap.timeline();
       
@@ -74,8 +80,25 @@ const Hero: React.FC = () => {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center modern-section overflow-hidden">
+      {/* Video Background */}
+      <video
+        ref={videoRef}
+        className="absolute inset-0 w-full h-full object-cover -z-10"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+      >
+        <source src="/video/pharbit 03.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      {/* Video Overlay for Better Text Readability */}
+      <div className="absolute inset-0 bg-black/40 -z-5"></div>
+
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
+      <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-20 w-72 h-72 bg-primary-blue rounded-full blur-3xl opacity-20"></div>
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary-cyan rounded-full blur-3xl opacity-15"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-secondary-neonGreen rounded-full blur-3xl opacity-10"></div>
