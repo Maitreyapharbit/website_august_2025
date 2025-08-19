@@ -1,4 +1,10 @@
-import { NextResponse } from 'next/server';
+// CORS headers for Amplify
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Max-Age': '86400',
+};
 
 const timelineData = [
   {
@@ -59,20 +65,38 @@ const timelineData = [
   },
 ];
 
-export async function GET() {
+export default async function handler(req, res) {
+  // Set CORS headers
+  Object.entries(corsHeaders).forEach(([key, value]) => {
+    res.setHeader(key, value);
+  });
+
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  if (req.method !== 'GET') {
+    return res.status(405).json({
+      success: false,
+      error: 'Method not allowed'
+    });
+  }
+
   try {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 300));
     
-    return NextResponse.json({
+    return res.status(200).json({
       success: true,
       data: timelineData,
       total: timelineData.length,
     });
   } catch (error) {
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch timeline data' },
-      { status: 500 }
-    );
+    console.error('Timeline API error:', error);
+    return res.status(500).json({
+      success: false,
+      error: 'Failed to fetch timeline data'
+    });
   }
 }
