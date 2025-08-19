@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import { verifyToken } from '../_utils/jwt';
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -37,15 +37,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const jwtSecret = process.env.JWT_ACCESS_SECRET;
-    if (!jwtSecret) {
-      return res.status(500).json({
-        success: false,
-        error: 'Server configuration error'
-      });
-    }
-
-    const decoded = jwt.verify(token, jwtSecret);
+    const decoded = verifyToken(token);
     
     return res.status(200).json({
       success: true,
