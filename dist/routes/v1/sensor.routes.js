@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const celebrate_1 = require("celebrate");
+const schemas_1 = require("../../validation/schemas");
+const sensor_controller_1 = require("../../controllers/sensor.controller");
+const auth_1 = require("../../middleware/auth");
+const router = (0, express_1.Router)();
+router.post('/register', auth_1.authenticate, (0, celebrate_1.celebrate)(schemas_1.sensorRegisterSchema), sensor_controller_1.SensorController.register);
+router.post('/:sensorId/data', auth_1.authenticate, (0, celebrate_1.celebrate)(schemas_1.sensorDataSchema), sensor_controller_1.SensorController.pushData);
+router.get('/:sensorId/data', auth_1.authenticate, sensor_controller_1.SensorController.history);
+router.post('/:sensorId/alerts', auth_1.authenticate, sensor_controller_1.SensorController.createAlert);
+router.get('/alerts/company', auth_1.authenticate, sensor_controller_1.SensorController.listAlerts);
+exports.default = router;

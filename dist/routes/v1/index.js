@@ -1,0 +1,26 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_routes_1 = __importDefault(require("../../routes/v1/auth.routes"));
+const company_routes_1 = __importDefault(require("../../routes/v1/company.routes"));
+const product_routes_1 = __importDefault(require("../../routes/v1/product.routes"));
+const batch_routes_1 = __importDefault(require("../../routes/v1/batch.routes"));
+const sensor_routes_1 = __importDefault(require("../../routes/v1/sensor.routes"));
+const shipment_routes_1 = __importDefault(require("../../routes/v1/shipment.routes"));
+const report_routes_1 = __importDefault(require("../../routes/v1/report.routes"));
+const analytics_routes_1 = __importDefault(require("../../routes/v1/analytics.routes"));
+const alert_routes_1 = __importDefault(require("../../routes/v1/alert.routes"));
+const router = (0, express_1.Router)();
+router.use('/auth', auth_routes_1.default);
+router.use('/companies', company_routes_1.default);
+router.use('/products', product_routes_1.default);
+router.use('/batches', batch_routes_1.default);
+router.use('/sensors', sensor_routes_1.default);
+router.use('/shipments', shipment_routes_1.default);
+router.use('/reports', report_routes_1.default);
+router.use('/', analytics_routes_1.default);
+router.use('/alerts', alert_routes_1.default);
+exports.default = router;

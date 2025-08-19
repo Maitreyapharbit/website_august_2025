@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const celebrate_1 = require("celebrate");
+const schemas_1 = require("../../validation/schemas");
+const shipment_controller_1 = require("../../controllers/shipment.controller");
+const auth_1 = require("../../middleware/auth");
+const router = (0, express_1.Router)();
+router.post('/', auth_1.authenticate, (0, celebrate_1.celebrate)(schemas_1.shipmentCreateSchema), shipment_controller_1.ShipmentController.create);
+router.get('/', auth_1.authenticate, shipment_controller_1.ShipmentController.list);
+router.get('/:id', auth_1.authenticate, shipment_controller_1.ShipmentController.get);
+router.put('/:id/checkpoint', auth_1.authenticate, (0, celebrate_1.celebrate)(schemas_1.checkpointSchema), shipment_controller_1.ShipmentController.addCheckpoint);
+router.get('/:id/history', auth_1.authenticate, shipment_controller_1.ShipmentController.history);
+exports.default = router;

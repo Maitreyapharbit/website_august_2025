@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const product_controller_1 = require("../../controllers/product.controller");
+const auth_1 = require("../../middleware/auth");
+const router = (0, express_1.Router)();
+router.get('/:batchId', auth_1.authenticate, product_controller_1.BatchController.get);
+router.put('/:batchId/location', auth_1.authenticate, product_controller_1.BatchController.updateLocation);
+router.put('/:batchId/status', auth_1.authenticate, product_controller_1.BatchController.updateStatus);
+exports.default = router;
