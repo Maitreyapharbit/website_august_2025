@@ -9,7 +9,8 @@
     "start": "node dist/server.js",
     "lint": "eslint src/**/*.ts",
     "test": "jest",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "setup:admin": "ts-node scripts/setup-admin.ts"
   },
   "keywords": ["pharbit", "pharmaceutical", "blockchain", "api", "express", "supabase"],
   "author": "Pharbit Team",
@@ -28,7 +29,8 @@
     "dotenv": "^16.3.1",
     "compression": "^1.7.4",
     "multer": "^1.4.5-lts.1",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "xss": "^1.0.14"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
@@ -42,6 +44,7 @@
     "@types/node": "^20.10.0",
     "typescript": "^5.3.2",
     "ts-node-dev": "^2.0.0",
+    "ts-node": "^10.9.1",
     "eslint": "^8.55.0",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
