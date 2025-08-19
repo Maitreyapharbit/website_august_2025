@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { BlogService } from '@/src/services/blog.service';
-import { authenticateRequest, authorizeUser } from '@/src/utils/auth';
-import { ApiResponse } from '@/src/types/blog.types';
+import { BlogService } from '../../../../services/blog.service';
+import { authenticateRequest, authorizeUser } from '../../../../utils/auth';
+import { ApiResponse } from '../../../../types/blog.types';
 
 export async function GET(
   request: NextRequest,

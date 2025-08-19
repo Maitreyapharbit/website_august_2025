@@ -19,7 +19,7 @@ export const logger = winston.createLogger({
 			format: winston.format.combine(
 				winston.format.colorize(),
 				winston.format.timestamp(),
-				winston.format.printf(({ level, message, timestamp, ...meta }) => {
+				winston.format.printf(({ level, message, timestamp, ...meta }: any) => {
 					return `${timestamp} ${level}: ${message} ${Object.keys(meta).length ? JSON.stringify(meta) : ''}`;
 				})
 			),
