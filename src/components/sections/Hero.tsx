@@ -79,11 +79,11 @@ const Hero: React.FC = () => {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center modern-section overflow-hidden">
+    <section id="home" className="relative min-h-screen flex flex-col items-center justify-start modern-section overflow-hidden pt-20">
       {/* Video Background */}
       <video
         ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover -z-10"
+        className="w-full max-w-6xl mx-auto h-[70vh] object-cover rounded-xl shadow-2xl mb-12"
         autoPlay
         loop
         muted
@@ -93,9 +93,6 @@ const Hero: React.FC = () => {
         <source src="/video/pharbit 03.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-
-      {/* Video Overlay for Better Text Readability */}
-      <div className="absolute inset-0 bg-black/40 -z-5"></div>
 
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
