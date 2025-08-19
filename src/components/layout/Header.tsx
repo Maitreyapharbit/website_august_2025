@@ -1,11 +1,13 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import React, { useState, useEffect } from 'react';
 import Logo from '@/components/ui/Logo';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,6 +16,15 @@ const Header: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Check if admin is authenticated
+    const checkAdminAuth = () => {
+      const token = localStorage.getItem('admin_access_token');
+      setIsAdminAuthenticated(!!token);
+    };
+    checkAdminAuth();
   }, []);
 
   const navItems = [
@@ -55,12 +66,21 @@ const Header: React.FC = () => {
               <button className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
                 Request Demo
               </button>
-              <a
-                href="/admin/login"
-                className="border-2 border-cyan-400 text-cyan-400 px-6 py-2 rounded-lg font-medium hover:bg-cyan-400 hover:text-black transition-all duration-300"
-              >
-                Admin Login
-              </a>
+              {isAdminAuthenticated ? (
+                <a
+                  href="/admin/dashboard"
+                  className="border-2 border-green-400 text-green-400 px-6 py-2 rounded-lg font-medium hover:bg-green-400 hover:text-black transition-all duration-300"
+                >
+                  Admin Dashboard
+                </a>
+              ) : (
+                <a
+                  href="/admin/login"
+                  className="border-2 border-cyan-400 text-cyan-400 px-6 py-2 rounded-lg font-medium hover:bg-cyan-400 hover:text-black transition-all duration-300"
+                >
+                  Admin Login
+                </a>
+              )}
             </div>
           </div>
 
@@ -112,12 +132,21 @@ const Header: React.FC = () => {
                 <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300 mb-3">
                   Request Demo
                 </button>
-                <a
-                  href="/admin/login"
-                  className="block w-full text-center border-2 border-cyan-400 text-cyan-400 px-6 py-2 rounded-lg font-medium hover:bg-cyan-400 hover:text-black transition-all duration-300"
-                >
-                  Admin Login
-                </a>
+                {isAdminAuthenticated ? (
+                  <a
+                    href="/admin/dashboard"
+                    className="block w-full text-center border-2 border-green-400 text-green-400 px-6 py-2 rounded-lg font-medium hover:bg-green-400 hover:text-black transition-all duration-300"
+                  >
+                    Admin Dashboard
+                  </a>
+                ) : (
+                  <a
+                    href="/admin/login"
+                    className="block w-full text-center border-2 border-cyan-400 text-cyan-400 px-6 py-2 rounded-lg font-medium hover:bg-cyan-400 hover:text-black transition-all duration-300"
+                  >
+                    Admin Login
+                  </a>
+                )}
               </div>
             </nav>
           </div>
