@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AdminLayoutClient from './_components/AdminLayoutClient';
 
 export const metadata: Metadata = {
   title: "Pharbit Admin - Dashboard",
@@ -14,5 +15,9 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <AdminLayoutClient>
+      {children}
+    </AdminLayoutClient>
+  );
 }
