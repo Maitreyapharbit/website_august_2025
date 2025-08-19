@@ -3,11 +3,11 @@ import jwt from 'jsonwebtoken';
 
 // Initialize Supabase admin client
 const supabaseAdmin = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-// CORS headers for Amplify
+// CORS headers for AWS Amplify
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'DELETE, OPTIONS',
@@ -24,7 +24,7 @@ function authenticateToken(req) {
     throw new Error('Access token required');
   }
 
-  const jwtSecret = process.env.JWT_SECRET;
+  const jwtSecret = process.env.JWT_ACCESS_SECRET;
   if (!jwtSecret) {
     throw new Error('Server configuration error');
   }

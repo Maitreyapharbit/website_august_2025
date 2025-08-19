@@ -3,16 +3,16 @@ import jwt from 'jsonwebtoken';
 
 // Initialize Supabase clients
 const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
 const supabaseAdmin = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-// CORS headers for Amplify
+// CORS headers for AWS Amplify
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
@@ -29,7 +29,7 @@ function authenticateToken(req) {
     throw new Error('Access token required');
   }
 
-  const jwtSecret = process.env.JWT_SECRET;
+  const jwtSecret = process.env.JWT_ACCESS_SECRET;
   if (!jwtSecret) {
     throw new Error('Server configuration error');
   }
@@ -96,7 +96,18 @@ export default async function handler(req, res) {
         });
       }
 
-      const updates = req.body;
+      const { name, description, email, phone, address } = req.body;
+
+      // Build update object with only provided fields
+      const updates = {
+        updated_at: new Date().toISOString()
+      };
+      
+      if (name !== undefined) updates.name = name;
+      if (description !== undefined) updates.description = description;
+      if (email !== undefined) updates.email = email;
+      if (phone !== undefined) updates.phone = phone;
+      if (address !== undefined) updates.address = address;
 
       // First, try to get existing company
       const { data: existing } = await supabaseAdmin
@@ -124,11 +135,11 @@ export default async function handler(req, res) {
         const { data: newCompany, error } = await supabaseAdmin
           .from('company')
           .insert({
-            name: updates.name || 'Pharbit',
-            description: updates.description || 'Global pharmaceutical technology company',
-            email: updates.email || 'info@pharbit.com',
-            phone: updates.phone || '+4917697711873',
-            address: updates.address || 'An Europakanal 6, 91056 Erlangen, Germany'
+            name: name || 'Pharbit',
+            description: description || 'Global pharmaceutical technology company',
+            email: email || 'info@pharbit.com',
+            phone: phone || '+4917697711873',
+            address: address || 'An Europakanal 6, 91056 Erlangen, Germany'
           })
           .select()
           .single();

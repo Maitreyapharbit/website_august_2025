@@ -1,4 +1,4 @@
-// CORS headers for Amplify
+// CORS headers for AWS Amplify
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
@@ -25,6 +25,17 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Check environment variables
+    const requiredEnvVars = [
+      'SUPABASE_URL',
+      'SUPABASE_ANON_KEY',
+      'JWT_ACCESS_SECRET'
+    ];
+
+    const missingVars = requiredEnvVars.filter(varName => 
+      !process.env[varName] && !process.env[`NEXT_PUBLIC_${varName}`]
+    );
+
     const healthData = {
       success: true,
       message: 'Pharbit API is running',
@@ -33,8 +44,13 @@ export default async function handler(req, res) {
       environment: process.env.NODE_ENV || 'development',
       version: '1.0.0',
       services: {
-        database: 'connected',
+        database: missingVars.length === 0 ? 'configured' : 'missing_config',
         api: 'healthy'
+      },
+      config: {
+        supabaseConfigured: !!process.env.SUPABASE_URL || !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+        jwtConfigured: !!process.env.JWT_ACCESS_SECRET,
+        missingEnvVars: missingVars
       }
     };
 

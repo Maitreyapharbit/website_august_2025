@@ -2,13 +2,13 @@ import { createClient } from '@supabase/supabase-js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY
+// Initialize Supabase admin client
+const supabaseAdmin = createClient(
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-// CORS headers for Amplify
+// CORS headers for AWS Amplify
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -37,6 +37,7 @@ export default async function handler(req, res) {
   try {
     const { email, password } = req.body;
 
+    // Validation
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -45,7 +46,7 @@ export default async function handler(req, res) {
     }
 
     // Get admin user from database
-    const { data: admin, error } = await supabase
+    const { data: admin, error } = await supabaseAdmin
       .from('admins')
       .select('*')
       .eq('email', email)
@@ -67,8 +68,8 @@ export default async function handler(req, res) {
       });
     }
 
-    // Generate JWT tokens
-    const jwtSecret = process.env.JWT_SECRET;
+    // Generate JWT token
+    const jwtSecret = process.env.JWT_ACCESS_SECRET;
     if (!jwtSecret) {
       return res.status(500).json({
         success: false,
@@ -77,13 +78,21 @@ export default async function handler(req, res) {
     }
 
     const accessToken = jwt.sign(
-      { userId: admin.id, email: admin.email, role: 'ADMIN' },
+      { 
+        userId: admin.id, 
+        email: admin.email, 
+        role: 'ADMIN' 
+      },
       jwtSecret,
       { expiresIn: '24h' }
     );
 
     const refreshToken = jwt.sign(
-      { userId: admin.id, email: admin.email, role: 'ADMIN' },
+      { 
+        userId: admin.id, 
+        email: admin.email, 
+        role: 'ADMIN' 
+      },
       jwtSecret,
       { expiresIn: '7d' }
     );
@@ -105,7 +114,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login API error:', error);
     return res.status(500).json({
       success: false,
       error: 'Internal server error'

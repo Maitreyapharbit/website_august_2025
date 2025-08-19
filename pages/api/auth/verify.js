@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-// CORS headers for Amplify
+// CORS headers for AWS Amplify
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const jwtSecret = process.env.JWT_SECRET;
+    const jwtSecret = process.env.JWT_ACCESS_SECRET;
     if (!jwtSecret) {
       return res.status(500).json({
         success: false,
@@ -50,7 +50,10 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       message: 'Token is valid',
-      data: { user: decoded }
+      data: { 
+        valid: true,
+        user: decoded 
+      }
     });
 
   } catch (error) {

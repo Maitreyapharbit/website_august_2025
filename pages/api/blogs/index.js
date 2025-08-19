@@ -1,18 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
 
-// Initialize Supabase client
+// Initialize Supabase clients
 const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
 const supabaseAdmin = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-// CORS headers for Amplify
+// CORS headers for AWS Amplify
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -29,7 +29,7 @@ function authenticateToken(req) {
     throw new Error('Access token required');
   }
 
-  const jwtSecret = process.env.JWT_SECRET;
+  const jwtSecret = process.env.JWT_ACCESS_SECRET;
   if (!jwtSecret) {
     throw new Error('Server configuration error');
   }
@@ -117,13 +117,13 @@ export default async function handler(req, res) {
         });
       }
 
-      const { title, excerpt, content, read_time, category, author, tags } = req.body;
+      const { title, excerpt, content, image_url } = req.body;
 
       // Validation
-      if (!title || !excerpt || !content || !read_time || !category || !author) {
+      if (!title || !excerpt || !content) {
         return res.status(400).json({
           success: false,
-          error: 'Missing required fields'
+          error: 'Title, excerpt, and content are required'
         });
       }
 
@@ -133,11 +133,7 @@ export default async function handler(req, res) {
           title,
           excerpt,
           content,
-          read_time,
-          category,
-          author,
-          tags: tags || [],
-          date: new Date().toISOString(),
+          image_url: image_url || null,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         })
