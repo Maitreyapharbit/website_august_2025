@@ -486,14 +486,12 @@ body {
 @keyframes dataFlow {
   0% {
     stroke-dashoffset: 20;
-    opacity: 0;
   }
   50% {
-    opacity: 1;
+    stroke-dashoffset: 0;
   }
   100% {
     stroke-dashoffset: -20;
-    opacity: 0;
   }
 }
 

@@ -235,9 +235,9 @@ const InteractiveInfographic: React.FC = () => {
                     className="connection-line"
                     d={getConnectionPath(node, connectedNode)}
                     stroke="url(#connectionGradient)"
-                    strokeWidth="3"
+                    strokeWidth="4"
                     fill="none"
-                    opacity={activeNode && (activeNode === node.id || activeNode === connId) ? 1 : 0.6}
+                    opacity={activeNode && (activeNode === node.id || activeNode === connId) ? 1 : 0.9}
                     filter="url(#nodeGlow)"
                   />
                 );
