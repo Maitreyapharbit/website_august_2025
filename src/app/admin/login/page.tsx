@@ -28,6 +28,12 @@ const AdminLogin: React.FC = () => {
     setError('');
 
     try {
+      // Debug: log form and env
+      console.log('=== FRONTEND LOGIN ATTEMPT ===');
+      console.log('Form data:', { email: formData.email, password: formData.password.substring(0, 3) + '...' });
+      console.log('API URL (relative):', '/api/auth/login');
+      console.log('NEXT_PUBLIC_BACKEND_API_URL:', process.env.NEXT_PUBLIC_BACKEND_API_URL);
+
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -36,9 +42,13 @@ const AdminLogin: React.FC = () => {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
 
-      if (data.success) {
+      const data = await response.json();
+      console.log('Response data:', data);
+
+      if (response.ok && data.success) {
         // Store tokens
         localStorage.setItem('admin_access_token', data.data.tokens.access);
         localStorage.setItem('admin_refresh_token', data.data.tokens.refresh);
@@ -46,9 +56,11 @@ const AdminLogin: React.FC = () => {
         // Redirect to admin dashboard
         router.push('/admin/dashboard');
       } else {
+        console.log('❌ Login failed:', data);
         setError(data.error || 'Login failed');
       }
     } catch (err) {
+      console.error('❌ Frontend error:', err);
       setError('Network error. Please try again.');
     } finally {
       setIsLoading(false);
@@ -155,7 +167,7 @@ const AdminLogin: React.FC = () => {
               </div>
               <div className="flex justify-between">
                 <span>Password:</span>
-                <code className="text-secondary-cyan">F#034180427932al</code>
+                <code className="text-secondary-cyan">F#0341804279321</code>
               </div>
             </div>
             <button
@@ -163,7 +175,7 @@ const AdminLogin: React.FC = () => {
               onClick={() => {
                 setFormData({
                   email: 'admin@pharbit.com',
-                  password: 'F#034180427932al'
+                  password: 'F#0341804279321'
                 });
               }}
               className="mt-3 w-full text-xs text-secondary-cyan hover:text-primary-white transition-colors duration-300 border border-secondary-cyan/30 hover:border-secondary-cyan/60 rounded-lg py-2"
