@@ -91,3 +91,37 @@ export const checkpointSchema = {
 		metadata: Joi.object().unknown(true).optional(),
 	})
 };
+
+export const blogCreateSchema = {
+	[Segments.BODY]: Joi.object({
+		title: Joi.string().required(),
+		excerpt: Joi.string().required(),
+		content: Joi.string().required(),
+		read_time: Joi.string().required(),
+		category: Joi.string().required(),
+		author: Joi.string().required(),
+		tags: Joi.array().items(Joi.string()).optional(),
+	})
+};
+
+export const blogUpdateSchema = {
+	[Segments.BODY]: Joi.object({
+		title: Joi.string().optional(),
+		excerpt: Joi.string().optional(),
+		content: Joi.string().optional(),
+		read_time: Joi.string().optional(),
+		category: Joi.string().optional(),
+		author: Joi.string().optional(),
+		tags: Joi.array().items(Joi.string()).optional(),
+	})
+};
+
+export const blogListSchema = {
+	[Segments.QUERY]: Joi.object({
+		page: Joi.number().integer().min(1).default(1),
+		limit: Joi.number().integer().min(1).max(100).default(10),
+		category: Joi.string().optional(),
+		author: Joi.string().optional(),
+		search: Joi.string().optional(),
+	})
+};

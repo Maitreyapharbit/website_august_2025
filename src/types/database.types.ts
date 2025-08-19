@@ -334,6 +334,47 @@ export interface Database {
           shipment_id?: string
         }
       }
+      blogs: {
+        Row: {
+          id: string
+          title: string
+          excerpt: string
+          content: string
+          date: string
+          read_time: string
+          category: string
+          author: string
+          tags: string[]
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          excerpt: string
+          content: string
+          date?: string
+          read_time: string
+          category: string
+          author: string
+          tags?: string[]
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          excerpt?: string
+          content?: string
+          date?: string
+          read_time?: string
+          category?: string
+          author?: string
+          tags?: string[]
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

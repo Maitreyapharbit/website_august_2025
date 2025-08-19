@@ -1,56 +1,71 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { BlogService } from '@/src/services/blog.service';
+import { authenticateRequest, authorizeUser } from '@/src/utils/auth';
+import { ApiResponse, BlogListResponse } from '@/src/types/blog.types';
 
-// Sample blog data - in a real app, this would come from a database
-const blogs = [
-  {
-    id: '1',
-    title: 'Blockchain Revolution in German Pharmaceuticals',
-    excerpt: 'Exploring how blockchain technology is set to transform pharmaceutical supply chains across Germany, ensuring transparency and security.',
-    content: 'Full blog content would go here...',
-    date: '2025-01-15',
-    readTime: '5 min read',
-    category: 'Technology',
-    author: 'Pharbit Team',
-    tags: ['blockchain', 'pharmaceuticals', 'germany', 'supply-chain'],
-  },
-  {
-    id: '2',
-    title: 'Smart Contracts: Securing Drug Supply Chains',
-    excerpt: 'Learn how smart contracts ensure authenticity and traceability in pharmaceutical distribution, preventing counterfeit drugs.',
-    content: 'Full blog content would go here...',
-    date: '2025-01-10',
-    readTime: '7 min read',
-    category: 'Innovation',
-    author: 'Pharbit Team',
-    tags: ['smart-contracts', 'security', 'authenticity'],
-  },
-  {
-    id: '3',
-    title: 'IoT Integration with Blockchain Technology',
-    excerpt: 'Combining IoT sensors with blockchain for real-time monitoring of pharmaceutical products throughout the supply chain.',
-    content: 'Full blog content would go here...',
-    date: '2025-01-05',
-    readTime: '6 min read',
-    category: 'IoT',
-    author: 'Pharbit Team',
-    tags: ['iot', 'sensors', 'monitoring', 'real-time'],
-  },
-];
-
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '10');
+    const category = searchParams.get('category') || undefined;
+    const author = searchParams.get('author') || undefined;
+    const search = searchParams.get('search') || undefined;
+
+    const result = await BlogService.list(page, limit, category, author, search);
     
-    return NextResponse.json({
+    const response: ApiResponse<BlogListResponse> = {
       success: true,
-      data: blogs,
-      total: blogs.length,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch blogs' },
-      { status: 500 }
-    );
+      message: 'Blogs retrieved successfully',
+      data: result,
+    };
+
+    return NextResponse.json(response);
+  } catch (error: any) {
+    console.error('Error fetching blogs:', error);
+    
+    const response: ApiResponse = {
+      success: false,
+      error: error.message || 'Failed to fetch blogs',
+    };
+
+    return NextResponse.json(response, { status: error.status || 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    // Authenticate and authorize admin user
+    const user = await authenticateRequest(request);
+    authorizeUser(user, 'ADMIN');
+
+    const body = await request.json();
+    
+    // Basic validation
+    if (!body.title || !body.excerpt || !body.content || !body.read_time || !body.category || !body.author) {
+      return NextResponse.json(
+        { success: false, error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    const blog = await BlogService.create(body);
+    
+    const response: ApiResponse = {
+      success: true,
+      message: 'Blog created successfully',
+      data: blog,
+    };
+
+    return NextResponse.json(response, { status: 201 });
+  } catch (error: any) {
+    console.error('Error creating blog:', error);
+    
+    const response: ApiResponse = {
+      success: false,
+      error: error.message || 'Failed to create blog',
+    };
+
+    return NextResponse.json(response, { status: error.status || 500 });
   }
 }
