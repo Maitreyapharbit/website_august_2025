@@ -37,24 +37,77 @@ function authenticateToken(req) {
   }
 }
 
-export default async function handler(req, res) {
-  try {
-    if (req.method === 'GET') {
-      const company = {
-        company_name: 'Pharbit',
-        address: 'An Europakanal 6, 91056 Erlangen, Germany',
-        city: 'Erlangen',
-        state: 'Bavaria',
-        zip_code: '91056',
-        phone: '+4917697711873',
-        email: 'info@pharbit.com',
-        website: 'https://pharbit.com'
-      };
-      return res.status(200).json({ success: true, company });
-    }
+export default function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-    return res.status(405).json({ success: false, error: 'Method not allowed' });
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  try {
+    const companyData = {
+      id: 1,
+      name: 'TechCorp Solutions',
+      description: 'Leading technology solutions provider',
+      industry: 'Technology',
+      founded: '2020',
+      headquarters: 'San Francisco, CA',
+      employees: '50-100',
+      website: 'https://techcorp.com',
+      contact: {
+        email: 'contact@techcorp.com',
+        phone: '+1 (555) 123-4567',
+        address: '123 Tech Street, San Francisco, CA 94105'
+      },
+      settings: {
+        theme: 'light',
+        notifications: true,
+        autoSave: true,
+        language: 'en',
+        timezone: 'America/Los_Angeles'
+      },
+      social: {
+        twitter: 'https://twitter.com/techcorp',
+        linkedin: 'https://linkedin.com/company/techcorp',
+        github: 'https://github.com/techcorp'
+      }
+    };
+
+    switch (req.method) {
+      case 'GET':
+        return res.status(200).json({
+          success: true,
+          data: companyData
+        });
+
+      case 'PUT': {
+        const updatedData = {
+          ...companyData,
+          ...req.body,
+          updatedAt: new Date().toISOString()
+        };
+
+        return res.status(200).json({
+          success: true,
+          message: 'Company information updated successfully',
+          data: updatedData
+        });
+      }
+
+      default:
+        return res.status(405).json({
+          success: false,
+          message: `Method ${req.method} not allowed`
+        });
+    }
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message });
+    console.error('Company API Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 }
