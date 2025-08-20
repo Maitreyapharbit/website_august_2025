@@ -84,7 +84,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold">Location</h4>
-                  <p className="text-purple-400">An Europakanal 6, 91056 Erlangen, Germany</p>
+                  <p className="text-purple-400">Am Europakanal 6, 91056 Erlangen, Germany</p>
                 </div>
               </div>
               
