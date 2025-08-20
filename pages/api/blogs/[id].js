@@ -1,11 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
-import jwt from 'jsonwebtoken';
-
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+import { supabase, supabaseAdmin } from '../_utils/supabase.js';
+import { requireAuth } from '../_utils/authMiddleware.js';
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -14,28 +8,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Access-Control-Max-Age': '86400',
 };
-
-// Authentication middleware
-function authenticateToken(req) {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    throw new Error('Access token required');
-  }
-
-  const jwtSecret = process.env.JWT_ACCESS_SECRET;
-  if (!jwtSecret) {
-    throw new Error('Server configuration error');
-  }
-
-  try {
-    const decoded = jwt.verify(token, jwtSecret);
-    return decoded;
-  } catch (error) {
-    throw new Error('Invalid or expired token');
-  }
-}
 
 export default async function handler(req, res) {
   // Add CORS headers first
@@ -50,67 +22,111 @@ export default async function handler(req, res) {
 
   const { id } = req.query;
 
-  console.log(`=== BLOG [${id}] API - ${req.method} ===`);
-  console.log('Request body:', req.body);
+  if (!id) {
+    return res.status(400).json({
+      success: false,
+      error: 'Blog ID is required'
+    });
+  }
 
   try {
     if (req.method === 'GET') {
-      // Return mock blog data
-      const mockBlog = {
-        id: id,
-        title: 'Sample Blog Post',
-        content: 'This is a sample blog post content.',
-        status: 'published',
-        featured_image: '',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
+      // Public endpoint - get single blog
+      const { data: blog, error } = await supabase
+        .from('blogs')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error || !blog) {
+        return res.status(404).json({
+          success: false,
+          error: 'Blog post not found'
+        });
+      }
 
       return res.status(200).json({
         success: true,
-        blog: mockBlog,
-        message: 'Blog retrieved successfully (Mock mode)'
+        message: 'Blog retrieved successfully',
+        data: blog
       });
     }
 
     if (req.method === 'PUT') {
-      const { title, content, status, featured_image } = req.body;
-      
-      // Validate required fields
-      if (!title || !content) {
-        return res.status(400).json({
+      // Protected endpoint - update blog (admin only)
+      try {
+        requireAuth(req, ['ADMIN']);
+      } catch (authError) {
+        return res.status(401).json({
           success: false,
-          error: 'Title and content are required',
-          received: { title: !!title, content: !!content }
+          error: authError.message
         });
       }
 
-      // Return updated mock blog
-      const updatedBlog = {
-        id: id,
-        title,
-        content,
-        status: status || 'draft',
-        featured_image: featured_image || '',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
+      const updateData = {};
+      const { title, excerpt, content, image_url, status } = req.body;
 
-      console.log('Mock blog updated:', updatedBlog);
-      
+      // Only update provided fields
+      if (title !== undefined) updateData.title = title;
+      if (excerpt !== undefined) updateData.excerpt = excerpt;
+      if (content !== undefined) updateData.content = content;
+      if (image_url !== undefined) updateData.image_url = image_url;
+      if (status !== undefined) updateData.status = status;
+
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({
+          success: false,
+          error: 'No valid fields provided for update'
+        });
+      }
+
+      const { data: blog, error } = await supabaseAdmin
+        .from('blogs')
+        .update(updateData)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error || !blog) {
+        return res.status(404).json({
+          success: false,
+          error: 'Blog post not found or failed to update'
+        });
+      }
+
       return res.status(200).json({
         success: true,
-        blog: updatedBlog,
-        message: 'Blog updated successfully! (Mock mode)'
+        message: 'Blog updated successfully',
+        data: blog
       });
     }
 
     if (req.method === 'DELETE') {
-      console.log(`Mock blog deleted: ${id}`);
-      
+      // Protected endpoint - delete blog (admin only)
+      try {
+        requireAuth(req, ['ADMIN']);
+      } catch (authError) {
+        return res.status(401).json({
+          success: false,
+          error: authError.message
+        });
+      }
+
+      const { error } = await supabaseAdmin
+        .from('blogs')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        return res.status(404).json({
+          success: false,
+          error: 'Blog post not found or failed to delete'
+        });
+      }
+
       return res.status(200).json({
         success: true,
-        message: 'Blog deleted successfully! (Mock mode)'
+        message: 'Blog deleted successfully'
       });
     }
 
@@ -123,9 +139,7 @@ export default async function handler(req, res) {
     console.error('Blog API Error:', error);
     return res.status(500).json({
       success: false,
-      error: error.message,
-      stack: error.stack,
-      details: 'Unexpected error in blog API'
+      error: error.message || 'Internal server error'
     });
   }
 }

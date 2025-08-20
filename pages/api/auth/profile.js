@@ -1,11 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
-import jwt from 'jsonwebtoken';
-
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+import { supabaseAdmin } from '../_utils/supabase.js';
+import { requireAuth } from '../_utils/authMiddleware.js';
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -14,28 +8,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Access-Control-Max-Age': '86400',
 };
-
-// Authentication middleware
-function authenticateToken(req) {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    throw new Error('Access token required');
-  }
-
-  const jwtSecret = process.env.JWT_ACCESS_SECRET;
-  if (!jwtSecret) {
-    throw new Error('Server configuration error');
-  }
-
-  try {
-    const decoded = jwt.verify(token, jwtSecret);
-    return decoded;
-  } catch (error) {
-    throw new Error('Invalid or expired token');
-  }
-}
 
 export default function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -47,70 +19,60 @@ export default function handler(req, res) {
   }
 
   try {
-    const userProfile = {
-      id: 1,
-      username: 'admin',
-      email: 'admin@techcorp.com',
-      firstName: 'Admin',
-      lastName: 'User',
-      role: 'administrator',
-      avatar: 'https://via.placeholder.com/150/0066CC/FFFFFF?text=AU',
-      bio: 'System administrator and developer',
-      location: 'San Francisco, CA',
-      website: 'https://adminuser.dev',
-      joinedAt: '2023-01-15T10:00:00Z',
-      lastLogin: '2024-01-15T09:30:00Z',
-      isActive: true,
-      permissions: [
-        'read:users',
-        'write:users',
-        'delete:users',
-        'read:analytics',
-        'write:content',
-        'admin:system'
-      ],
-      preferences: {
-        theme: 'light',
-        language: 'en',
-        timezone: 'America/Los_Angeles',
-        notifications: {
-          email: true,
-          push: true,
-          sms: false
-        },
-        dashboard: {
-          layout: 'grid',
-          widgets: ['analytics', 'recent-activity', 'quick-actions']
-        }
-      },
-      stats: {
-        loginCount: 247,
-        postsCreated: 15,
-        lastActivity: '2024-01-15T14:45:00Z'
-      }
-    };
+    // Require admin authentication
+    const user = requireAuth(req, ['ADMIN']);
 
     switch (req.method) {
-      case 'GET':
+      case 'GET': {
+        // Get admin profile from database
+        const { data: admin, error } = await supabaseAdmin
+          .from('admins')
+          .select('id, email, created_at')
+          .eq('id', user.userId)
+          .single();
+
+        if (error || !admin) {
+          return res.status(404).json({
+            success: false,
+            error: 'Admin profile not found'
+          });
+        }
+
+        const userProfile = {
+          id: admin.id,
+          email: admin.email,
+          role: 'ADMIN',
+          displayName: 'Pharbit Admin',
+          joinedAt: admin.created_at,
+          lastLogin: new Date().toISOString(),
+          permissions: [
+            'read:blogs',
+            'write:blogs',
+            'delete:blogs',
+            'read:company',
+            'write:company',
+            'read:contacts',
+            'delete:contacts'
+          ]
+        };
+
         return res.status(200).json({
           success: true,
           data: userProfile
         });
+      }
 
       case 'PUT': {
-        const updatedProfile = {
-          ...userProfile,
-          ...req.body,
-          updatedAt: new Date().toISOString()
-        };
-        // Remove sensitive fields from update
-        delete updatedProfile.id;
-        delete updatedProfile.permissions;
+        // For now, just return success as admin profile updates are limited
+        const { displayName } = req.body;
 
         return res.status(200).json({
           success: true,
           message: 'Profile updated successfully',
-          data: updatedProfile
+          data: {
+            displayName: displayName || 'Pharbit Admin',
+            updatedAt: new Date().toISOString()
+          }
         });
       }
 
@@ -122,10 +84,24 @@ export default function handler(req, res) {
     }
   } catch (error) {
     console.error('Profile API Error:', error);
+    
+    if (error.message === 'Authorization required' || error.message === 'Invalid or expired token') {
+      return res.status(401).json({
+        success: false,
+        error: error.message
+      });
+    }
+    
+    if (error.message === 'Insufficient permissions') {
+      return res.status(403).json({
+        success: false,
+        error: error.message
+      });
+    }
+    
     return res.status(500).json({
       success: false,
-      message: 'Internal server error',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      error: 'Internal server error'
     });
   }
 }

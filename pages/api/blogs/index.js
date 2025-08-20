@@ -1,11 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
-import jwt from 'jsonwebtoken';
-
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+import { supabase, supabaseAdmin } from '../_utils/supabase.js';
+import { requireAuth } from '../_utils/authMiddleware.js';
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -14,28 +8,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Access-Control-Max-Age': '86400',
 };
-
-// Authentication middleware
-function authenticateToken(req) {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    throw new Error('Access token required');
-  }
-
-  const jwtSecret = process.env.JWT_ACCESS_SECRET;
-  if (!jwtSecret) {
-    throw new Error('Server configuration error');
-  }
-
-  try {
-    const decoded = jwt.verify(token, jwtSecret);
-    return decoded;
-  } catch (error) {
-    throw new Error('Invalid or expired token');
-  }
-}
 
 export default function handler(req, res) {
   // Add CORS headers
@@ -51,52 +23,99 @@ export default function handler(req, res) {
   try {
     switch (req.method) {
       case 'GET': {
-        const blogs = [
-          {
-            id: 1,
-            title: 'Getting Started with Next.js',
-            excerpt: 'Learn how to build modern web applications',
-            author: 'Admin User',
-            publishedAt: '2024-01-15T10:00:00Z',
-            status: 'published',
-            tags: ['nextjs', 'tutorial']
-          },
-          {
-            id: 2,
-            title: 'Building RESTful APIs',
-            excerpt: 'Complete guide to creating robust APIs',
-            author: 'Admin User',
-            publishedAt: '2024-01-10T15:30:00Z',
-            status: 'draft',
-            tags: ['api', 'backend']
-          }
-        ];
+        // Public endpoint - get all blogs
+        const page = parseInt(req.query.page) || 1;
+        const limit = Math.min(parseInt(req.query.limit) || 10, 100);
+        const category = req.query.category;
+        const author = req.query.author;
+        const search = req.query.search;
+
+        let query = supabase
+          .from('blogs')
+          .select('*', { count: 'exact' });
+
+        // Apply filters
+        if (category) {
+          query = query.eq('category', category);
+        }
+
+        if (author) {
+          query = query.eq('author', author);
+        }
+
+        if (search) {
+          query = query.or(`title.ilike.%${search}%,excerpt.ilike.%${search}%,content.ilike.%${search}%`);
+        }
+
+        // Apply pagination
+        const from = (page - 1) * limit;
+        const to = from + limit - 1;
+
+        const { data: blogs, error, count } = await query
+          .order('created_at', { ascending: false })
+          .range(from, to);
+
+        if (error) {
+          throw new Error('Failed to fetch blogs');
+        }
+
+        const total = count || 0;
+        const totalPages = Math.ceil(total / limit);
 
         return res.status(200).json({
           success: true,
-          data: blogs,
-          total: blogs.length,
-          page: parseInt(req.query.page) || 1,
-          limit: parseInt(req.query.limit) || 10
+          message: 'Blogs retrieved successfully',
+          data: {
+            blogs: blogs || [],
+            total,
+            page,
+            limit,
+            totalPages
+          }
         });
       }
 
       case 'POST': {
-        const { title, content, author, tags } = req.body || {};
-        const newBlog = {
-          id: Date.now(),
-          title: title || 'Untitled Blog',
-          content: content || '',
-          author: author || 'Anonymous',
-          publishedAt: new Date().toISOString(),
-          status: 'draft',
-          tags: tags || []
-        };
+        // Protected endpoint - create blog (admin only)
+        try {
+          requireAuth(req, ['ADMIN']);
+        } catch (authError) {
+          return res.status(401).json({
+            success: false,
+            error: authError.message
+          });
+        }
+
+        const { title, excerpt, content, image_url, status = 'draft' } = req.body;
+
+        // Validation
+        if (!title || !excerpt || !content) {
+          return res.status(400).json({
+            success: false,
+            error: 'Title, excerpt, and content are required'
+          });
+        }
+
+        const { data: blog, error } = await supabaseAdmin
+          .from('blogs')
+          .insert({
+            title,
+            excerpt,
+            content,
+            image_url: image_url || null,
+            status
+          })
+          .select()
+          .single();
+
+        if (error) {
+          throw new Error('Failed to create blog');
+        }
 
         return res.status(201).json({
           success: true,
           message: 'Blog created successfully',
-          data: newBlog
+          data: blog
         });
       }
 
@@ -110,8 +129,7 @@ export default function handler(req, res) {
     console.error('Blog API Error:', error);
     return res.status(500).json({
       success: false,
-      message: 'Internal server error',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      error: error.message || 'Internal server error'
     });
   }
 }

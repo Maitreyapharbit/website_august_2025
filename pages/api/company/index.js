@@ -1,11 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
-import jwt from 'jsonwebtoken';
-
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+import { supabase, supabaseAdmin } from '../_utils/supabase.js';
+import { requireAuth } from '../_utils/authMiddleware.js';
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -14,28 +8,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Access-Control-Max-Age': '86400',
 };
-
-// Authentication middleware
-function authenticateToken(req) {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    throw new Error('Access token required');
-  }
-
-  const jwtSecret = process.env.JWT_ACCESS_SECRET;
-  if (!jwtSecret) {
-    throw new Error('Server configuration error');
-  }
-
-  try {
-    const decoded = jwt.verify(token, jwtSecret);
-    return decoded;
-  } catch (error) {
-    throw new Error('Invalid or expired token');
-  }
-}
 
 export default function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -47,52 +19,70 @@ export default function handler(req, res) {
   }
 
   try {
-    const companyData = {
-      id: 1,
-      name: 'TechCorp Solutions',
-      description: 'Leading technology solutions provider',
-      industry: 'Technology',
-      founded: '2020',
-      headquarters: 'San Francisco, CA',
-      employees: '50-100',
-      website: 'https://techcorp.com',
-      contact: {
-        email: 'contact@techcorp.com',
-        phone: '+1 (555) 123-4567',
-        address: '123 Tech Street, San Francisco, CA 94105'
-      },
-      settings: {
-        theme: 'light',
-        notifications: true,
-        autoSave: true,
-        language: 'en',
-        timezone: 'America/Los_Angeles'
-      },
-      social: {
-        twitter: 'https://twitter.com/techcorp',
-        linkedin: 'https://linkedin.com/company/techcorp',
-        github: 'https://github.com/techcorp'
-      }
-    };
-
     switch (req.method) {
-      case 'GET':
+      case 'GET': {
+        // Public endpoint - get company information
+        const { data: company, error } = await supabase
+          .from('company')
+          .select('*')
+          .single();
+
+        if (error || !company) {
+          return res.status(404).json({
+            success: false,
+            error: 'Company information not found'
+          });
+        }
+
         return res.status(200).json({
           success: true,
-          data: companyData
+          message: 'Company information retrieved successfully',
+          data: company
         });
+      }
 
       case 'PUT': {
-        const updatedData = {
-          ...companyData,
-          ...req.body,
-          updatedAt: new Date().toISOString()
-        };
+        // Protected endpoint - update company information (admin only)
+        try {
+          requireAuth(req, ['ADMIN']);
+        } catch (authError) {
+          return res.status(401).json({
+            success: false,
+            error: authError.message
+          });
+        }
+
+        const updateData = {};
+        const { name, description, email, phone, address } = req.body;
+
+        // Only update provided fields
+        if (name !== undefined) updateData.name = name;
+        if (description !== undefined) updateData.description = description;
+        if (email !== undefined) updateData.email = email;
+        if (phone !== undefined) updateData.phone = phone;
+        if (address !== undefined) updateData.address = address;
+
+        if (Object.keys(updateData).length === 0) {
+          return res.status(400).json({
+            success: false,
+            error: 'No valid fields provided for update'
+          });
+        }
+
+        const { data: company, error } = await supabaseAdmin
+          .from('company')
+          .update(updateData)
+          .select()
+          .single();
+
+        if (error) {
+          throw new Error('Failed to update company information');
+        }
 
         return res.status(200).json({
           success: true,
           message: 'Company information updated successfully',
-          data: updatedData
+          data: company
         });
       }
 
@@ -104,10 +94,24 @@ export default function handler(req, res) {
     }
   } catch (error) {
     console.error('Company API Error:', error);
+    
+    if (error.message === 'Authorization required' || error.message === 'Invalid or expired token') {
+      return res.status(401).json({
+        success: false,
+        error: error.message
+      });
+    }
+    
+    if (error.message === 'Insufficient permissions') {
+      return res.status(403).json({
+        success: false,
+        error: error.message
+      });
+    }
+    
     return res.status(500).json({
       success: false,
-      message: 'Internal server error',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      error: error.message || 'Internal server error'
     });
   }
 }

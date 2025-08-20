@@ -20,3 +20,19 @@ export function verifyToken(token) {
   return jwt.verify(token, secret);
 }
 
+export function signAccessToken(payload) {
+  return signTokens(payload).access;
+}
+
+export function signRefreshToken(payload) {
+  return signTokens(payload).refresh;
+}
+
+export function verifyAccessToken(token) {
+  return verifyToken(token);
+}
+
+export function verifyRefreshToken(token) {
+  return verifyToken(token);
+}
+
