@@ -40,7 +40,7 @@ function authenticateToken(req) {
 export default async function handler(req, res) {
   // Add CORS headers first
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   
   if (req.method === 'OPTIONS') {
@@ -49,7 +49,6 @@ export default async function handler(req, res) {
   }
 
   console.log(`=== COMPANY API - ${req.method} ===`);
-  console.log('Request body:', req.body);
 
   try {
     if (req.method === 'GET') {
@@ -70,40 +69,6 @@ export default async function handler(req, res) {
         success: true,
         company: mockCompany,
         message: 'Company info retrieved successfully (Mock mode)'
-      });
-    }
-
-    if (req.method === 'PUT') {
-      const { 
-        company_name, 
-        address, 
-        city, 
-        state, 
-        zip_code, 
-        phone, 
-        email, 
-        website 
-      } = req.body;
-
-      // Return updated mock company data
-      const updatedCompany = {
-        id: '1',
-        company_name: company_name || 'Pharbit',
-        address: address || 'An Europakanal 6, 91056 Erlangen, Germany',
-        city: city || 'Erlangen',
-        state: state || 'Bavaria',
-        zip_code: zip_code || '91056',
-        phone: phone || '+4917697711873',
-        email: email || 'info@pharbit.com',
-        website: website || 'https://pharbit.com'
-      };
-
-      console.log('Mock company updated:', updatedCompany);
-      
-      return res.status(200).json({
-        success: true,
-        company: updatedCompany,
-        message: 'Company info updated successfully! (Mock mode)'
       });
     }
 
