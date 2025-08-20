@@ -1,16 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
 
-// Initialize Supabase clients
-const supabase = createClient(
-  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-const supabaseAdmin = createClient(
-  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+// Add environment variable validation
+if (!supabaseUrl || !supabaseKey) {
+  console.error('Missing Supabase environment variables');
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -62,6 +62,13 @@ export default async function handler(req, res) {
     });
   }
 
+  // Log incoming request
+  console.log(`[${new Date().toISOString()}] ${req.method} /api/blogs/${id}`, {
+    method: req.method,
+    id: id,
+    body: req.body
+  });
+
   try {
     if (req.method === 'GET') {
       // Public endpoint - get single blog
@@ -72,16 +79,18 @@ export default async function handler(req, res) {
         .single();
 
       if (error || !blog) {
+        console.log(`Blog not found: ${id}`);
         return res.status(404).json({
           success: false,
           error: 'Blog post not found'
         });
       }
 
+      console.log(`Blog retrieved: ${id}`);
+
       return res.status(200).json({
         success: true,
-        message: 'Blog retrieved successfully',
-        data: blog
+        blog: blog
       });
 
     } else if (req.method === 'PUT') {
@@ -95,7 +104,7 @@ export default async function handler(req, res) {
         });
       }
 
-      const { title, excerpt, content, image_url } = req.body;
+      const { title, content, excerpt, image_url } = req.body;
       
       // Build update object with only provided fields
       const updates = {
@@ -103,11 +112,13 @@ export default async function handler(req, res) {
       };
       
       if (title !== undefined) updates.title = title;
-      if (excerpt !== undefined) updates.excerpt = excerpt;
       if (content !== undefined) updates.content = content;
+      if (excerpt !== undefined) updates.excerpt = excerpt;
       if (image_url !== undefined) updates.image_url = image_url;
 
-      const { data: blog, error } = await supabaseAdmin
+      console.log(`Updating blog ${id} with:`, updates);
+
+      const { data: blog, error } = await supabase
         .from('blogs')
         .update(updates)
         .eq('id', id)
@@ -115,16 +126,18 @@ export default async function handler(req, res) {
         .single();
 
       if (error || !blog) {
+        console.error('Update error:', error);
         return res.status(404).json({
           success: false,
           error: 'Blog not found or update failed'
         });
       }
 
+      console.log(`Blog updated successfully: ${id}`);
+
       return res.status(200).json({
         success: true,
-        message: 'Blog updated successfully',
-        data: blog
+        blog: blog
       });
 
     } else if (req.method === 'DELETE') {
@@ -138,17 +151,22 @@ export default async function handler(req, res) {
         });
       }
 
-      const { error } = await supabaseAdmin
+      console.log(`Deleting blog: ${id}`);
+
+      const { error } = await supabase
         .from('blogs')
         .delete()
         .eq('id', id);
 
       if (error) {
+        console.error('Delete error:', error);
         return res.status(500).json({
           success: false,
           error: 'Failed to delete blog'
         });
       }
+
+      console.log(`Blog deleted successfully: ${id}`);
 
       return res.status(200).json({
         success: true,
