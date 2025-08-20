@@ -1,6 +1,13 @@
+import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
 
-// CORS headers for Amplify
+// Initialize Supabase client
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
+
+// CORS headers for AWS Amplify
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
@@ -17,7 +24,7 @@ function authenticateToken(req) {
     throw new Error('Access token required');
   }
 
-  const jwtSecret = process.env.JWT_SECRET;
+  const jwtSecret = process.env.JWT_ACCESS_SECRET;
   if (!jwtSecret) {
     throw new Error('Server configuration error');
   }
@@ -41,6 +48,11 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
+  // Log incoming request
+  console.log(`[${new Date().toISOString()}] ${req.method} /api/analytics/dashboard/stats`, {
+    method: req.method
+  });
+
   if (req.method !== 'GET') {
     return res.status(405).json({
       success: false,
@@ -59,17 +71,35 @@ export default async function handler(req, res) {
       });
     }
 
-    // Mock dashboard stats for demo
+    // Get real stats from database
+    const [
+      { count: totalBlogs },
+      { count: publishedBlogs },
+      { count: draftBlogs },
+      { count: totalContacts }
+    ] = await Promise.all([
+      supabase.from('blogs').select('*', { count: 'exact', head: true }),
+      supabase.from('blogs').select('*', { count: 'exact', head: true }).eq('status', 'published'),
+      supabase.from('blogs').select('*', { count: 'exact', head: true }).eq('status', 'draft'),
+      supabase.from('contacts').select('*', { count: 'exact', head: true })
+    ]);
+
     const stats = {
-      products: 156,
-      shipments: 89,
-      openAlerts: 3
+      totalBlogs: totalBlogs || 0,
+      publishedBlogs: publishedBlogs || 0,
+      draftBlogs: draftBlogs || 0,
+      totalContacts: totalContacts || 0,
+      recentActivity: {
+        lastBlogCreated: new Date().toISOString(),
+        lastContactReceived: new Date().toISOString()
+      }
     };
+
+    console.log('Dashboard stats retrieved successfully');
 
     return res.status(200).json({
       success: true,
-      message: 'Dashboard stats retrieved successfully',
-      data: stats
+      stats: stats
     });
 
   } catch (error) {

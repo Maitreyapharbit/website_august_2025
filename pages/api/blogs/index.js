@@ -2,15 +2,10 @@ import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
 
 // Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-// Add environment variable validation
-if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase environment variables');
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -65,15 +60,20 @@ export default async function handler(req, res) {
       // Public endpoint - get all blogs
       const page = parseInt(req.query.page) || 1;
       const limit = Math.min(parseInt(req.query.limit) || 10, 100);
+      const status = req.query.status;
       const search = req.query.search;
 
       let query = supabase
         .from('blogs')
         .select('*', { count: 'exact' });
 
-      // Apply search filter
+      // Apply filters
+      if (status) {
+        query = query.eq('status', status);
+      }
+
       if (search) {
-        query = query.or(`title.ilike.%${search}%,excerpt.ilike.%${search}%,content.ilike.%${search}%`);
+        query = query.or(`title.ilike.%${search}%,content.ilike.%${search}%`);
       }
 
       // Apply pagination
@@ -90,19 +90,13 @@ export default async function handler(req, res) {
       }
 
       const total = count || 0;
-      const totalPages = Math.ceil(total / limit);
 
       console.log(`Retrieved ${data?.length || 0} blogs, total: ${total}`);
 
       return res.status(200).json({
         success: true,
-        data: {
-          blogs: data || [],
-          total,
-          page,
-          limit,
-          totalPages
-        }
+        blogs: data || [],
+        count: total
       });
 
     } else if (req.method === 'POST') {
@@ -116,21 +110,29 @@ export default async function handler(req, res) {
         });
       }
 
-      const { title, content, excerpt, image_url } = req.body;
+      const { title, content, status, featured_image } = req.body;
 
       // Validation
-      if (!title || !content || !excerpt) {
+      if (!title || !content) {
         return res.status(400).json({
           success: false,
-          error: 'Title, content, and excerpt are required'
+          error: 'Title and content are required'
+        });
+      }
+
+      // Validate status if provided
+      if (status && !['draft', 'published'].includes(status)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Status must be either "draft" or "published"'
         });
       }
 
       const blogData = {
         title,
         content,
-        excerpt,
-        image_url: image_url || null,
+        status: status || 'draft',
+        featured_image: featured_image || null,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       };

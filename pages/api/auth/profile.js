@@ -1,13 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
 
-// Initialize Supabase admin client
-const supabaseAdmin = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY
+// Initialize Supabase client
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-// CORS headers for Amplify
+// CORS headers for AWS Amplify
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
@@ -24,7 +24,7 @@ function authenticateToken(req) {
     throw new Error('Access token required');
   }
 
-  const jwtSecret = process.env.JWT_SECRET;
+  const jwtSecret = process.env.JWT_ACCESS_SECRET;
   if (!jwtSecret) {
     throw new Error('Server configuration error');
   }
@@ -48,6 +48,11 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
+  // Log incoming request
+  console.log(`[${new Date().toISOString()}] ${req.method} /api/auth/profile`, {
+    method: req.method
+  });
+
   if (req.method !== 'GET') {
     return res.status(405).json({
       success: false,
@@ -67,7 +72,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const { data: admin, error } = await supabaseAdmin
+    const { data: admin, error } = await supabase
       .from('admins')
       .select('id, email, created_at')
       .eq('id', user.userId)
@@ -80,17 +85,20 @@ export default async function handler(req, res) {
       });
     }
 
+    const profile = {
+      id: admin.id,
+      email: admin.email,
+      first_name: 'Admin',
+      last_name: 'User',
+      role: 'ADMIN',
+      created_at: admin.created_at
+    };
+
+    console.log('Profile retrieved successfully');
+
     return res.status(200).json({
       success: true,
-      message: 'Profile retrieved successfully',
-      data: {
-        id: admin.id,
-        email: admin.email,
-        first_name: 'Admin',
-        last_name: 'User',
-        role: 'ADMIN',
-        created_at: admin.created_at
-      }
+      profile: profile
     });
 
   } catch (error) {

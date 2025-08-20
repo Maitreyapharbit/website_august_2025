@@ -2,15 +2,10 @@ import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
 
 // Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-// Add environment variable validation
-if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase environment variables');
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -104,7 +99,7 @@ export default async function handler(req, res) {
         });
       }
 
-      const { title, content, excerpt, image_url } = req.body;
+      const { title, content, status, featured_image } = req.body;
       
       // Build update object with only provided fields
       const updates = {
@@ -113,8 +108,16 @@ export default async function handler(req, res) {
       
       if (title !== undefined) updates.title = title;
       if (content !== undefined) updates.content = content;
-      if (excerpt !== undefined) updates.excerpt = excerpt;
-      if (image_url !== undefined) updates.image_url = image_url;
+      if (status !== undefined) {
+        if (!['draft', 'published'].includes(status)) {
+          return res.status(400).json({
+            success: false,
+            error: 'Status must be either "draft" or "published"'
+          });
+        }
+        updates.status = status;
+      }
+      if (featured_image !== undefined) updates.featured_image = featured_image;
 
       console.log(`Updating blog ${id} with:`, updates);
 

@@ -2,15 +2,10 @@ import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
 
 // Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-// Add environment variable validation
-if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase environment variables');
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -63,7 +58,7 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
       // Public endpoint - get company information
       const { data: company, error } = await supabase
-        .from('company')
+        .from('company_info')
         .select('*')
         .single();
 
@@ -71,11 +66,14 @@ export default async function handler(req, res) {
         // Return default company info if not found
         const defaultCompany = {
           id: '1',
-          name: 'Pharbit',
-          description: 'Global pharmaceutical technology company combining blockchain and IoT sensors to create unbreakable chains of custody for medicines worldwide.',
-          email: 'info@pharbit.com',
+          company_name: 'Pharbit',
+          address: 'An Europakanal 6, 91056 Erlangen, Germany',
+          city: 'Erlangen',
+          state: 'Bavaria',
+          zip_code: '91056',
           phone: '+4917697711873',
-          address: 'An Europakanal 6, 91056 Erlangen, Germany'
+          email: 'info@pharbit.com',
+          website: 'https://pharbit.com'
         };
 
         console.log('No company info found, returning default');
@@ -103,11 +101,14 @@ export default async function handler(req, res) {
       }
 
       const { 
-        name, 
-        description, 
-        email, 
+        company_name, 
+        address, 
+        city, 
+        state, 
+        zip_code, 
         phone, 
-        address 
+        email, 
+        website 
       } = req.body;
 
       // Build update object with only provided fields
@@ -115,15 +116,18 @@ export default async function handler(req, res) {
         updated_at: new Date().toISOString()
       };
       
-      if (name !== undefined) updates.name = name;
-      if (description !== undefined) updates.description = description;
-      if (email !== undefined) updates.email = email;
-      if (phone !== undefined) updates.phone = phone;
+      if (company_name !== undefined) updates.company_name = company_name;
       if (address !== undefined) updates.address = address;
+      if (city !== undefined) updates.city = city;
+      if (state !== undefined) updates.state = state;
+      if (zip_code !== undefined) updates.zip_code = zip_code;
+      if (phone !== undefined) updates.phone = phone;
+      if (email !== undefined) updates.email = email;
+      if (website !== undefined) updates.website = website;
 
       // First, try to get existing company info
       const { data: existing } = await supabase
-        .from('company')
+        .from('company_info')
         .select('*')
         .single();
 
@@ -133,7 +137,7 @@ export default async function handler(req, res) {
         // Update existing company info
         console.log('Updating existing company info');
         const { data: updatedCompany, error } = await supabase
-          .from('company')
+          .from('company_info')
           .update(updates)
           .eq('id', existing.id)
           .select()
@@ -148,16 +152,19 @@ export default async function handler(req, res) {
         // Create new company info record
         console.log('Creating new company info record');
         const newCompanyData = {
-          name: name || 'Pharbit',
-          description: description || 'Global pharmaceutical technology company combining blockchain and IoT sensors to create unbreakable chains of custody for medicines worldwide.',
-          email: email || 'info@pharbit.com',
-          phone: phone || '+4917697711873',
+          company_name: company_name || 'Pharbit',
           address: address || 'An Europakanal 6, 91056 Erlangen, Germany',
+          city: city || 'Erlangen',
+          state: state || 'Bavaria',
+          zip_code: zip_code || '91056',
+          phone: phone || '+4917697711873',
+          email: email || 'info@pharbit.com',
+          website: website || 'https://pharbit.com',
           updated_at: new Date().toISOString()
         };
 
         const { data: newCompany, error } = await supabase
-          .from('company')
+          .from('company_info')
           .insert(newCompanyData)
           .select()
           .single();
