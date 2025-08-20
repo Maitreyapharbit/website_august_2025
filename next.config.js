@@ -16,20 +16,6 @@ const nextConfig = {
     // Disable webpack build worker if cache issues persist
     webpackBuildWorker: false,
   },
-  async redirects() {
-    return [
-      {
-        source: '/admin',
-        destination: '/',
-        permanent: false,
-      },
-      {
-        source: '/admin/:path*',
-        destination: '/',
-        permanent: false,
-      },
-    ];
-  }
 }
 
 module.exports = nextConfig;
