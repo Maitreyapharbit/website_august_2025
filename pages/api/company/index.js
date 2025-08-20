@@ -38,23 +38,9 @@ function authenticateToken(req) {
 }
 
 export default async function handler(req, res) {
-  // Add CORS headers first
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-
-  console.log(`=== COMPANY API - ${req.method} ===`);
-
   try {
     if (req.method === 'GET') {
-      // Return mock company data
-      const mockCompany = {
-        id: '1',
+      const company = {
         company_name: 'Pharbit',
         address: 'An Europakanal 6, 91056 Erlangen, Germany',
         city: 'Erlangen',
@@ -64,26 +50,11 @@ export default async function handler(req, res) {
         email: 'info@pharbit.com',
         website: 'https://pharbit.com'
       };
-
-      return res.status(200).json({
-        success: true,
-        company: mockCompany,
-        message: 'Company info retrieved successfully (Mock mode)'
-      });
+      return res.status(200).json({ success: true, company });
     }
 
-    return res.status(405).json({ 
-      success: false, 
-      error: `Method ${req.method} not allowed` 
-    });
-
+    return res.status(405).json({ success: false, error: 'Method not allowed' });
   } catch (error) {
-    console.error('Company API Error:', error);
-    return res.status(500).json({
-      success: false,
-      error: error.message,
-      stack: error.stack,
-      details: 'Unexpected error in company API'
-    });
+    return res.status(500).json({ success: false, error: error.message });
   }
 }
