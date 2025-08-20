@@ -1,10 +1,9 @@
-import { supabase, supabaseAdmin } from '../_utils/supabase.js';
-import { requireAuth } from '../_utils/authMiddleware.js';
+import { supabase } from '../_utils/supabase.js';
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Access-Control-Max-Age': '86400',
 };
@@ -12,7 +11,7 @@ const corsHeaders = {
 export default async function handler(req, res) {
   // Add CORS headers first
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   
   if (req.method === 'OPTIONS') {
@@ -49,84 +48,6 @@ export default async function handler(req, res) {
         success: true,
         message: 'Blog retrieved successfully',
         data: blog
-      });
-    }
-
-    if (req.method === 'PUT') {
-      // Protected endpoint - update blog (admin only)
-      try {
-        requireAuth(req, ['ADMIN']);
-      } catch (authError) {
-        return res.status(401).json({
-          success: false,
-          error: authError.message
-        });
-      }
-
-      const updateData = {};
-      const { title, excerpt, content, image_url, status } = req.body;
-
-      // Only update provided fields
-      if (title !== undefined) updateData.title = title;
-      if (excerpt !== undefined) updateData.excerpt = excerpt;
-      if (content !== undefined) updateData.content = content;
-      if (image_url !== undefined) updateData.image_url = image_url;
-      if (status !== undefined) updateData.status = status;
-
-      if (Object.keys(updateData).length === 0) {
-        return res.status(400).json({
-          success: false,
-          error: 'No valid fields provided for update'
-        });
-      }
-
-      const { data: blog, error } = await supabaseAdmin
-        .from('blogs')
-        .update(updateData)
-        .eq('id', id)
-        .select()
-        .single();
-
-      if (error || !blog) {
-        return res.status(404).json({
-          success: false,
-          error: 'Blog post not found or failed to update'
-        });
-      }
-
-      return res.status(200).json({
-        success: true,
-        message: 'Blog updated successfully',
-        data: blog
-      });
-    }
-
-    if (req.method === 'DELETE') {
-      // Protected endpoint - delete blog (admin only)
-      try {
-        requireAuth(req, ['ADMIN']);
-      } catch (authError) {
-        return res.status(401).json({
-          success: false,
-          error: authError.message
-        });
-      }
-
-      const { error } = await supabaseAdmin
-        .from('blogs')
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        return res.status(404).json({
-          success: false,
-          error: 'Blog post not found or failed to delete'
-        });
-      }
-
-      return res.status(200).json({
-        success: true,
-        message: 'Blog deleted successfully'
       });
     }
 

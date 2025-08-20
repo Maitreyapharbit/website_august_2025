@@ -11,9 +11,7 @@
     "clean": "rm -rf .next node_modules/.cache",
     "dev:clean": "npm run clean && npm run dev",
     "reset": "rm -rf .next node_modules/.cache node_modules package-lock.json && npm install",
-    "zip:backend": "node scripts/zip-backend.js",
-    "setup:admin": "node scripts/setup-admin-production.js",
-    "test:admin": "node scripts/test-admin-api.js"
+    "zip:backend": "node scripts/zip-backend.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.55.0",

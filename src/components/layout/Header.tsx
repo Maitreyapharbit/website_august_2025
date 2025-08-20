@@ -55,12 +55,6 @@ const Header: React.FC = () => {
           {/* CTA Button */}
           <div className="hidden md:block">
             <div className="flex items-center space-x-4">
-              <button 
-                onClick={() => window.location.href = '/admin/login'}
-                className="border-2 border-white/30 text-white px-4 py-2 rounded-lg font-medium hover:bg-white hover:text-black transition-all duration-300"
-              >
-                Admin Login
-              </button>
               <button className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
                 Request Demo
               </button>
@@ -114,15 +108,6 @@ const Header: React.FC = () => {
               <div className="px-4 pt-4">
                 <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300 mb-3">
                   Request Demo
-                </button>
-                <button 
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    window.location.href = '/admin/login';
-                  }}
-                  className="w-full border-2 border-white/30 text-white px-6 py-2 rounded-lg font-medium hover:bg-white hover:text-black transition-all duration-300"
-                >
-                  Admin Login
                 </button>
               </div>
             </nav>

@@ -210,6 +210,14 @@ const InteractiveInfographic: React.FC = () => {
                 <stop offset="75%" stopColor="#018ee8" stopOpacity="0.9" />
                 <stop offset="100%" stopColor="#01ffff" stopOpacity="0.8" />
               </linearGradient>
+              <linearGradient id="chainGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#01ffff" stopOpacity="1" />
+                <stop offset="20%" stopColor="#018ee8" stopOpacity="0.8" />
+                <stop offset="40%" stopColor="#39ff14" stopOpacity="0.9" />
+                <stop offset="60%" stopColor="#018ee8" stopOpacity="0.8" />
+                <stop offset="80%" stopColor="#667eea" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#01ffff" stopOpacity="1" />
+              </linearGradient>
               <filter id="nodeGlow" x="-50%" y="-50%" width="200%" height="200%">
                 <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
                 <feMerge> 
@@ -232,13 +240,15 @@ const InteractiveInfographic: React.FC = () => {
                 return (
                   <path
                     key={`${node.id}-${connId}`}
-                    className="connection-line"
+                    className="connection-line chain-style"
                     d={getConnectionPath(node, connectedNode)}
-                    stroke="url(#connectionGradient)"
-                    strokeWidth="3"
+                    stroke="url(#chainGradient)"
+                    strokeWidth="4"
                     fill="none"
                     opacity={activeNode && (activeNode === node.id || activeNode === connId) ? 1 : 0.6}
                     filter="url(#nodeGlow)"
+                    strokeDasharray="15,10,5,10"
+                    strokeLinecap="round"
                   />
                 );
               })
@@ -251,8 +261,8 @@ const InteractiveInfographic: React.FC = () => {
                 className="data-pulse"
                 cx={node.x}
                 cy={node.y}
-                r="4"
-                fill="#39ff14"
+                r="6"
+                fill="url(#chainGradient)"
                 opacity="0"
                 filter="url(#nodeGlow)"
               />

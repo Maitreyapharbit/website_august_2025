@@ -321,11 +321,35 @@ body {
 
 .connection-line {
   stroke: var(--neon-gradient);
-  stroke-width: 2;
+  stroke-width: 3;
   fill: none;
-  stroke-dasharray: 10, 5;
+  stroke-dasharray: 12, 8, 4, 8;
   animation: dataFlow 3s linear infinite;
-  filter: drop-shadow(0 0 5px rgba(1, 255, 255, 0.6));
+  filter: drop-shadow(0 0 8px rgba(1, 255, 255, 0.8)) drop-shadow(0 0 15px rgba(1, 142, 232, 0.4));
+}
+
+/* Enhanced chain-like connection styling */
+.connection-line.chain-style {
+  stroke: url(#chainGradient);
+  stroke-width: 4;
+  stroke-dasharray: 15, 10, 5, 10;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 10px rgba(1, 255, 255, 1)) drop-shadow(0 0 20px rgba(1, 142, 232, 0.6));
+  animation: chainFlow 4s linear infinite;
+}
+
+@keyframes chainFlow {
+  0% {
+    stroke-dashoffset: 40;
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -40;
+    opacity: 0.6;
+  }
 }
 
 /* Particle Effects */

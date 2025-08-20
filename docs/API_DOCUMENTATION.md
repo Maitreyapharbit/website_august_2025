@@ -6,60 +6,6 @@ Production: https://main.d22x4oiromio4y.amplifyapp.com
 Development: http://localhost:3000
 ```
 
-## Authentication
-
-### Admin Login
-```http
-POST /api/auth/login
-Content-Type: application/json
-
-{
-  "email": "admin@pharbit.com",
-  "password": "F#0341804279321"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Login successful",
-  "data": {
-    "user": {
-      "id": "uuid",
-      "email": "admin@pharbit.com",
-      "role": "ADMIN"
-    },
-    "tokens": {
-      "access": "jwt_token_here",
-      "refresh": "refresh_token_here"
-    }
-  }
-}
-```
-
-### Verify Token
-```http
-GET /api/auth/verify
-Authorization: Bearer <access_token>
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Token is valid",
-  "data": {
-    "valid": true,
-    "user": {
-      "userId": "uuid",
-      "email": "admin@pharbit.com",
-      "role": "ADMIN"
-    }
-  }
-}
-```
-
 ## Blog Management
 
 ### Get All Blogs (Public)
@@ -121,55 +67,6 @@ GET /api/blogs/{id}
 }
 ```
 
-### Create Blog (Admin Only)
-```http
-POST /api/blogs
-Authorization: Bearer <access_token>
-Content-Type: application/json
-
-{
-  "title": "New Blog Post",
-  "excerpt": "Blog excerpt",
-  "content": "Full blog content",
-  "image_url": "https://example.com/image.jpg"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Blog created successfully",
-  "data": {
-    "id": "uuid",
-    "title": "New Blog Post",
-    "excerpt": "Blog excerpt",
-    "content": "Full blog content",
-    "image_url": "https://example.com/image.jpg",
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-01T00:00:00Z"
-  }
-}
-```
-
-### Update Blog (Admin Only)
-```http
-PUT /api/blogs/{id}
-Authorization: Bearer <access_token>
-Content-Type: application/json
-
-{
-  "title": "Updated Blog Title",
-  "excerpt": "Updated excerpt"
-}
-```
-
-### Delete Blog (Admin Only)
-```http
-DELETE /api/blogs/{id}
-Authorization: Bearer <access_token>
-```
-
 ## Company Management
 
 ### Get Company Info (Public)
@@ -190,21 +87,6 @@ GET /api/company
     "phone": "+4917697711873",
     "address": "An Europakanal 6, 91056 Erlangen, Germany"
   }
-}
-```
-
-### Update Company Info (Admin Only)
-```http
-PUT /api/company
-Authorization: Bearer <access_token>
-Content-Type: application/json
-
-{
-  "name": "Pharbit GmbH",
-  "description": "Updated description",
-  "email": "contact@pharbit.com",
-  "phone": "+4917697711873",
-  "address": "New address"
 }
 ```
 
@@ -237,39 +119,29 @@ Content-Type: application/json
 }
 ```
 
-### Get All Contacts (Admin Only)
+## Timeline Data
+
+### Get Timeline (Public)
 ```http
-GET /api/contact?page=1&limit=10
-Authorization: Bearer <access_token>
+GET /api/timeline
 ```
 
 **Response:**
 ```json
 {
   "success": true,
-  "message": "Contacts retrieved successfully",
-  "data": {
-    "contacts": [
-      {
-        "id": "uuid",
-        "name": "John Doe",
-        "email": "john@example.com",
-        "message": "Contact message",
-        "created_at": "2024-01-01T00:00:00Z"
-      }
-    ],
-    "total": 25,
-    "page": 1,
-    "limit": 10,
-    "totalPages": 3
-  }
+  "data": [
+    {
+      "id": "1",
+      "date": "August 2025",
+      "title": "Development Begins",
+      "description": "Initial blockchain development and smart contract creation",
+      "status": "current",
+      "progress": 25
+    }
+  ],
+  "total": 4
 }
-```
-
-### Delete Contact (Admin Only)
-```http
-DELETE /api/contact/{id}
-Authorization: Bearer <access_token>
 ```
 
 ## Health Check
@@ -282,21 +154,8 @@ GET /api/health
 **Response:**
 ```json
 {
-  "success": true,
-  "message": "Pharbit API is running",
-  "timestamp": "2024-01-01T00:00:00Z",
-  "uptime": 12345,
-  "environment": "production",
-  "version": "1.0.0",
-  "services": {
-    "database": "configured",
-    "api": "healthy"
-  },
-  "config": {
-    "supabaseConfigured": true,
-    "jwtConfigured": true,
-    "missingEnvVars": []
-  }
+  "status": "OK",
+  "timestamp": "2024-01-01T00:00:00Z"
 }
 ```
 
@@ -315,8 +174,6 @@ All API endpoints return errors in this format:
 - `200` - Success
 - `201` - Created
 - `400` - Bad Request (validation errors)
-- `401` - Unauthorized (missing/invalid token)
-- `403` - Forbidden (insufficient permissions)
 - `404` - Not Found
 - `405` - Method Not Allowed
 - `500` - Internal Server Error
@@ -329,10 +186,6 @@ Required environment variables for deployment:
 # Supabase Configuration
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_ANON_KEY=your_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-
-# JWT Configuration
-JWT_ACCESS_SECRET=your_super_secret_jwt_key
 
 # Next.js Public Variables
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
@@ -354,31 +207,14 @@ curl https://main.d22x4oiromio4y.amplifyapp.com/api/blogs
 # Get company info
 curl https://main.d22x4oiromio4y.amplifyapp.com/api/company
 
-# Admin login
-curl -X POST https://main.d22x4oiromio4y.amplifyapp.com/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"admin@pharbit.com","password":"F#0341804279321"}'
-
 # Submit contact form
 curl -X POST https://main.d22x4oiromio4y.amplifyapp.com/api/contact \
   -H "Content-Type: application/json" \
   -d '{"name":"Test User","email":"test@example.com","message":"Test message"}'
+
+# Get timeline
+curl https://main.d22x4oiromio4y.amplifyapp.com/api/timeline
 ```
-
-### Automated Testing
-```bash
-# Run the API test script
-node scripts/test-api.js
-```
-
-## Security Features
-
-- **JWT Authentication**: Secure token-based authentication for admin operations
-- **CORS Protection**: Proper CORS headers for cross-origin requests
-- **Input Validation**: All inputs are validated and sanitized
-- **SQL Injection Prevention**: Using Supabase's built-in protection
-- **Rate Limiting**: Built-in protection against abuse
-- **Environment Variable Validation**: Proper configuration checking
 
 ## AWS Amplify Deployment
 
@@ -390,22 +226,18 @@ This API is optimized for AWS Amplify serverless deployment:
 - ✅ Cold start optimization
 - ✅ Error handling for Lambda environment
 - ✅ Default function exports for Amplify compatibility
+- ✅ Public-only endpoints for simplified architecture
 
 ## Database Setup
 
 1. **Run the SQL script** in your Supabase SQL Editor:
    ```sql
-   -- Copy and paste the contents of scripts/setup-database.sql
+   -- Copy and paste the contents from the migration files
    ```
 
-2. **Create admin user**:
+2. **Test the API**:
    ```bash
-   node scripts/setup-admin-production.js
+   curl http://localhost:3000/api/health
    ```
 
-3. **Test the API**:
-   ```bash
-   node scripts/test-api.js
-   ```
-
-Your API is now ready for production use!
+Your public API is now ready for production use!

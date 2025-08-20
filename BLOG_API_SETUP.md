@@ -1,7 +1,7 @@
-# Blog Management API Setup Guide (Next.js)
+# Blog API Setup Guide (Next.js)
 
 ## Overview
-This implementation adds a complete blog management system to the Next.js application with Supabase integration. The API includes CRUD operations for blog posts with admin-only write access and public read access using Next.js API routes.
+This implementation provides a public blog API for the Next.js application with Supabase integration. The API includes read-only operations for blog posts with public access using Next.js API routes.
 
 ## Database Setup
 
@@ -40,23 +40,6 @@ CREATE TRIGGER update_blogs_updated_at
     FOR EACH ROW 
     EXECUTE FUNCTION update_updated_at_column();
 ```
-
-Alternatively, you can run the SQL script:
-```bash
-# Copy the SQL from scripts/create-blogs-table.sql and run it in Supabase
-```
-
-### 2. Set Up Admin User
-Run the admin setup script:
-
-```bash
-node scripts/setup-admin.js
-```
-
-This creates an admin user with:
-- Email: admin@pharbit.com
-- Password: F#034180427932al
-- Role: ADMIN
 
 ## API Endpoints
 
@@ -121,123 +104,22 @@ curl "http://localhost:3000/api/blogs/123e4567-e89b-12d3-a456-426614174000"
 }
 ```
 
-### Protected Endpoints (Admin Authentication Required)
-
-#### POST /api/blogs
-Create a new blog post.
-
-**Headers:**
-```
-Authorization: Bearer <admin-jwt-token>
-```
-
-**Request Body:**
-```json
-{
-  "title": "Blog Title",
-  "excerpt": "Blog excerpt",
-  "content": "Blog content",
-  "read_time": "5 min read",
-  "category": "Technology",
-  "author": "Author Name",
-  "tags": ["tag1", "tag2"]
-}
-```
-
-**Example:**
-```bash
-curl -X POST http://localhost:3000/api/blogs \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  -d '{
-    "title": "New Blog Post",
-    "excerpt": "This is a new blog post",
-    "content": "Full content here...",
-    "read_time": "5 min read",
-    "category": "Technology",
-    "author": "Admin User",
-    "tags": ["tech", "blog"]
-  }'
-```
-
-#### PUT /api/blogs/[id]
-Update an existing blog post.
-
-**Headers:**
-```
-Authorization: Bearer <admin-jwt-token>
-```
-
-**Request Body:**
-```json
-{
-  "title": "Updated Title",
-  "excerpt": "Updated excerpt"
-}
-```
-
-**Example:**
-```bash
-curl -X PUT http://localhost:3000/api/blogs/123e4567-e89b-12d3-a456-426614174000 \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  -d '{
-    "title": "Updated Blog Title",
-    "excerpt": "Updated excerpt"
-  }'
-```
-
-#### DELETE /api/blogs/[id]
-Delete a blog post.
-
-**Headers:**
-```
-Authorization: Bearer <admin-jwt-token>
-```
-
-**Example:**
-```bash
-curl -X DELETE http://localhost:3000/api/blogs/123e4567-e89b-12d3-a456-426614174000 \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
-```
-
-## Authentication
-
-### Getting Admin Token
-1. Login with admin credentials:
-```bash
-curl -X POST http://localhost:3000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "admin@pharbit.com",
-    "password": "F#034180427932al"
-  }'
-```
-
-2. Use the returned access token in the Authorization header for protected endpoints.
-
 ## File Structure
 
 ```
-src/
-├── app/api/
-│   └── blogs/
-│       ├── route.ts              # GET /api/blogs, POST /api/blogs
-│       └── [id]/
-│           └── route.ts          # GET /api/blogs/[id], PUT /api/blogs/[id], DELETE /api/blogs/[id]
-├── services/
-│   └── blog.service.ts           # Business logic for blog operations
-├── utils/
-│   └── auth.ts                   # Next.js authentication utilities
-├── types/
-│   ├── blog.types.ts             # TypeScript interfaces
-│   └── database.types.ts         # Updated with blogs table
-└── config/
-    └── database.ts               # Supabase configuration
-
-scripts/
-├── setup-admin.js                # Admin user setup script
-└── create-blogs-table.sql        # Database schema script
+pages/api/
+├── blogs/
+│   ├── index.js              # GET /api/blogs
+│   └── [id]/
+│       └── index.js          # GET /api/blogs/[id]
+├── company/
+│   └── index.js              # GET /api/company
+├── contact/
+│   └── index.js              # POST /api/contact
+├── timeline/
+│   └── index.js              # GET /api/timeline
+├── test.js                   # GET /api/test
+└── health.js                 # GET /api/health
 ```
 
 ## Environment Variables
@@ -247,9 +129,6 @@ Make sure you have the following environment variables set in your `.env.local` 
 ```env
 SUPABASE_URL=your_supabase_url
 SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-JWT_ACCESS_SECRET=your_jwt_access_secret
-JWT_REFRESH_SECRET=your_jwt_refresh_secret
 ```
 
 ## Installation
@@ -261,7 +140,6 @@ npm install
 
 2. Set up the database:
    - Run the SQL script in Supabase
-   - Run the admin setup script: `node scripts/setup-admin.js`
 
 3. Start the development server:
 ```bash
@@ -272,75 +150,43 @@ npm run dev
 
 ### Manual API Testing
 1. Start the development server: `npm run dev`
-2. Use the admin setup script to create admin user
-3. Login to get admin token
-4. Test endpoints with curl or Postman
+2. Test endpoints with curl or Postman
 
 ### Example Test Flow
 ```bash
-# 1. Create admin user
-node scripts/setup-admin.js
-
-# 2. Login to get token (you'll need to implement this endpoint)
-curl -X POST http://localhost:3000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "admin@pharbit.com",
-    "password": "F#034180427932al"
-  }'
-
-# 3. Create a blog post
-curl -X POST http://localhost:3000/api/blogs \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -d '{
-    "title": "Test Blog",
-    "excerpt": "Test excerpt",
-    "content": "Test content",
-    "read_time": "5 min read",
-    "category": "Test",
-    "author": "Test Author",
-    "tags": ["test"]
-  }'
-
-# 4. Get all blogs
+# 1. Get all blogs
 curl http://localhost:3000/api/blogs
 
-# 5. Get specific blog
+# 2. Get specific blog
 curl http://localhost:3000/api/blogs/BLOG_ID_HERE
+
+# 3. Get company info
+curl http://localhost:3000/api/company
+
+# 4. Submit contact form
+curl -X POST http://localhost:3000/api/contact \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Test User",
+    "email": "test@example.com",
+    "message": "Test message"
+  }'
 ```
 
 ## Features
 
-- ✅ Full CRUD operations for blog posts
-- ✅ Admin-only write access with JWT authentication
-- ✅ Public read access
-- ✅ Pagination and filtering
+- ✅ Public read access to blog posts
+- ✅ Pagination and filtering for blogs
 - ✅ Search functionality
+- ✅ Contact form submission
+- ✅ Company information retrieval
+- ✅ Timeline data access
 - ✅ Input validation
 - ✅ TypeScript support
 - ✅ Error handling
 - ✅ Database triggers for updated_at
 - ✅ Next.js API routes
 - ✅ Supabase integration
-
-## Security
-
-- All write operations require admin authentication
-- Input validation prevents malicious data
-- JWT tokens for secure authentication
-- Role-based authorization (ADMIN role required for write operations)
-
-## Error Handling
-
-The API returns appropriate HTTP status codes:
-- 200: Success
-- 201: Created
-- 400: Bad Request (validation errors)
-- 401: Unauthorized (missing/invalid token)
-- 403: Forbidden (insufficient permissions)
-- 404: Not Found
-- 500: Internal Server Error
 
 ## Response Format
 

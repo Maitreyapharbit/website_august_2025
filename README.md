@@ -1,6 +1,6 @@
 # Pharbit - Next.js Frontend
 
-A modern Next.js 14 application for Pharbit, showcasing blockchain-based pharmaceutical supply chain solutions.
+A modern Next.js 14 application for Pharbit, showcasing blockchain-based pharmaceutical supply chain solutions with enhanced visual connections and public API.
 
 ## Features
 
@@ -10,6 +10,8 @@ A modern Next.js 14 application for Pharbit, showcasing blockchain-based pharmac
 - **Responsive Design** with mobile-first approach
 - **Modern UI Components** with glass morphism effects
 - **Smooth Animations** and transitions
+- **Enhanced Chain Visualizations** in interactive infographics
+- **Public API** for content delivery
 - **SEO Optimized** with proper meta tags
 
 ## Getting Started
