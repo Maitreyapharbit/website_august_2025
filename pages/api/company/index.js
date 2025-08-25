@@ -1,6 +1,5 @@
 import { supabase } from '../_utils/supabase.js';
 import { verifyToken } from '../_utils/auth.js';
-import { verifyToken } from '../_utils/auth.js';
 
 // CORS headers for AWS Amplify
 const corsHeaders = {

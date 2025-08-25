@@ -171,7 +171,6 @@ const Header: React.FC = () => {
         onClose={() => setIsLoginModalOpen(false)} 
       />
     </>
-    </>
   );
 };
 
