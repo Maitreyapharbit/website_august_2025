@@ -5,10 +5,14 @@ import React from 'react';
 import Logo from '@/components/ui/Logo';
 import LoginModal from '@/components/auth/LoginModal';
 import { useAuth } from '@/context/AuthContext';
+import LoginModal from '@/components/auth/LoginModal';
+import { useAuth } from '@/context/AuthContext';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { isLoggedIn, isAdmin, logout, user } = useAuth();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { isLoggedIn, isAdmin, logout, user } = useAuth();
 
@@ -33,6 +37,7 @@ const Header: React.FC = () => {
   ];
 
   return (
+    <>
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
@@ -62,6 +67,30 @@ const Header: React.FC = () => {
             <div className="flex items-center space-x-4">
               {isLoggedIn && isAdmin ? (
                 <div className="flex items-center space-x-4">
+                  <span className="text-secondary-cyan text-sm">
+                    Welcome, {user?.email}
+                  </span>
+                  <button
+                    onClick={logout}
+                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-4">
+                  <button
+                    onClick={() => setIsLoginModalOpen(true)}
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300"
+                  >
+                    Admin Login
+                  </button>
+                  <button className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
+                    Request Demo
+                  </button>
+                </div>
+              )}
+            </div>
                   <span className="text-secondary-cyan text-sm">
                     Welcome, {user?.email}
                   </span>
@@ -156,9 +185,34 @@ const Header: React.FC = () => {
                     >
                       Admin Login
                     </button>
+                {isLoggedIn && isAdmin ? (
+                  <div className="space-y-3">
+                    <div className="text-secondary-cyan text-sm">
+                      Welcome, {user?.email}
+                    </div>
+                    <button
+                      onClick={logout}
+                      className="w-full bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <button
+                      onClick={() => {
+                        setIsLoginModalOpen(true);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300"
+                    >
+                      Admin Login
+                    </button>
                 <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300 mb-3">
                   Request Demo
                 </button>
+                  </div>
+                )}
                   </div>
                 )}
               </div>
@@ -167,6 +221,12 @@ const Header: React.FC = () => {
         )}
       </div>
       </header>
+
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)} 
+      />
+    </>
 
       <LoginModal 
         isOpen={isLoginModalOpen} 

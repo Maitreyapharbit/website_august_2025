@@ -1,5 +1,6 @@
 import { supabase } from '../_utils/supabase.js';
 import { verifyToken } from '../_utils/auth.js';
+import { verifyToken } from '../_utils/auth.js';
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -36,6 +37,46 @@ export default async function handler(req, res) {
       return res.status(200).json({
         success: true,
         message: 'Company information retrieved successfully',
+        data: company
+      });
+    }
+
+    if (req.method === 'PUT') {
+      // Protected endpoint - update company information
+      const authResult = verifyToken(req, res);
+      if (authResult !== true) {
+        return authResult;
+      }
+
+      const { name, description, email, phone, address } = req.body;
+
+      const updateData = {};
+      if (name) updateData.name = name;
+      if (description) updateData.description = description;
+      if (email) updateData.email = email;
+      if (phone) updateData.phone = phone;
+      if (address) updateData.address = address;
+
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({
+          success: false,
+          error: 'At least one field is required for update'
+        });
+      }
+
+      const { data: company, error } = await supabase
+        .from('company')
+        .update(updateData)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error('Failed to update company information');
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Company information updated successfully',
         data: company
       });
     }

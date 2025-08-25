@@ -1,5 +1,6 @@
 import { supabase } from '../_utils/supabase.js';
 import { verifyToken } from '../_utils/auth.js';
+import { verifyToken } from '../_utils/auth.js';
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -71,6 +72,44 @@ export default async function handler(req, res) {
           limit,
           totalPages
         }
+      });
+    }
+
+    if (req.method === 'POST') {
+      // Protected endpoint - create new blog
+      const authResult = verifyToken(req, res);
+      if (authResult !== true) {
+        return authResult;
+      }
+
+      const { title, excerpt, content, image_url } = req.body;
+
+      if (!title || !excerpt || !content) {
+        return res.status(400).json({
+          success: false,
+          error: 'Title, excerpt, and content are required'
+        });
+      }
+
+      const { data: blog, error } = await supabase
+        .from('blogs')
+        .insert({
+          title,
+          excerpt,
+          content,
+          image_url: image_url || null
+        })
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error('Failed to create blog');
+      }
+
+      return res.status(201).json({
+        success: true,
+        message: 'Blog created successfully',
+        data: blog
       });
     }
 

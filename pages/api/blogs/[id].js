@@ -1,5 +1,6 @@
 import { supabase } from '../_utils/supabase.js';
 import { verifyToken } from '../_utils/auth.js';
+import { verifyToken } from '../_utils/auth.js';
 
 // CORS headers for AWS Amplify
 const corsHeaders = {
@@ -49,6 +50,74 @@ export default async function handler(req, res) {
         success: true,
         message: 'Blog retrieved successfully',
         data: blog
+      });
+    }
+
+    if (req.method === 'PUT') {
+      // Protected endpoint - update blog
+      const authResult = verifyToken(req, res);
+      if (authResult !== true) {
+        return authResult;
+      }
+
+      const { title, excerpt, content, image_url } = req.body;
+
+      const updateData = {};
+      if (title) updateData.title = title;
+      if (excerpt) updateData.excerpt = excerpt;
+      if (content) updateData.content = content;
+      if (image_url !== undefined) updateData.image_url = image_url;
+
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({
+          success: false,
+          error: 'At least one field is required for update'
+        });
+      }
+
+      const { data: blog, error } = await supabase
+        .from('blogs')
+        .update(updateData)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error || !blog) {
+        return res.status(404).json({
+          success: false,
+          error: 'Blog post not found or update failed'
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Blog updated successfully',
+        data: blog
+      });
+    }
+
+    if (req.method === 'DELETE') {
+      // Protected endpoint - delete blog
+      const authResult = verifyToken(req, res);
+      if (authResult !== true) {
+        return authResult;
+      }
+
+      const { error } = await supabase
+        .from('blogs')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        return res.status(404).json({
+          success: false,
+          error: 'Blog post not found or delete failed'
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Blog deleted successfully'
       });
     }
 
