@@ -9,44 +9,6 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      users: {
-        Row: {
-          id: string
-          email: string
-          password_hash: string
-          role: 'ADMIN' | 'COMPANY' | 'VIEWER'
-          first_name: string | null
-          last_name: string | null
-          company_id: string | null
-          is_verified: boolean
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          email: string
-          password_hash: string
-          role?: 'ADMIN' | 'COMPANY' | 'VIEWER'
-          first_name?: string | null
-          last_name?: string | null
-          company_id?: string | null
-          is_verified?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          email?: string
-          password_hash?: string
-          role?: 'ADMIN' | 'COMPANY' | 'VIEWER'
-          first_name?: string | null
-          last_name?: string | null
-          company_id?: string | null
-          is_verified?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-      }
       companies: {
         Row: {
           id: string
@@ -332,47 +294,6 @@ export interface Database {
         Update: {
           sensor_id?: string
           shipment_id?: string
-        }
-      }
-      blogs: {
-        Row: {
-          id: string
-          title: string
-          excerpt: string
-          content: string
-          date: string
-          read_time: string
-          category: string
-          author: string
-          tags: string[]
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          title: string
-          excerpt: string
-          content: string
-          date?: string
-          read_time: string
-          category: string
-          author: string
-          tags?: string[]
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          title?: string
-          excerpt?: string
-          content?: string
-          date?: string
-          read_time?: string
-          category?: string
-          author?: string
-          tags?: string[]
-          created_at?: string
-          updated_at?: string
         }
       }
     }

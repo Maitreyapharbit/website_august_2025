@@ -1,13 +1,8 @@
 
 'use client';
 import React from 'react';
-import { useAuth } from '@/context/AuthContext';
-import CompanyManager from '@/components/admin/CompanyManager';
 
 const About: React.FC = () => {
-  const { isAdmin } = useAuth();
-  const [showAdminPanel, setShowAdminPanel] = React.useState(false);
-
   return (
     <section id="about" className="section modern-section">
       <div className="container">
@@ -23,21 +18,6 @@ const About: React.FC = () => {
               </h2>
               <p className="text-xl text-secondary-cyan font-semibold mb-6">Compliance • Transparency • Innovation</p>
               
-              {/* Admin Controls */}
-              {isAdmin && (
-                <div className="mb-6">
-                  <button
-                    onClick={() => setShowAdminPanel(!showAdminPanel)}
-                    className="btn-primary px-4 py-2 rounded-lg font-semibold flex items-center space-x-2"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span>{showAdminPanel ? 'Hide' : 'Edit'} Company Info</span>
-                  </button>
-                </div>
-              )}
             </div>
             <p className="text-lg text-primary-white opacity-80 mb-8 leading-relaxed">
               Pharbit is a pioneering pharmaceutical technology company that combines blockchain technology with IoT sensors to create an unbreakable chain of custody for medicines from manufacturing to patient delivery.
@@ -123,13 +103,6 @@ const About: React.FC = () => {
             </div>
           </div>
         </div>
-        
-        {/* Admin Panel */}
-        {isAdmin && showAdminPanel && (
-          <div className="mt-16">
-            <CompanyManager />
-          </div>
-        )}
       </div>
     </section>
   );
