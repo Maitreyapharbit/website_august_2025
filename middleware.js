@@ -1,9 +1,33 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 
 export async function middleware(req) {
-  const res = NextResponse.next()
-  const supabase = createMiddlewareClient({ req, res })
+  let response = NextResponse.next({
+    request: {
+      headers: req.headers,
+    },
+  })
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: {
+        getAll() {
+          return req.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => req.cookies.set(name, value))
+          response = NextResponse.next({
+            request: {
+              headers: req.headers,
+            },
+          })
+          cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options))
+        },
+      },
+    }
+  )
 
   // Get the pathname of the request
   const { pathname } = req.nextUrl
@@ -12,15 +36,15 @@ export async function middleware(req) {
   if (pathname.startsWith('/admin')) {
     // Skip middleware for login page
     if (pathname === '/admin/login') {
-      return res
+      return response
     }
 
     try {
-      // Get the session
-      const { data: { session }, error } = await supabase.auth.getSession()
+      // Get the session using cookies
+      const { data: { user }, error } = await supabase.auth.getUser()
       
-      if (error || !session) {
-        // No session, redirect to login
+      if (error || !user) {
+        // No authenticated user, redirect to login
         return NextResponse.redirect(new URL('/admin/login', req.url))
       }
 
@@ -28,7 +52,7 @@ export async function middleware(req) {
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('role')
-        .eq('id', session.user.id)
+        .eq('id', user.id)
         .single()
 
       if (profileError || !profile || (profile.role !== 'admin' && profile.role !== 'super_admin')) {
@@ -37,7 +61,7 @@ export async function middleware(req) {
       }
 
       // User is authenticated and has admin role, allow access
-      return res
+      return response
     } catch (error) {
       console.error('Middleware error:', error)
       // On error, redirect to login
@@ -46,7 +70,7 @@ export async function middleware(req) {
   }
 
   // For non-admin routes, just continue
-  return res
+  return response
 }
 
 export const config = {
