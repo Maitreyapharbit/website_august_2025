@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('admin@pharbit.com')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
@@ -16,18 +17,11 @@ export default function AdminLoginPage() {
     setError('')
 
     try {
-      const resp = await fetch('/api/admin/local-login', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      })
-
-      if (!resp.ok) {
-        const j = await resp.json().catch(() => ({}))
-        setError(j.error || 'Invalid credentials')
+      if (!email || !password) {
+        setError('Please enter both username and password')
         return
       }
-
+      // Navigate to /admin to trigger Basic Auth challenge in the browser
       router.replace('/admin')
     } catch (err) {
       setError('An unexpected error occurred')
@@ -44,14 +38,14 @@ export default function AdminLoginPage() {
             Admin Login
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Sign in to access the admin dashboard
+            Enter your username and password to access the admin dashboard.
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="email-address" className="sr-only">
-                Email address
+                Username (email)
               </label>
               <input
                 id="email-address"
@@ -60,7 +54,7 @@ export default function AdminLoginPage() {
                 autoComplete="email"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                placeholder="Username (email)"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -69,23 +63,37 @@ export default function AdminLoginPage() {
               <label htmlFor="password" className="sr-only">
                 Password
               </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  required
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm pr-10"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? 'Hide' : 'Show'}
+                </button>
+              </div>
             </div>
           </div>
 
           {error && (
             <div className="text-red-600 text-sm text-center">{error}</div>
           )}
+
+          <p className="text-xs text-gray-500 text-center">
+            After clicking Sign in, you may see a browser prompt to confirm your credentials for the admin area.
+          </p>
 
           <div>
             <button
