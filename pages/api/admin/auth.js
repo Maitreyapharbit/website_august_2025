@@ -9,22 +9,17 @@ export default async function handler(req, res) {
   try {
     // Get the authorization header
     const authHeader = req.headers.authorization
-    
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({
-        error: 'Missing or invalid authorization header'
-      })
+      return res.status(401).json({ error: 'No token provided' })
     }
 
     const token = authHeader.substring(7) // Remove 'Bearer ' prefix
 
     // Verify the JWT token
     const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token)
-
+    
     if (authError || !user) {
-      return res.status(401).json({
-        error: 'Invalid or expired token'
-      })
+      return res.status(401).json({ error: 'Invalid token' })
     }
 
     // Get user profile to check role
@@ -35,43 +30,28 @@ export default async function handler(req, res) {
       .single()
 
     if (profileError || !profile) {
-      return res.status(404).json({
-        error: 'User profile not found'
-      })
+      return res.status(404).json({ error: 'User profile not found' })
     }
 
     // Check if user has admin role
-    const isAdmin = profile.role === 'admin' || profile.role === 'super_admin'
-
-    if (!isAdmin) {
-      return res.status(403).json({
-        error: 'Access denied. Admin privileges required.'
-      })
+    if (profile.role !== 'admin' && profile.role !== 'super_admin') {
+      return res.status(403).json({ error: 'Access denied. Admin privileges required.' })
     }
 
     // Return user info and admin status
     return res.status(200).json({
-      authenticated: true,
       user: {
         id: user.id,
         email: user.email,
         role: profile.role,
-        created_at: user.created_at,
-        last_sign_in: user.last_sign_in_at
+        created_at: user.created_at
       },
-      permissions: {
-        canManageUsers: true,
-        canManageContent: true,
-        canManageSettings: true,
-        isSuperAdmin: profile.role === 'super_admin'
-      }
+      isAdmin: true,
+      permissions: profile.role === 'super_admin' ? ['all'] : ['admin']
     })
 
   } catch (error) {
-    console.error('Auth validation error:', error)
-    return res.status(500).json({
-      error: 'Internal server error',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
-    })
+    console.error('Admin auth validation error:', error)
+    return res.status(500).json({ error: 'Internal server error' })
   }
 }

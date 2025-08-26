@@ -1,28 +1,19 @@
-#!/usr/bin/env node
-
-/**
- * Admin System Setup Script
- * This script creates the first admin user and initializes the admin system
- */
-
-const { createClient } = require('@supabase/supabase-js')
-require('dotenv').config()
+import { createClient } from '@supabase/supabase-js'
+import 'dotenv/config' // Load environment variables
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-if (!supabaseUrl || !serviceRoleKey) {
-  console.error('❌ Missing required environment variables:')
-  console.error('   NEXT_PUBLIC_SUPABASE_URL')
-  console.error('   SUPABASE_SERVICE_ROLE_KEY')
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ Supabase URL or Service Role Key is missing in environment variables.')
   process.exit(1)
 }
 
-const supabase = createClient(supabaseUrl, serviceRoleKey, {
+const supabase = createClient(supabaseUrl, supabaseServiceKey, {
   auth: {
     autoRefreshToken: false,
-    persistSession: false
-  }
+    persistSession: false,
+  },
 })
 
 async function setupAdmin() {
@@ -38,7 +29,7 @@ async function setupAdmin() {
       .limit(1)
 
     if (checkError) {
-      console.error('❌ Error checking existing admins:', checkError.message)
+      console.error('❌ Error checking for existing admins:', checkError.message)
       process.exit(1)
     }
 
@@ -48,7 +39,6 @@ async function setupAdmin() {
       return
     }
 
-    // Create admin user
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@pharbit.com'
     const adminPassword = process.env.ADMIN_PASSWORD || 'Admin123!'
 
@@ -62,7 +52,7 @@ async function setupAdmin() {
     })
 
     if (createError) {
-      console.error('❌ Error creating admin user:', createError.message)
+      console.error('❌ Error creating user:', createError.message)
       process.exit(1)
     }
 
@@ -76,11 +66,13 @@ async function setupAdmin() {
 
     if (updateError) {
       console.error('❌ Error updating profile role:', updateError.message)
+      // Attempt to delete the created user if profile update fails
+      await supabase.auth.admin.deleteUser(userData.user.id)
       process.exit(1)
     }
 
-    // Create admin record
-    const { error: adminError } = await supabase
+    // Insert into admins table
+    const { error: adminInsertError } = await supabase
       .from('admins')
       .insert({
         id: userData.user.id,
@@ -88,8 +80,10 @@ async function setupAdmin() {
         permissions: { all: true, super_admin: true }
       })
 
-    if (adminError) {
-      console.error('❌ Error creating admin record:', adminError.message)
+    if (adminInsertError) {
+      console.error('❌ Error inserting into admins table:', adminInsertError.message)
+      // Attempt to delete the created user if admin record creation fails
+      await supabase.auth.admin.deleteUser(userData.user.id)
       process.exit(1)
     }
 
@@ -115,5 +109,4 @@ async function setupAdmin() {
   }
 }
 
-// Run setup
 setupAdmin()

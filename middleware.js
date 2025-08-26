@@ -18,12 +18,10 @@ export async function middleware(req) {
     try {
       // Get the session
       const { data: { session }, error } = await supabase.auth.getSession()
-
+      
       if (error || !session) {
         // No session, redirect to login
-        const url = req.nextUrl.clone()
-        url.pathname = '/admin/login'
-        return NextResponse.redirect(url)
+        return NextResponse.redirect(new URL('/admin/login', req.url))
       }
 
       // Check if user has admin role
@@ -33,30 +31,17 @@ export async function middleware(req) {
         .eq('id', session.user.id)
         .single()
 
-      if (profileError || !profile) {
-        // No profile found, redirect to login
-        const url = req.nextUrl.clone()
-        url.pathname = '/admin/login'
-        return NextResponse.redirect(url)
-      }
-
-      // Check if user has admin role
-      if (profile.role !== 'admin' && profile.role !== 'super_admin') {
-        // Not an admin, redirect to login
-        const url = req.nextUrl.clone()
-        url.pathname = '/admin/login'
-        return NextResponse.redirect(url)
+      if (profileError || !profile || (profile.role !== 'admin' && profile.role !== 'super_admin')) {
+        // User doesn't have admin role, redirect to login
+        return NextResponse.redirect(new URL('/admin/login', req.url))
       }
 
       // User is authenticated and has admin role, allow access
       return res
-
     } catch (error) {
       console.error('Middleware error:', error)
-      // Error occurred, redirect to login
-      const url = req.nextUrl.clone()
-      url.pathname = '/admin/login'
-      return NextResponse.redirect(url)
+      // On error, redirect to login
+      return NextResponse.redirect(new URL('/admin/login', req.url))
     }
   }
 
@@ -66,13 +51,6 @@ export async function middleware(req) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
-     */
     '/((?!_next/static|_next/image|favicon.ico|public).*)',
   ],
 }

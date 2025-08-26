@@ -52,10 +52,13 @@ ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
 ALTER TABLE admin_audit_log ENABLE ROW LEVEL SECURITY;
 
 -- Profiles table policies
-CREATE POLICY "Users can view their own profile" ON profiles
-  FOR SELECT USING (auth.uid() = id);
+CREATE POLICY "Public profiles are viewable by everyone." ON profiles
+  FOR SELECT USING (true);
 
-CREATE POLICY "Users can update their own profile" ON profiles
+CREATE POLICY "Users can insert their own profile." ON profiles
+  FOR INSERT WITH CHECK (auth.uid() = id);
+
+CREATE POLICY "Users can update their own profile." ON profiles
   FOR UPDATE USING (auth.uid() = id);
 
 CREATE POLICY "Admins can view all profiles" ON profiles
@@ -75,11 +78,16 @@ CREATE POLICY "Admins can update all profiles" ON profiles
   );
 
 -- Admins table policies
-CREATE POLICY "Service role can access admins" ON admins
-  FOR ALL USING (auth.role() = 'service_role');
-
 CREATE POLICY "Admins can view admin table" ON admins
   FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM profiles 
+      WHERE id = auth.uid() AND role IN ('admin', 'super_admin')
+    )
+  );
+
+CREATE POLICY "Admins can insert into admin table" ON admins
+  FOR INSERT WITH CHECK (
     EXISTS (
       SELECT 1 FROM profiles 
       WHERE id = auth.uid() AND role IN ('admin', 'super_admin')
@@ -106,7 +114,7 @@ CREATE POLICY "Admins can view audit log" ON admin_audit_log
     )
   );
 
--- Function to automatically create profile on user signup
+-- Function to handle new user creation and set first user as super_admin
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
