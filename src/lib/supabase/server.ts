@@ -8,7 +8,8 @@ if (!supabaseUrl || !serviceRoleKey) {
   console.warn('Supabase server env not set: NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY')
 }
 
-export const supabaseAdmin = createClient(supabaseUrl ?? '', serviceRoleKey ?? '', {
+// Basic Supabase client for server-side operations
+export const supabase = createClient(supabaseUrl ?? '', serviceRoleKey ?? '', {
   auth: {
     persistSession: false,
     autoRefreshToken: false,
