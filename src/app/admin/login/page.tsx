@@ -100,3 +100,5 @@ export default function AdminLoginPage() {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'

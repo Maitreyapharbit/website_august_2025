@@ -124,11 +124,7 @@ npm run dev
 - **Headers**: `Authorization: Bearer <token>`
 - **Response**: User info and permissions
 
-### `/api/admin/invite`
-- **Method**: POST
-- **Purpose**: Create new admin users
-- **Headers**: `Authorization: Bearer <ADMIN_INVITE_SECRET>`
-- **Body**: `{ "email": "admin@example.com", "role": "admin" }`
+### Admin invite (removed)
 
 ## 🚨 Troubleshooting
 

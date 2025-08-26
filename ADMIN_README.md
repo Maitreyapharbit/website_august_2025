@@ -60,7 +60,7 @@ This will create an admin user with:
 
 ### API Endpoints
 
-- `POST /api/admin/invite` - Invite new users (admin only)
+- Removed: `POST /api/admin/invite` (feature deprecated)
 
 ### Authentication Hook
 
