@@ -2,7 +2,16 @@
 const nextConfig = {
   output: 'standalone',
   images: {
-    domains: ['images.pexels.com', 'www.pexels.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.pexels.com',
+      }
+    ],
   },
   webpack: (config, { dev, isServer }) => {
     // Disable webpack cache in development to prevent corruption
