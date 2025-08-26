@@ -51,11 +51,20 @@ const Header: React.FC = () => {
               ))}
             </nav>
 
-            {/* CTA Button */}
-            <div className="hidden md:block">
-              <button className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
+            {/* CTA Buttons */}
+            <div className="hidden md:flex items-center gap-3">
+              <a
+                href="/admin/login"
+                className="text-white/90 hover:text-white border border-white/20 hover:border-white/40 px-4 py-2 rounded-lg font-medium transition-all duration-300"
+              >
+                Admin Login
+              </a>
+              <a
+                href="#contact"
+                className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300"
+              >
                 Request Demo
-              </button>
+              </a>
             </div>
 
             {/* Mobile Menu Button */}
@@ -103,9 +112,20 @@ const Header: React.FC = () => {
                   </a>
                 ))}
                 <div className="px-4 pt-4">
-                  <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300 mb-3">
+                  <a
+                    href="/admin/login"
+                    className="block w-full text-center border border-white/20 text-white px-6 py-2 rounded-lg font-medium hover:border-white/40 transition-all duration-300 mb-3"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Admin Login
+                  </a>
+                  <a
+                    href="#contact"
+                    className="block w-full text-center bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
                     Request Demo
-                  </button>
+                  </a>
                 </div>
               </nav>
             </div>
