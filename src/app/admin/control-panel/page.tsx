@@ -1,6 +1,9 @@
-export const dynamic = 'force-dynamic'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 export default function ControlPanelPage() {
+  const isAuthed = cookies().get('admin_auth')?.value === '1'
+  if (!isAuthed) redirect('/admin/login')
   return (
     <div className="space-y-6">
       <div className="bg-white shadow rounded-lg p-6">
