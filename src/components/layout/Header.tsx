@@ -54,7 +54,7 @@ const Header: React.FC = () => {
             {/* CTA Buttons */}
             <div className="hidden md:flex items-center gap-3">
               <a
-                href="/admin/login"
+                href="/admin"
                 className="text-white/90 hover:text-white border border-white/20 hover:border-white/40 px-4 py-2 rounded-lg font-medium transition-all duration-300"
               >
                 Admin Login
@@ -113,7 +113,7 @@ const Header: React.FC = () => {
                 ))}
                 <div className="px-4 pt-4">
                   <a
-                    href="/admin/login"
+                    href="/admin"
                     className="block w-full text-center border border-white/20 text-white px-6 py-2 rounded-lg font-medium hover:border-white/40 transition-all duration-300 mb-3"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
