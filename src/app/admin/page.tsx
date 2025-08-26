@@ -2,24 +2,17 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/hooks/useAuth'
 
 export default function AdminHomePage() {
-  const { user } = useAuth()
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('dashboard')
-
-  if (!user || user.role !== 'admin') {
-    router.replace('/admin/login')
-    return null
-  }
 
   return (
     <div className="space-y-6">
       <div className="bg-white shadow rounded-lg p-6">
         <h1 className="text-2xl font-semibold text-gray-900">Admin Dashboard</h1>
         <p className="text-sm text-gray-600 mt-2">
-          Welcome back, {user.email}. You have admin privileges.
+          Welcome back. You have admin privileges.
         </p>
       </div>
 

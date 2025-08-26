@@ -2,14 +2,12 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/hooks/useAuth'
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('admin@pharbit.com')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const { signIn } = useAuth()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,15 +16,18 @@ export default function AdminLoginPage() {
     setError('')
 
     try {
-      const { error: signInError } = await signIn(email, password)
-      
-      if (signInError) {
-        setError(signInError.message)
+      const resp = await fetch('/api/admin/local-login', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+
+      if (!resp.ok) {
+        const j = await resp.json().catch(() => ({}))
+        setError(j.error || 'Invalid credentials')
         return
       }
 
-      // Check if user has admin role
-      // This will be handled by the admin layout
       router.replace('/admin')
     } catch (err) {
       setError('An unexpected error occurred')
