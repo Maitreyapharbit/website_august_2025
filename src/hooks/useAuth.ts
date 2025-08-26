@@ -1,13 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
-import { User } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey)
+import { useRef, useState, useEffect } from 'react'
+import type { User } from '@supabase/supabase-js'
+import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 
 interface AuthUser extends User {
   role?: string
@@ -16,10 +11,21 @@ interface AuthUser extends User {
 export function useAuth() {
   const [user, setUser] = useState<AuthUser | null>(null)
   const [loading, setLoading] = useState(true)
+  const supabaseRef = useRef<ReturnType<typeof getSupabaseBrowserClient> | null>(null)
 
   useEffect(() => {
+    // Initialize client on the browser only
+    try {
+      supabaseRef.current = getSupabaseBrowserClient()
+    } catch (e) {
+      // Missing env or called on server; do not proceed
+      setLoading(false)
+      return
+    }
+
     // Get initial session
     const getInitialSession = async () => {
+      const supabase = supabaseRef.current!
       const { data: { session } } = await supabase.auth.getSession()
       if (session?.user) {
         // Fetch user role from profile
@@ -40,10 +46,11 @@ export function useAuth() {
     getInitialSession()
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } } = supabaseRef.current!.auth.onAuthStateChange(
       async (event, session) => {
         if (session?.user) {
           // Fetch user role from profile
+          const supabase = supabaseRef.current!
           const { data: profile } = await supabase
             .from('profiles')
             .select('role')
@@ -65,7 +72,7 @@ export function useAuth() {
   }, [])
 
   const signIn = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabaseRef.current!.auth.signInWithPassword({
       email,
       password,
     })
@@ -73,12 +80,12 @@ export function useAuth() {
   }
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut()
+    const { error } = await supabaseRef.current!.auth.signOut()
     return { error }
   }
 
   const signUp = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabaseRef.current!.auth.signUp({
       email,
       password,
     })

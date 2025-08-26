@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase/server'
+import { getSupabaseAdmin } from '@/lib/supabase/server'
 
-const ADMIN_INVITE_SECRET = process.env.ADMIN_INVITE_SECRET
+export const dynamic = 'force-dynamic'
 
 export async function POST(req: NextRequest) {
   try {
     // Verify admin invite secret
+    const ADMIN_INVITE_SECRET = process.env.ADMIN_INVITE_SECRET
     if (!ADMIN_INVITE_SECRET) {
       return NextResponse.json(
         { error: 'Admin invite secret not configured' },
@@ -31,6 +32,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Invite user via Supabase
+    const supabase = getSupabaseAdmin()
     const { data, error } = await supabase.auth.admin.inviteUserByEmail(email)
 
     if (error) {
