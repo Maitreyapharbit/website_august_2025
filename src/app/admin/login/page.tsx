@@ -21,7 +21,16 @@ export default function AdminLoginPage() {
         setError('Please enter both username and password')
         return
       }
-      // Navigate to /admin to trigger Basic Auth challenge in the browser
+      const resp = await fetch('/api/admin/local-login', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+      if (!resp.ok) {
+        const j = await resp.json().catch(() => ({}))
+        setError(j.error || 'Invalid credentials')
+        return
+      }
       router.replace('/admin')
     } catch (err) {
       setError('An unexpected error occurred')

@@ -1,6 +1,15 @@
 import { ReactNode } from 'react'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
+  const cookieStore = cookies()
+  const isAuthed = cookieStore.get('admin_auth')?.value === '1'
+
+  if (!isAuthed) {
+    redirect('/admin/login')
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow-sm border-b">
