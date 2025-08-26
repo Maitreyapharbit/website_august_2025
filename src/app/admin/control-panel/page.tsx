@@ -36,3 +36,5 @@ export default function ControlPanelPage() {
   )
 }
 
+export const dynamic = 'force-dynamic'
+

@@ -9,3 +9,5 @@ export default function AdminHomePage() {
 
   return <DashboardClient />
 }
+
+export const dynamic = 'force-dynamic'
