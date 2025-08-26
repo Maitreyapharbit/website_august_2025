@@ -30,3 +30,5 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     </div>
   )
 }
+
+export const dynamic = 'force-dynamic'
