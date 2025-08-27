@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { getSupabaseEnv } from '@/lib/env'
 
 function getSupabase() {
-  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY
+  const { url, serviceKey } = getSupabaseEnv()
   if (!url || !serviceKey) {
     console.error('Supabase env missing', {
       hasUrl: !!url,
