@@ -1,8 +1,64 @@
 
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+interface Company {
+  id: string;
+  name: string;
+  description: string;
+  email: string;
+  phone: string;
+  address: string;
+  website: string;
+  founded: string;
+  employees: string;
+  industry: string;
+}
 
 const About: React.FC = () => {
+  const [company, setCompany] = useState<Company | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch company data
+  useEffect(() => {
+    const fetchCompany = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/company');
+        if (!response.ok) {
+          throw new Error('Failed to fetch company information');
+        }
+        const data = await response.json();
+        if (data.success) {
+          setCompany(data.company);
+        } else {
+          throw new Error(data.error || 'Failed to fetch company information');
+        }
+      } catch (err) {
+        console.error('Error fetching company:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load company information');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCompany();
+  }, []);
+
+  // Default company data if loading or error
+  const displayCompany = company || {
+    name: 'Pharbit',
+    description: 'Global pharmaceutical technology company combining blockchain and IoT sensors to create unbreakable chains of custody for medicines worldwide, ensuring transparency and patient safety.',
+    email: 'info@pharbit.com',
+    phone: '+4917697711873',
+    address: 'An Europakanal 6, 91056 Erlangen, Germany',
+    website: 'www.pharbit.com',
+    founded: '2025',
+    employees: '10-50',
+    industry: 'Pharmaceutical Technology'
+  };
+
   return (
     <section id="about" className="section modern-section">
       <div className="container">
@@ -13,29 +69,29 @@ const About: React.FC = () => {
               <h2 className="text-4xl lg:text-5xl font-black text-primary-white mb-6">
                 About{' '}
                 <span className="bg-gradient-to-r from-primary-blue to-secondary-cyan bg-clip-text text-transparent">
-                  Pharbit
+                  {displayCompany.name}
                 </span>
               </h2>
               <p className="text-xl text-secondary-cyan font-semibold mb-6">Compliance • Transparency • Innovation</p>
               
             </div>
             <p className="text-lg text-primary-white opacity-80 mb-8 leading-relaxed">
-              Pharbit is a pioneering pharmaceutical technology company that combines blockchain technology with IoT sensors to create an unbreakable chain of custody for medicines from manufacturing to patient delivery.
+              {displayCompany.description}
             </p>
             <p className="text-lg text-primary-white opacity-80 mb-8 leading-relaxed">
-              Founded to address the critical global challenge of counterfeit drugs, we provide pharmaceutical companies worldwide with cutting-edge solutions for supply chain transparency, regulatory compliance, and patient safety.
+              Founded in {displayCompany.founded} to address the critical global challenge of counterfeit drugs, we provide pharmaceutical companies worldwide with cutting-edge solutions for supply chain transparency, regulatory compliance, and patient safety.
             </p>
             
             <div className="grid grid-cols-2 gap-6">
               <div className="modern-card p-6">
-                <h3 className="text-3xl font-bold text-red-400 mb-2">1M+</h3>
-                <p className="text-primary-white font-medium">Deaths from Counterfeits</p>
-                <p className="text-primary-white opacity-70 text-sm">Prevented annually</p>
+                <h3 className="text-3xl font-bold text-red-400 mb-2">{displayCompany.employees}</h3>
+                <p className="text-primary-white font-medium">Team Members</p>
+                <p className="text-primary-white opacity-70 text-sm">Global workforce</p>
               </div>
               <div className="modern-card p-6">
-                <h3 className="text-3xl font-bold text-orange-400 mb-2">€200B+</h3>
-                <p className="text-primary-white font-medium">Annual Losses</p>
-                <p className="text-primary-white opacity-70 text-sm">From counterfeits</p>
+                <h3 className="text-3xl font-bold text-orange-400 mb-2">{displayCompany.founded}</h3>
+                <p className="text-primary-white font-medium">Founded</p>
+                <p className="text-primary-white opacity-70 text-sm">Year established</p>
               </div>
             </div>
           </div>

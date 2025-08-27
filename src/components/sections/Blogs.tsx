@@ -3,43 +3,52 @@
 import React, { useState, useEffect } from 'react';
 import { useInView } from '@/hooks/useInView';
 
+interface Blog {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  date: string;
+  read_time: string;
+  category: string;
+  author: string;
+  tags: string[];
+  created_at: string;
+  updated_at: string;
+}
+
 const Blogs: React.FC = () => {
   const [ref, isInView] = useInView({ threshold: 0.1 });
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Static blog data for display
-  const blogs = [
-    {
-      id: '1',
-      title: 'Welcome to Pharbit Blog',
-      excerpt: 'An introduction to Pharbit\'s blockchain-based pharmaceutical supply chain management platform.',
-      date: '2024-01-15',
-      readTime: '5 min read',
-      category: 'Platform',
-      author: 'Pharbit Team',
-      tags: ['pharmaceutical', 'supply-chain', 'technology']
-    },
-    {
-      id: '2',
-      title: 'The Future of Pharmaceutical Security',
-      excerpt: 'How blockchain technology is transforming pharmaceutical security and patient safety.',
-      date: '2024-01-10',
-      readTime: '8 min read',
-      category: 'Security',
-      author: 'Dr. Sarah Johnson',
-      tags: ['security', 'compliance', 'counterfeit']
-    },
-    {
-      id: '3',
-      title: 'IoT Sensors in Cold Chain Management',
-      excerpt: 'Real-time temperature monitoring for pharmaceutical cold chain compliance.',
-      date: '2024-01-05',
-      readTime: '6 min read',
-      category: 'Technology',
-      author: 'Tech Team',
-      tags: ['iot', 'cold-chain', 'monitoring']
-    }
-  ];
+  // Fetch blogs from API
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/blogs');
+        if (!response.ok) {
+          throw new Error('Failed to fetch blogs');
+        }
+        const data = await response.json();
+        if (data.success) {
+          setBlogs(data.blogs || []);
+        } else {
+          throw new Error(data.error || 'Failed to fetch blogs');
+        }
+      } catch (err) {
+        console.error('Error fetching blogs:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load blogs');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.gsap && blogs.length > 0) {
@@ -128,8 +137,34 @@ const Blogs: React.FC = () => {
 
           {/* Blog Content */}
           <div className="max-w-6xl mx-auto">
-            <div className="blogs-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogs.map((blog, index) => (
+            {loading && (
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary-cyan"></div>
+                <span className="ml-3 text-primary-white">Loading blogs...</span>
+              </div>
+            )}
+            
+            {error && (
+              <div className="text-center py-12">
+                <p className="text-red-400 mb-4">{error}</p>
+                <button 
+                  onClick={() => window.location.reload()} 
+                  className="px-4 py-2 bg-secondary-cyan text-primary-darkBlue rounded-lg hover:bg-opacity-80 transition-colors"
+                >
+                  Try Again
+                </button>
+              </div>
+            )}
+            
+            {!loading && !error && blogs.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-primary-white opacity-80">No blogs available yet. Check back soon!</p>
+              </div>
+            )}
+            
+            {!loading && !error && blogs.length > 0 && (
+              <div className="blogs-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {blogs.map((blog, index) => (
                 <div
                   key={blog.id}
                   id={`blog-card-${blog.id}`}
@@ -144,7 +179,7 @@ const Blogs: React.FC = () => {
                       <span className="px-3 py-1 bg-gradient-to-r from-primary-blue to-secondary-cyan text-primary-white text-xs font-semibold rounded-full neon-border">
                         {blog.category}
                       </span>
-                      <span className="text-secondary-cyan text-sm">{blog.readTime}</span>
+                      <span className="text-secondary-cyan text-sm">{blog.read_time}</span>
                     </div>
 
                     {/* Title */}
@@ -191,7 +226,8 @@ const Blogs: React.FC = () => {
                   </div>
                 </div>
               ))}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
