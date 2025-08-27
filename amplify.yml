@@ -6,10 +6,7 @@ frontend:
         - npm ci
     build:
       commands:
-        - echo "Environment variables check:"
-        - echo "NEXT_PUBLIC_SUPABASE_URL: $NEXT_PUBLIC_SUPABASE_URL"
-        - echo "SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY:0:20}..."
-        - echo "NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:0:20}..."
+        - echo "Starting build process"
         - npm run build
   artifacts:
     baseDirectory: .next
