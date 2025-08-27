@@ -5,6 +5,10 @@ function getSupabase() {
   const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY
   if (!url || !serviceKey) {
+    console.error('Supabase env missing', {
+      hasUrl: !!url,
+      hasServiceKey: !!serviceKey
+    })
     throw new Error('Supabase environment variables are not configured')
   }
   return createClient(url, serviceKey, {
@@ -30,6 +34,7 @@ export async function GET(req: NextRequest) {
       .order('created_at', { ascending: false })
 
     if (error) {
+      console.error('Supabase fetch blogs error:', error)
       throw new Error('Failed to fetch blogs')
     }
 
@@ -88,6 +93,7 @@ export async function POST(req: NextRequest) {
 
     // If type mismatch occurs (e.g., column is text not text[]), retry with string
     if (insertResult.error && /array|\[\]|text\[\]|invalid input value for enum|type mismatch/i.test(insertResult.error.message || '')) {
+      console.warn('Retrying blog insert with string tags fallback:', insertResult.error)
       insertResult = await supabase
         .from('blogs')
         .insert({
@@ -100,6 +106,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (insertResult.error) {
+      console.error('Supabase insert blog error:', insertResult.error)
       return NextResponse.json({
         error: `Failed to create blog: ${insertResult.error.message || 'Unknown error'}`
       }, { status: 500 })

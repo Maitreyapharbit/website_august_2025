@@ -31,12 +31,16 @@ export default function BlogsPage() {
   const fetchBlogs = async () => {
     try {
       const response = await fetch('/api/admin/blogs')
-      if (!response.ok) throw new Error('Failed to fetch blogs')
+      if (!response.ok) {
+        const details = await response.json().catch(() => ({} as any))
+        const message = details?.error || 'Failed to fetch blogs'
+        throw new Error(message)
+      }
       const data = await response.json()
       setBlogs(data.blogs || [])
-    } catch (err) {
-      setError('Failed to load blogs')
-      console.error(err)
+    } catch (err: any) {
+      setError(err?.message || 'Failed to load blogs')
+      console.error('Admin Blogs fetch error:', err)
     } finally {
       setLoading(false)
     }
