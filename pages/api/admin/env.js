@@ -4,7 +4,8 @@ export default function handler(req, res) {
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'SET' : 'NOT SET',
     SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY ? 'SET' : 'NOT SET',
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'SET' : 'NOT SET'
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'SET' : 'NOT SET',
+    ALL_ENV_KEYS: Object.keys(process.env).filter(key => key.includes('SUPABASE'))
   })
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || ''
@@ -24,7 +25,8 @@ export default function handler(req, res) {
     debug: {
       urlLength: url.length,
       serviceKeyLength: serviceKey.length,
-      anonKeyLength: anonKey.length
+      anonKeyLength: anonKey.length,
+      allSupabaseKeys: Object.keys(process.env).filter(key => key.includes('SUPABASE'))
     }
   })
 }
