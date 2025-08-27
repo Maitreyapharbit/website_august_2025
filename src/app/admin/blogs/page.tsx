@@ -30,7 +30,9 @@ export default function BlogsPage() {
 
   const fetchBlogs = async () => {
     try {
-      const response = await fetch('/api/admin/blogs')
+      const response = await fetch('/api/admin/blogs', {
+        credentials: 'include' // This ensures cookies are sent
+      })
       if (!response.ok) {
         const details = await response.json().catch(() => ({} as any))
         const message = details?.error || 'Failed to fetch blogs'
@@ -49,15 +51,20 @@ export default function BlogsPage() {
   const deleteBlog = async (id: string) => {
     try {
       const response = await fetch(`/api/admin/blogs/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include' // This ensures cookies are sent
       })
-      if (!response.ok) throw new Error('Failed to delete blog')
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || 'Failed to delete blog')
+      }
       
       setBlogs(blogs.filter(blog => blog.id !== id))
       setShowDeleteModal(null)
     } catch (err) {
       setError('Failed to delete blog')
-      console.error(err)
+      console.error('Delete error:', err)
     }
   }
 
