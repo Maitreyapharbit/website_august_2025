@@ -28,14 +28,16 @@ export default function EditBlogPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
-  const params = useParams()
-  const blogId = params.id as string
+  const params = useParams<{ id: string }>()
+  const blogId = params?.id as string | undefined
 
   useEffect(() => {
+    if (!blogId) return
     fetchBlog()
   }, [blogId])
 
   const fetchBlog = async () => {
+    if (!blogId) return
     try {
       const response = await fetch(`/api/admin/blogs/${blogId}`)
       if (!response.ok) throw new Error('Failed to fetch blog')

@@ -1,11 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
-
 // CORS headers for AWS Amplify
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -28,6 +22,17 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   try {
+    const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      return res.status(500).json({
+        success: false,
+        error: 'Supabase environment variables are not configured.'
+      });
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
     if (req.method === 'GET') {
       // Public endpoint - get single blog by ID
       const { data: blog, error } = await supabase

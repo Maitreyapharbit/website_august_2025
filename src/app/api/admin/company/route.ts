@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false
-    }
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !serviceKey) {
+    throw new Error('Supabase environment variables are not configured')
   }
-)
+  return createClient(url, serviceKey, {
+    auth: { autoRefreshToken: false, persistSession: false }
+  })
+}
 
 export const dynamic = 'force-dynamic'
 
@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const supabase = getSupabase()
     const { data: company, error } = await supabase
       .from('company')
       .select('*')
@@ -84,6 +85,7 @@ export async function PUT(req: NextRequest) {
     }
 
     // Check if company record exists
+    const supabase = getSupabase()
     const { data: existingCompany } = await supabase
       .from('company')
       .select('id')
