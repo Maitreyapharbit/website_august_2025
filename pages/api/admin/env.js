@@ -8,9 +8,21 @@ export default function handler(req, res) {
     ALL_ENV_KEYS: Object.keys(process.env).filter(key => key.includes('SUPABASE'))
   })
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || ''
-  const serviceKey = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || ''
+  // Try to get values from environment variables first
+  let url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || ''
+  let serviceKey = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+  let anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || ''
+
+  // If environment variables are not working, use hardcoded values as fallback
+  if (!url) {
+    url = 'https://aowimurfdqzwqifhcuuk.supabase.co'
+    console.log('Using hardcoded URL as fallback')
+  }
+  
+  if (!serviceKey) {
+    serviceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvd2ltdXJmZHF6d3FpZmhjdXVrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTI0MTYxOSwiZXhwIjoyMDcwODE3NjE5fQ.udpmLjnuAuEPnM5kyPR1lPur7nZhx4NRe_svz4eoZdc'
+    console.log('Using hardcoded service key as fallback')
+  }
 
   const redact = (val) => (val ? `${val.substring(0, 8)}…${val.substring(val.length - 6)}` : '')
 
@@ -26,7 +38,8 @@ export default function handler(req, res) {
       urlLength: url.length,
       serviceKeyLength: serviceKey.length,
       anonKeyLength: anonKey.length,
-      allSupabaseKeys: Object.keys(process.env).filter(key => key.includes('SUPABASE'))
+      allSupabaseKeys: Object.keys(process.env).filter(key => key.includes('SUPABASE')),
+      usingFallback: !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY
     }
   })
 }

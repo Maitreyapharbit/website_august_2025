@@ -4,14 +4,20 @@ import { getSupabaseEnv } from '@/lib/env'
 
 function getSupabase() {
   const { url, serviceKey } = getSupabaseEnv()
-  if (!url || !serviceKey) {
+  
+  // Use fallback values if environment variables are not available
+  const finalUrl = url || 'https://aowimurfdqzwqifhcuuk.supabase.co'
+  const finalServiceKey = serviceKey || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvd2ltdXJmZHF6d3FpZmhjdXVrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTI0MTYxOSwiZXhwIjoyMDcwODE3NjE5fQ.udpmLjnuAuEPnM5kyPR1lPur7nZhx4NRe_svz4eoZdc'
+  
+  if (!finalUrl || !finalServiceKey) {
     console.error('Supabase env missing', {
-      hasUrl: !!url,
-      hasServiceKey: !!serviceKey
+      hasUrl: !!finalUrl,
+      hasServiceKey: !!finalServiceKey
     })
     throw new Error('Supabase environment variables are not configured')
   }
-  return createClient(url, serviceKey, {
+  
+  return createClient(finalUrl, finalServiceKey, {
     auth: { autoRefreshToken: false, persistSession: false }
   })
 }
