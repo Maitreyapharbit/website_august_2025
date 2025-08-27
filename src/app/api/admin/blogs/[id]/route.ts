@@ -110,15 +110,41 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    console.log('Attempting to delete blog with ID:', params.id)
+
     const supabase = getSupabase()
-    const { error } = await supabase
+    
+    // First check if the blog exists
+    const { data: existingBlog, error: checkError } = await supabase
+      .from('blogs')
+      .select('id')
+      .eq('id', params.id)
+      .single()
+
+    if (checkError) {
+      console.error('Blog check error:', checkError)
+      if (checkError.code === 'PGRST116') {
+        return NextResponse.json({ error: 'Blog not found' }, { status: 404 })
+      }
+      throw new Error(`Failed to check blog: ${checkError.message}`)
+    }
+
+    if (!existingBlog) {
+      return NextResponse.json({ error: 'Blog not found' }, { status: 404 })
+    }
+
+    // Now delete the blog
+    const { error: deleteError } = await supabase
       .from('blogs')
       .delete()
       .eq('id', params.id)
 
-    if (error) {
-      throw new Error('Failed to delete blog')
+    if (deleteError) {
+      console.error('Delete error:', deleteError)
+      throw new Error(`Failed to delete blog: ${deleteError.message}`)
     }
+
+    console.log('Blog deleted successfully:', params.id)
 
     return NextResponse.json({
       success: true,
