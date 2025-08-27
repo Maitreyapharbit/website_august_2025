@@ -106,18 +106,21 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   try {
     // Check admin authentication
     const authCookie = req.cookies.get('admin_auth')?.value
+    console.log('Auth cookie value:', authCookie)
+    
     if (authCookie !== '1') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      console.log('Authentication failed - cookie not found or invalid')
+      return NextResponse.json({ error: 'Unauthorized - Please login as admin' }, { status: 401 })
     }
 
-    console.log('Attempting to delete blog with ID:', params.id)
+    console.log('Authentication successful, attempting to delete blog with ID:', params.id)
 
     const supabase = getSupabase()
     
     // First check if the blog exists
     const { data: existingBlog, error: checkError } = await supabase
       .from('blogs')
-      .select('id')
+      .select('id, title')
       .eq('id', params.id)
       .single()
 
@@ -132,6 +135,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     if (!existingBlog) {
       return NextResponse.json({ error: 'Blog not found' }, { status: 404 })
     }
+
+    console.log('Blog found:', existingBlog.title)
 
     // Now delete the blog
     const { error: deleteError } = await supabase
@@ -148,7 +153,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
     return NextResponse.json({
       success: true,
-      message: 'Blog deleted successfully'
+      message: 'Blog deleted successfully',
+      deletedBlog: existingBlog
     })
   } catch (error) {
     console.error('Admin blog DELETE error:', error)

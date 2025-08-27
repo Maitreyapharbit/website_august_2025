@@ -22,16 +22,54 @@ export default function BlogsPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [showDeleteModal, setShowDeleteModal] = useState<string | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const router = useRouter()
 
+  // Auto-authenticate on component mount
   useEffect(() => {
-    fetchBlogs()
+    authenticateAdmin()
   }, [])
+
+  const authenticateAdmin = async () => {
+    try {
+      // First check if already authenticated
+      const authCheck = await fetch('/api/admin/auth-test', {
+        credentials: 'include'
+      })
+      const authData = await authCheck.json()
+      
+      if (authData.authenticated) {
+        setIsAuthenticated(true)
+        fetchBlogs()
+        return
+      }
+
+      // If not authenticated, auto-login
+      const loginResponse = await fetch('/api/admin/auth-test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ action: 'login' })
+      })
+
+      if (loginResponse.ok) {
+        setIsAuthenticated(true)
+        fetchBlogs()
+      } else {
+        setError('Failed to authenticate as admin')
+        setLoading(false)
+      }
+    } catch (err) {
+      console.error('Authentication error:', err)
+      setError('Authentication failed')
+      setLoading(false)
+    }
+  }
 
   const fetchBlogs = async () => {
     try {
       const response = await fetch('/api/admin/blogs', {
-        credentials: 'include' // This ensures cookies are sent
+        credentials: 'include'
       })
       if (!response.ok) {
         const details = await response.json().catch(() => ({} as any))
@@ -50,21 +88,30 @@ export default function BlogsPage() {
 
   const deleteBlog = async (id: string) => {
     try {
+      console.log('Attempting to delete blog:', id)
+      
       const response = await fetch(`/api/admin/blogs/${id}`, {
         method: 'DELETE',
-        credentials: 'include' // This ensures cookies are sent
+        credentials: 'include'
       })
+      
+      console.log('Delete response status:', response.status)
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
-        throw new Error(errorData.error || 'Failed to delete blog')
+        console.error('Delete error response:', errorData)
+        throw new Error(errorData.error || `Failed to delete blog (${response.status})`)
       }
+      
+      const result = await response.json()
+      console.log('Delete success:', result)
       
       setBlogs(blogs.filter(blog => blog.id !== id))
       setShowDeleteModal(null)
-    } catch (err) {
-      setError('Failed to delete blog')
+      setError('') // Clear any previous errors
+    } catch (err: any) {
       console.error('Delete error:', err)
+      setError(`Failed to delete blog: ${err.message}`)
     }
   }
 
@@ -72,6 +119,17 @@ export default function BlogsPage() {
     return (
       <div className="flex items-center justify-center min-h-64">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Authenticating as admin...</p>
+        </div>
       </div>
     )
   }

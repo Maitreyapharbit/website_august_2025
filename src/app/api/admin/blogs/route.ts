@@ -29,9 +29,14 @@ export async function GET(req: NextRequest) {
   try {
     // Check admin authentication
     const authCookie = req.cookies.get('admin_auth')?.value
+    console.log('Auth cookie for GET blogs:', authCookie)
+    
     if (authCookie !== '1') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      console.log('Authentication failed for GET blogs')
+      return NextResponse.json({ error: 'Unauthorized - Please login as admin' }, { status: 401 })
     }
+
+    console.log('Authentication successful for GET blogs')
 
     const supabase = getSupabase()
     const { data: blogs, error } = await supabase
@@ -43,6 +48,8 @@ export async function GET(req: NextRequest) {
       console.error('Supabase fetch blogs error:', error)
       throw new Error('Failed to fetch blogs')
     }
+
+    console.log(`Successfully fetched ${blogs?.length || 0} blogs`)
 
     return NextResponse.json({
       success: true,
