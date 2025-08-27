@@ -9,7 +9,10 @@ function ensureDotenvLoaded() {
   if (hasConfigured) return
   try {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require('dotenv').config()
+    const dotenv = require('dotenv')
+    // Try .env.local first, then fallback to .env
+    dotenv.config({ path: '.env.local' })
+    dotenv.config()
   } catch (_) {
     // ignore if dotenv not available
   }
