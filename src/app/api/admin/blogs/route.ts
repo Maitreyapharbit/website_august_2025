@@ -61,29 +61,53 @@ export async function POST(req: NextRequest) {
     }
 
     const supabase = getSupabase()
-    const { data: blog, error } = await supabase
+    const tagsArray = Array.isArray(tags)
+      ? tags.filter((t: unknown) => typeof t === 'string' && t.trim().length > 0)
+      : []
+
+    const basePayload = {
+      title,
+      excerpt,
+      content,
+      category,
+      author,
+      read_time,
+      date: new Date().toISOString()
+    } as Record<string, unknown>
+
+    // First try inserting with tags as array (for text[] columns)
+    let insertResult = await supabase
       .from('blogs')
       .insert({
-        title,
-        excerpt,
-        content,
-        category,
-        author,
-        read_time,
-        tags: tags || [],
-        date: new Date().toISOString()
+        ...basePayload,
+        tags: tagsArray
       })
       .select()
       .single()
 
-    if (error) {
-      throw new Error('Failed to create blog')
+    // If type mismatch occurs (e.g., column is text not text[]), retry with string
+    if (insertResult.error && /array|\[\]|text\[\]|invalid input value for enum|type mismatch/i.test(insertResult.error.message || '')) {
+      insertResult = await supabase
+        .from('blogs')
+        .insert({
+          ...basePayload,
+          // Store as comma-separated string fallback
+          tags: tagsArray.join(', ')
+        })
+        .select()
+        .single()
+    }
+
+    if (insertResult.error) {
+      return NextResponse.json({
+        error: `Failed to create blog: ${insertResult.error.message || 'Unknown error'}`
+      }, { status: 500 })
     }
 
     return NextResponse.json({
       success: true,
       message: 'Blog created successfully',
-      blog
+      blog: insertResult.data
     }, { status: 201 })
   } catch (error) {
     console.error('Admin blogs POST error:', error)
