@@ -3,15 +3,31 @@ import { createClient } from '@supabase/supabase-js'
 import { getSupabaseEnv } from '@/lib/env'
 
 function getSupabase() {
-  const { url, serviceKey } = getSupabaseEnv()
-  if (!url || !serviceKey) {
-    console.error('Supabase env missing', {
+  const { url, serviceKey, anonKey } = getSupabaseEnv()
+  if (!url) {
+    console.error('Supabase URL missing')
+    throw new Error('Supabase URL is not configured')
+  }
+  
+  // Use service key if available, otherwise fallback to anon key
+  const key = serviceKey || anonKey
+  if (!key) {
+    console.error('Supabase keys missing', {
       hasUrl: !!url,
-      hasServiceKey: !!serviceKey
+      hasServiceKey: !!serviceKey,
+      hasAnonKey: !!anonKey
     })
     throw new Error('Supabase environment variables are not configured')
   }
-  return createClient(url, serviceKey, {
+  
+  console.log('Using Supabase with:', {
+    hasUrl: !!url,
+    hasServiceKey: !!serviceKey,
+    hasAnonKey: !!anonKey,
+    usingServiceKey: !!serviceKey
+  })
+  
+  return createClient(url, key, {
     auth: { autoRefreshToken: false, persistSession: false }
   })
 }
