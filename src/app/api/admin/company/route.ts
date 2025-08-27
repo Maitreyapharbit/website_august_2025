@@ -53,7 +53,8 @@ export async function GET(req: NextRequest) {
     })
   } catch (error) {
     console.error('Admin company GET error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    const message = (error instanceof Error && error.message) ? error.message : 'Internal server error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
 
@@ -141,6 +142,7 @@ export async function PUT(req: NextRequest) {
     })
   } catch (error) {
     console.error('Admin company PUT error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    const message = (error instanceof Error && error.message) ? error.message : 'Internal server error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

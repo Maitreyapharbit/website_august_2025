@@ -43,7 +43,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     })
   } catch (error) {
     console.error('Admin blog GET error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    const message = (error instanceof Error && error.message) ? error.message : 'Internal server error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
 
@@ -95,7 +96,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     })
   } catch (error) {
     console.error('Admin blog PUT error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    const message = (error instanceof Error && error.message) ? error.message : 'Internal server error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
 
@@ -124,6 +126,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     })
   } catch (error) {
     console.error('Admin blog DELETE error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    const message = (error instanceof Error && error.message) ? error.message : 'Internal server error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
