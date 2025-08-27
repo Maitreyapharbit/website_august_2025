@@ -19,4 +19,11 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
-      - .next/cache/**/*
+  environmentVariables:
+    NEXT_PUBLIC_SUPABASE_URL: https://aowimurfdqzwqifhcuuk.supabase.co
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvd2ltdXJmZHF6d3FpZmhjdXVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUyNDE2MTksImV4cCI6MjA3MDgxNzYxOX0.3wpCViQnItTeveumSylPqFtPJKso9QfPDxsX-44Icm0
+    SUPABASE_SERVICE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvd2ltdXJmZHF6d3FpZmhjdXVrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTI0MTYxOSwiZXhwIjoyMDcwODE3NjE5fQ.udpmLjnuAuEPnM5kyPR1lPur7nZhx4NRe_svz4eoZdc
+    JWT_SECRET: 0hFiw6bj9nZv6HZY7trx1sF4HTDhiOabezx3ZnWIxEiBUlM8vAp9/S2G/pWCmYdeJXHs2W+/c3UQAewgBRHk3w==
+    NEXT_PUBLIC_BACKEND_API_URL: https://main.d22x4oiromio4y.amplifyapp.com
+    ADMIN_LOCAL_EMAIL: admin@pharbit.com
+    ADMIN_LOCAL_PASSWORD: F#034180427932al
