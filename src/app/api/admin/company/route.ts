@@ -3,11 +3,11 @@ import { createClient } from '@supabase/supabase-js'
 import { getSupabaseEnv } from '@/lib/env'
 
 function getSupabase() {
-  const { url, anonKey } = getSupabaseEnv()
-  if (!url || !anonKey) {
+  const { url, serviceKey } = getSupabaseEnv()
+  if (!url || !serviceKey) {
     throw new Error('Supabase environment variables are not configured')
   }
-  return createClient(url, anonKey, {
+  return createClient(url, serviceKey, {
     auth: { autoRefreshToken: false, persistSession: false }
   })
 }
