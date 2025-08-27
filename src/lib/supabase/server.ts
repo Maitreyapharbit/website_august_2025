@@ -6,13 +6,13 @@ export function getSupabaseAdmin(): SupabaseClient {
   if (cachedClient) return cachedClient
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+  const serviceRoleKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY) as string
 
-  if (!supabaseUrl || !anonKey) {
-    throw new Error('Supabase environment variables are not set')
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error('Supabase admin environment variables are not set')
   }
 
-  cachedClient = createClient(supabaseUrl, anonKey, {
+  cachedClient = createClient(supabaseUrl, serviceRoleKey, {
     auth: {
       persistSession: false,
       autoRefreshToken: false,
