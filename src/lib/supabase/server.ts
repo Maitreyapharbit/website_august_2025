@@ -13,7 +13,17 @@ export function getSupabaseAdmin(): SupabaseClient {
   ) as string
 
   if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error('Supabase admin environment variables are not set')
+    const diagnostics = {
+      hasUrl: !!supabaseUrl,
+      hasServiceKey: !!serviceRoleKey,
+      checked: {
+        NEXT_PUBLIC_SUPABASE_URL: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+        SUPABASE_URL: !!process.env.SUPABASE_URL,
+        SUPABASE_SERVICE_ROLE_KEY: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+        SUPABASE_SERVICE_KEY: !!process.env.SUPABASE_SERVICE_KEY,
+      }
+    }
+    throw new Error(`Supabase admin environment variables are not set: ${JSON.stringify(diagnostics)}`)
   }
 
   cachedClient = createClient(supabaseUrl, serviceRoleKey, {
