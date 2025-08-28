@@ -1,34 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-import { getSupabaseEnv } from '@/lib/env'
-
-function getSupabase() {
-  // Get environment variables with fallbacks
-  let url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || ''
-  let serviceKey = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-
-  // Use fallback values if environment variables are not available
-  if (!url) {
-    url = 'https://aowimurfdqzwqifhcuuk.supabase.co'
-    console.log('Using hardcoded URL as fallback')
-  }
-  if (!serviceKey) {
-    serviceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvd2ltdXJmZHF6d3FpZmhjdXVrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTI0MTYxOSwiZXhwIjoyMDcwODE3NjE5fQ.udpmLjnuAuEPnM5kyPR1lPur7nZhx4NRe_svz4eoZdc'
-    console.log('Using hardcoded service key as fallback')
-  }
-
-  if (!url || !serviceKey) {
-    console.error('Supabase env missing', {
-      hasUrl: !!url,
-      hasServiceKey: !!serviceKey
-    })
-    throw new Error('Supabase environment variables are not configured')
-  }
-  
-  return createClient(url, serviceKey, {
-    auth: { autoRefreshToken: false, persistSession: false }
-  })
-}
+import { getSupabaseAdmin } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -41,7 +12,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const supabase = getSupabase()
+    const supabase = getSupabaseAdmin()
     const { data: company, error } = await supabase
       .from('company')
       .select('*')
@@ -104,7 +75,7 @@ export async function PUT(req: NextRequest) {
     }
 
     // Check if company record exists
-    const supabase = getSupabase()
+    const supabase = getSupabaseAdmin()
     const { data: existingCompany } = await supabase
       .from('company')
       .select('id')
