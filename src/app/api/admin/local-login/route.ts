@@ -11,17 +11,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const allowedEmail =
-      process.env.ADMIN_LOCAL_EMAIL ||
-      process.env.ADMIN_BASIC_USER ||
-      "admin@pharbit.com";
-    const allowedPassword =
-      process.env.ADMIN_LOCAL_PASSWORD ||
-      process.env.ADMIN_BASIC_PASSWORD ||
-      "F#034180427932al";
+    // const allowedEmail =
+    //   process.env.ADMIN_LOCAL_EMAIL ||
+    //   process.env.ADMIN_BASIC_USER ||
+    //   "admin@pharbit.com";
+    // const allowedPassword =
+    //   process.env.ADMIN_LOCAL_PASSWORD ||
+    //   process.env.ADMIN_BASIC_PASSWORD ||
+    //   "F#034180427932al";
 
-    // const allowedEmail = "admin@pharbit.com";
-    // const allowedPassword = "F#034180427932al";
+    const allowedEmail = "admin@pharbit.com";
+    const allowedPassword = "F#034180427932al";
 
     if (email !== allowedEmail || password !== allowedPassword) {
       return NextResponse.json(

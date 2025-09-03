@@ -6,12 +6,12 @@ export async function POST(req: NextRequest) {
     const { email, password } = body;
 
     // Simple admin authentication
-    const adminEmail = process.env.ADMIN_LOCAL_EMAIL || "admin@pharbit.com";
-    const adminPassword =
-      process.env.ADMIN_LOCAL_PASSWORD || "F#034180427932al";
+    // const adminEmail = process.env.ADMIN_LOCAL_EMAIL || "admin@pharbit.com";
+    // const adminPassword =
+    //   process.env.ADMIN_LOCAL_PASSWORD || "F#034180427932al";
 
-    // const adminEmail = "admin@pharbit.com";
-    // const adminPassword = "F#034180427932al";
+    const adminEmail = "admin@pharbit.com";
+    const adminPassword = "F#034180427932al";
     if (email === adminEmail && password === adminPassword) {
       const response = NextResponse.json({
         success: true,
