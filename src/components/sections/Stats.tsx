@@ -28,17 +28,18 @@ const Stats: React.FC = () => {
     }
 
     return () => observer.disconnect();
-  }, []); // Removed isVisible from dependency array
+  }, []);
 
   const Counter: React.FC<{
     end: number;
     suffix: string;
     duration?: number;
-  }> = ({ end, suffix, duration = 2000 }) => {
+    shouldStart: boolean; // Pass isVisible as a prop
+  }> = ({ end, suffix, duration = 2000, shouldStart }) => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
-      if (!isVisible) return;
+      if (!shouldStart) return;
 
       let startTime: number;
       const animate = (currentTime: number) => {
@@ -53,7 +54,7 @@ const Stats: React.FC = () => {
       };
 
       requestAnimationFrame(animate);
-    }, [isVisible, end, duration]); // isVisible is properly used here
+    }, [shouldStart, end, duration]); // Now using shouldStart prop instead of closure
 
     return (
       <span>
@@ -92,7 +93,11 @@ const Stats: React.FC = () => {
               data-aos-delay={index * 100}
             >
               <div className="stat-number mb-4">
-                <Counter end={stat.number} suffix={stat.suffix} />
+                <Counter
+                  end={stat.number}
+                  suffix={stat.suffix}
+                  shouldStart={isVisible}
+                />
               </div>
               <p className="text-white opacity-90">{stat.label}</p>
             </div>
