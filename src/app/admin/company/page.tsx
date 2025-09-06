@@ -7,8 +7,6 @@ interface Company {
   name: string
   description: string
   email: string
-  phone: string
-  address: string
   website: string
   founded: string
   employees: string
@@ -21,8 +19,6 @@ export default function CompanyPage() {
     name: '',
     description: '',
     email: '',
-    phone: '',
-    address: '',
     website: '',
     founded: '',
     employees: '',
@@ -163,18 +159,6 @@ export default function CompanyPage() {
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Phone
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={company.phone}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-            </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -223,19 +207,6 @@ export default function CompanyPage() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Address
-            </label>
-            <textarea
-              name="address"
-              value={company.address}
-              onChange={handleChange}
-              rows={2}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="Full company address..."
-            />
-          </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">

@@ -7,8 +7,6 @@ interface Company {
   name: string;
   description: string;
   email: string;
-  phone: string;
-  address: string;
   website: string;
   founded: string;
   employees: string;
@@ -51,8 +49,6 @@ const About: React.FC = () => {
     name: 'Pharbit',
     description: 'Global pharmaceutical technology company combining blockchain and IoT sensors to create unbreakable chains of custody for medicines worldwide, ensuring transparency and patient safety.',
     email: 'info@pharbit.com',
-    phone: '+4917697711873',
-    address: 'An Europakanal 6, 91056 Erlangen, Germany',
     website: 'www.pharbit.com',
     founded: '2025',
     employees: '10-50',
