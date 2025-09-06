@@ -48,8 +48,6 @@ const Footer: React.FC = () => {
             <h3 className="text-white font-bold text-lg mb-6">Contact</h3>
             <div className="space-y-3">
               <p className="text-white opacity-70">info@pharbit.com</p>
-              <p className="text-white opacity-70">+4917697711873</p>
-              <p className="text-white opacity-70">An Europakanal 6, 91056 Erlangen, Germany</p>
               <p className="text-white opacity-70">www.pharbit.com</p>
             </div>
           </div>
