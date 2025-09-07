@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
+import { pharbitApi } from "@/lib/api";
 
 interface CodeSnippet {
   id: string;
@@ -24,6 +25,10 @@ const DeveloperPortalPreview: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"api" | "sdk" | "docs">("api");
   const [typingIndex, setTypingIndex] = useState(0);
   const codeRef = useRef<HTMLDivElement>(null);
+  const [contracts, setContracts] = useState<Array<{ name: string; address: string }>>([]);
+  const [network, setNetwork] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const codeSnippets: CodeSnippet[] = useMemo(
     () => [
@@ -217,6 +222,26 @@ contract PharmaSupplyChain {
   );
 
   useEffect(() => {
+    // Load live contracts and network
+    const load = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const [contractsRes, networkRes] = await Promise.all([
+          pharbitApi.getContracts(),
+          pharbitApi.getNetwork(),
+        ]);
+        setContracts(contractsRes?.contracts || []);
+        setNetwork((networkRes as any)?.network || "");
+      } catch (e: any) {
+        setError(e?.message || "Failed to load live API info");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    load();
+
     if (typeof window !== "undefined" && window.gsap) {
       // Animate code snippets
       window.gsap.fromTo(
@@ -288,6 +313,13 @@ contract PharmaSupplyChain {
             applications and systems
           </p>
           <div className="w-32 h-1 bg-gradient-to-r from-primary-blue to-secondary-cyan mx-auto mt-8 animate-glow"></div>
+          <div className="mt-4 text-sm">
+            {loading && <span className="text-secondary-cyan">Loading live network…</span>}
+            {error && <span className="text-red-400">{error}</span>}
+            {!loading && !error && (
+              <span className="text-primary-white opacity-80">Network: {network || 'Unknown'}</span>
+            )}
+          </div>
         </div>
 
         <div className="max-w-7xl mx-auto">
@@ -397,6 +429,21 @@ contract PharmaSupplyChain {
                 </h3>
 
                 <div className="repos-grid space-y-4">
+                  {/* Live contracts list */}
+                  <div className="glass-subtle p-6 rounded-2xl">
+                    <h4 className="text-lg font-bold text-secondary-cyan mb-3">Deployed Contracts (Sepolia)</h4>
+                    <ul className="text-sm text-primary-white opacity-80 space-y-1">
+                      {contracts.length === 0 && (
+                        <li className="text-primary-white opacity-60">No contracts loaded</li>
+                      )}
+                      {contracts.map((c) => (
+                        <li key={c.address} className="break-all">
+                          <span className="font-semibold mr-2">{c.name}:</span>
+                          {c.address}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                   {githubRepos.map((repo) => (
                     <div
                       key={repo.id}

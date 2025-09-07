@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { pharbitApi } from '@/lib/api';
 
 interface TimelineStage {
   id: string;
@@ -12,6 +13,9 @@ interface TimelineStage {
 
 const SupplyChainTimeline: React.FC = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [liveStatus, setLiveStatus] = useState<{ currentLocation?: string; status?: string } | null>(null);
 
   const stages: TimelineStage[] = [
     {
@@ -72,6 +76,28 @@ const SupplyChainTimeline: React.FC = () => {
   ];
 
   useEffect(() => {
+    // Fetch a sample supply chain status (use first available batch if any)
+    const fetchLive = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const batches = await pharbitApi.getBatches();
+        const firstId = batches?.batches?.[0]?.id;
+        if (firstId) {
+          const supply = await pharbitApi.trackSupplyChain(firstId);
+          setLiveStatus(supply.supplyChainStatus || null);
+        } else {
+          setLiveStatus(null);
+        }
+      } catch (e: any) {
+        setError(e?.message || 'Failed to load live supply chain');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLive();
+
     if (typeof window !== 'undefined' && window.gsap) {
       window.gsap.registerPlugin(window.ScrollTrigger);
 
@@ -135,6 +161,20 @@ const SupplyChainTimeline: React.FC = () => {
 
         {/* Timeline */}
         <div className="timeline-container relative">
+          {/* Live status banner */}
+          <div className="mb-6">
+            {loading && (
+              <div className="text-sm text-secondary-cyan">Loading live supply chain…</div>
+            )}
+            {error && (
+              <div className="text-sm text-red-400">{error}</div>
+            )}
+            {!loading && !error && liveStatus && (
+              <div className="text-sm text-primary-white opacity-80">
+                Live: {liveStatus.status || 'Unknown'} at {liveStatus.currentLocation || 'Unknown location'}
+              </div>
+            )}
+          </div>
           {/* Desktop Timeline */}
           <div className="hidden lg:block">
             <div className="flex justify-between items-start relative">
