@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharbit - Pharmaceutical Blockchain Supply Chain</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">💊</span>
+                <span class="logo-text">Pharbit</span>
+            </div>
+            <nav class="nav">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#batches" class="nav-link">Batches</a>
+                <a href="#stakeholders" class="nav-link">Stakeholders</a>
+                <a href="#sensors" class="nav-link">Sensors</a>
+            </nav>
+            <div class="connection-status">
+                <span class="status-indicator" id="connectionStatus"></span>
+                <span class="status-text" id="connectionText">Connecting...</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="container">
+                <h1 class="section-title">Pharmaceutical Supply Chain Dashboard</h1>
+                <p class="section-subtitle">Real-time blockchain monitoring for pharmaceutical products</p>
+                
+                <!-- Network Status Card -->
+                <div class="card">
+                    <h2 class="card-title">Network Status</h2>
+                    <div class="network-info">
+                        <div class="info-item">
+                            <span class="info-label">Network:</span>
+                            <span class="info-value" id="networkName">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Chain ID:</span>
+                            <span class="info-value" id="chainId">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Status:</span>
+                            <span class="info-value status-connected" id="networkStatus">Connected</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Smart Contracts Card -->
+                <div class="card">
+                    <h2 class="card-title">Deployed Smart Contracts</h2>
+                    <div class="contracts-grid" id="contractsGrid">
+                        <div class="loading">Loading contracts...</div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="totalBatches">-</div>
+                            <div class="stat-label">Active Batches</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏭</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="totalStakeholders">-</div>
+                            <div class="stat-label">Stakeholders</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🌡️</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="activeSensors">-</div>
+                            <div class="stat-label">Active Sensors</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="verifiedProducts">-</div>
+                            <div class="stat-label">Verified Products</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Batches Section -->
+        <section id="batches" class="section">
+            <div class="container">
+                <h1 class="section-title">Pharmaceutical Batches</h1>
+                <div class="section-controls">
+                    <button class="btn btn-primary" id="refreshBatches">Refresh</button>
+                    <div class="auto-refresh">
+                        <label>
+                            <input type="checkbox" id="autoRefresh" checked>
+                            Auto-refresh (30s)
+                        </label>
+                    </div>
+                </div>
+                <div class="batches-grid" id="batchesGrid">
+                    <div class="loading">Loading batches...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stakeholders Section -->
+        <section id="stakeholders" class="section">
+            <div class="container">
+                <h1 class="section-title">Registered Stakeholders</h1>
+                <div class="stakeholders-grid" id="stakeholdersGrid">
+                    <div class="loading">Loading stakeholders...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sensors Section -->
+        <section id="sensors" class="section">
+            <div class="container">
+                <h1 class="section-title">IoT Sensor Data</h1>
+                <div class="sensors-grid" id="sensorsGrid">
+                    <div class="loading">Loading sensor data...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pharbit. Pharmaceutical Supply Chain Blockchain Platform</p>
+            <p>Powered by Ethereum Sepolia Testnet</p>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p>Loading blockchain data...</p>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal" id="errorModal">
+        <div class="modal-content">
+            <h3>Connection Error</h3>
+            <p id="errorMessage">Failed to connect to the blockchain API.</p>
+            <button class="btn btn-primary" id="retryButton">Retry</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
