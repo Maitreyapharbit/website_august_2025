@@ -1,3 +1,47 @@
+# Node/Next.js
+node_modules/
+.next/
+.out/
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files (keep tracked ones in frontend/ if desired)
+.env
+.env.*
+frontend/.env*
+
+# AWS CLI artifacts and credentials
+aws/
+awscliv2.zip
+.aws/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor
+.vscode/
+.idea/
+
+# Generated artifacts
+coverage/
+*.tgz
+*.zip
+*.tar.gz
+
+# Local servers and caches
+*.pid
+.cache/
+
+# Static site artifacts
+frontend/deployment-info.txt
+frontend/demo-deployment-info.txt
 # Dependencies
 node_modules/
 npm-debug.log*
