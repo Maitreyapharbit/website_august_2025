@@ -1,12 +1,14 @@
 [build]
   command = "npm run build"
-  functions = "netlify/functions"
-  
+  publish = ".next/standalone/public"
+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
   
-[build.environment]
-  NEXT_USE_NETLIFY_EDGE = "true"
+  [plugins.inputs]
+    appDir = true
+    nodeVersion = "22"
+    skipBuildFunctionsDir = false
 
 
 
