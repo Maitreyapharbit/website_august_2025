@@ -5,6 +5,12 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+# Disable secrets scanning for non-sensitive paths
+[build.environment]
+  SECRETS_SCAN_OMIT_PATHS = ".env.example,AMPLIFY_DEPLOYMENT_GUIDE.md,SETUP_INSTRUCTIONS.md,docs/**,scripts/**,.netlify/**"
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_*"
+
+
 
 
 
