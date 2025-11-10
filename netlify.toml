@@ -2,6 +2,7 @@
 # The plugin will manage the proper publish directory and function packaging.
 [build]
   command = "npm run build"
+  publish = ".netlify/output"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
