@@ -9,6 +9,12 @@
 [build.environment]
   SECRETS_SCAN_ENABLED = "false"
 
+# Route all requests to Next.js handler
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/___netlify-server-handler"
+  status = 200
+
 
 
 
