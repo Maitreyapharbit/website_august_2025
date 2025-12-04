@@ -23,7 +23,7 @@ export default function Home() {
       <Header />
       <Hero />
       <About />
-      <SupplyChainTimeline />
+      {/*<SupplyChainTimeline />*/}
       <Mission />
       <InteractiveInfographic />
       <ProblemWeSolve />
